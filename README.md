@@ -1,1 +1,2 @@
 #iStudy
+这是基于WanAndroid网站开放的API通过使用Kotlin语言构建的学习APP，旨在学习Kotlin语言
