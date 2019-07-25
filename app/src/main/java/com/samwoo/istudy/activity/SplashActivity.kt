@@ -1,5 +1,6 @@
 package com.samwoo.istudy.activity
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.os.Bundle
 import android.os.SystemClock
@@ -20,7 +21,6 @@ class SplashActivity : AppCompatActivity() {
         R.drawable.splash2,
         R.drawable.splash3,
         R.drawable.splash4,
-
         R.drawable.splash6,
         R.drawable.splash7,
         R.drawable.splash8,
@@ -53,8 +53,23 @@ class SplashActivity : AppCompatActivity() {
         animatorSet.setDuration(ANIMATION_DURATION).play(animatorX).with(animatorY)
         animatorSet.start()
 
-        animatorSet.addListener {
-            //            finish()
+        animatorSet.addListener(animator)
+    }
+
+    private val animator = object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(animation: Animator?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onAnimationCancel(animation: Animator?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onAnimationStart(animation: Animator?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onAnimationEnd(animation: Animator?) {
             val intent = intentFor<MainActivity>()
             startActivity(intent)
             finish()

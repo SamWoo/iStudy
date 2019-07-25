@@ -23,12 +23,28 @@
 
     <include layout="@layout/content_main"/>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_navigation"
+            style="@style/Widget.Design.BottomNavigationView"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            app:elevation="@dimen/dp_16"
+            app:itemIconTint="@drawable/nav_item_color_state"
+            app:itemTextColor="@drawable/nav_item_color_state"
+            app:layout_behavior=".widget.behavior.BottomNavigationBehavior"
+            app:menu="@menu/bottom_navigation_main"
+            app:labelVisibilityMode="labeled"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email"/>
+            android:layout_marginBottom="@dimen/dp_60"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
+            app:srcCompat="@drawable/ic_arrow_upward_white_24dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

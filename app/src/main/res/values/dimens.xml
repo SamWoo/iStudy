@@ -7,7 +7,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="splash_bottom_padding">10dp</dimen>
     <dimen name="splash_middle_top_margin">10dp</dimen>
-    <dimen name="splash_bottom_margin">40dp</dimen>
+    <dimen name="splash_bottom_margin">32dp</dimen>
     <dimen name="splash_top_margin">100dp</dimen>
     <dimen name="small">24sp</dimen>
     <dimen name="splash_version_text_size">15sp</dimen>
@@ -15,4 +15,7 @@
     <dimen name="login_image">64dp</dimen>
     <dimen name="margin_top_bottom">16dp</dimen>
     <dimen name="login_radio_group">48dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
 </resources>

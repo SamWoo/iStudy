@@ -94,4 +94,5 @@
     <color name="item_color">#FAFAFA</color>
     <color name="fab_color">#99ff8f00</color>
     <color name="textColorSecondary">#212121</color>
+    <color name="Blue_Grey">#607d8b</color>
 </resources>
