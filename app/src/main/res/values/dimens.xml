@@ -15,7 +15,20 @@
     <dimen name="login_image">64dp</dimen>
     <dimen name="margin_top_bottom">16dp</dimen>
     <dimen name="login_radio_group">48dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_16">16dp</dimen>
-    <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="item_content_padding">4dp</dimen>
+    <dimen name="item_tv_author">12sp</dimen>
+    <dimen name="item_tv_date">12sp</dimen>
+    <dimen name="item_img_width">120dp</dimen>
+    <dimen name="item_img_height">90dp</dimen>
+    <dimen name="item_tv_title">16sp</dimen>
+    <dimen name="item_tv_tag">12sp</dimen>
+
 </resources>

@@ -85,7 +85,7 @@
     <color name="gplus_color_1">#3e802f</color>
     <color name="gplus_color_2">#f4b400</color>
     <color name="gplus_color_3">#427fed</color>
-    <color name="gplus_color_4">#b23424</color>
+    <color name="gplus_color_4">#CF2510</color>
     <color name="photo_set_bg">#44000000</color>
 
     <color name="icons">#212121</color>
@@ -95,4 +95,9 @@
     <color name="fab_color">#99ff8f00</color>
     <color name="textColorSecondary">#212121</color>
     <color name="Blue_Grey">#607d8b</color>
+    <color name="Red"></color>
+    <color name="item_author">@color/gplus_color_1</color>
+    <color name="item_date">@color/gplus_color_2</color>
+    <color name="item_title">@color/gplus_color_3</color>
+    <color name="item_tag">@color/gplus_color_4</color>
 </resources>
