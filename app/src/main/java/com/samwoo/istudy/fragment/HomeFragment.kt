@@ -184,7 +184,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     //ItemClickListener
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
+    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
         if (articles.size != 0) {
             val data = articles[position]
             val intent = activity!!.intentFor<ContentActivity>(
@@ -197,7 +197,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     //ItemChildClickListener
-    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
+    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, _, position ->
         if (articles.size != 0) {
             val data = articles[position]
             activity?.toast("$data")
@@ -205,7 +205,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     //BannerClickListener
-    private val bannerDelegate = BGABanner.Delegate<ImageView, String> { banner, itemView, model, position ->
+    private val bannerDelegate = BGABanner.Delegate<ImageView, String> { _, _, _, position ->
         if (banners.size > 0) {
             val data = banners[position]
             val intent = activity!!.intentFor<ContentActivity>(
@@ -217,5 +217,9 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
+    }
 
 }
