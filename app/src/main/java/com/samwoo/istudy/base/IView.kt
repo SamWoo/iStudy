@@ -1,3 +1,9 @@
 package com.samwoo.istudy.base
 
-interface IView {}
+interface IView {
+    fun showLoading()
+
+    fun hideLoading()
+
+    fun showError(errorMsg: String)
+}

@@ -3,12 +3,14 @@
           xmlns:dist="http://schemas.android.com/apk/distribution"
           package="com.samwoo.istudy">
 
-    <dist:module dist:instant="true"/>
+    <dist:module dist:instant="true"/> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 访问网络 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
+            android:name=".App"
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/icon"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
@@ -23,8 +25,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"
-                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+                android:name=".activity.MainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+                android:name=".activity.ContentActivity"
+                android:label="@string/title_activity_content"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

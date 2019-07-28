@@ -2,19 +2,18 @@ package com.samwoo.istudy.activity
 
 import android.animation.Animator
 import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import com.samwoo.istudy.R
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlin.random.Random
-import android.animation.ObjectAnimator
-import androidx.core.animation.addListener
 import org.jetbrains.anko.intentFor
+import kotlin.random.Random
 
 class SplashActivity : AppCompatActivity() {
     private val SCALE_END: Float = 1.13f
-    private val ANIMATION_DURATION: Long = 2 * 1000
+    private val ANIMATION_DURATION: Long = 3 * 1000
     private val SPLASH_IMAGES = listOf<Int>(
         R.drawable.splash0,
         R.drawable.splash1,

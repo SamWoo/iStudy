@@ -25,8 +25,15 @@
     <string name="navigation">导航</string>
     <string name="project">项目</string>
     <string name="public_num">公众号</string>
-    <string name="new_fresh">新</string>
+    <string name="new_fresh">置顶</string>
+
+    !-- Menu Action -->
+    <string name="action_search">搜索</string>
+    <string name="action_share">分享</string>
+    <string name="action_like">收藏</string>
+    <string name="action_browser">用浏览器打开</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_content">ContentActivity</string>
 </resources>

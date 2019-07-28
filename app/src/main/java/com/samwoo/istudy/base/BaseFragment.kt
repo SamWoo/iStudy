@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment:Fragment(){
+abstract class BaseFragment : Fragment() {
     // 视图是否加载完毕
     private var isViewPrepare = false
     //数据是否加载过了
@@ -18,6 +18,9 @@ abstract class BaseFragment:Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isViewPrepare = true
+        initView()
+        lazyLoadDataIfPrepared()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -29,7 +32,8 @@ abstract class BaseFragment:Fragment(){
 
     private fun lazyLoadDataIfPrepared() {
         if (userVisibleHint && isViewPrepare && !hasLoadData) {
-            //TODO
+            lazyLoad()
+            hasLoadData = true
         }
     }
 
@@ -42,4 +46,7 @@ abstract class BaseFragment:Fragment(){
 
     //初始化控件
     abstract fun initView()
+
+    //lazyLoad
+    abstract fun lazyLoad()
 }

@@ -1,15 +1,18 @@
 package com.samwoo.istudy.bean
 
+import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 //返回体
-data class HttpResult<T>(
-    val data: T,
+@Parcelize
+data class HttpResult<T : Parcelable>(
+    val data: T? = null,
     val errorCode: Int,
     val errorMsg: String
-)
+) : Parcelable
 
 //文章列表
+@Parcelize
 data class ArticlesListBean(
     val curPage: Int,
     val datas: MutableList<Article>,
@@ -18,13 +21,15 @@ data class ArticlesListBean(
     val pageCount: Int,
     val size: Int,
     val total: Int
-)
+) : Parcelable
 
 //文章
+@Parcelize
 data class Article(
     val apkLink: String,
     val author: String,
     val chapterId: Int,
+    val chapterName: String,
     val collect: Boolean,
     val courseId: Int,
     val desc: String,
@@ -44,14 +49,23 @@ data class Article(
     val userId: Int,
     val visible: Int,
     val zan: Int
-)
+) : Parcelable
 
+@Parcelize
 data class Tag(
     val name: String,
     val url: String
-)
+) : Parcelable
 
 //轮播图
+@Parcelize
+data class BannerList(
+    val errorCode: Int,
+    val errorMsg: String,
+    var data: MutableList<Banner>
+) : Parcelable
+
+@Parcelize
 data class Banner(
     val desc: String,
     val id: Int,
@@ -61,14 +75,14 @@ data class Banner(
     val title: String,
     val type: Int,
     val url: String
-)
+) : Parcelable
 
 //Hot Words
-
+@Parcelize
 data class HotKey(
     val id: Int,
     val link: String,
     val name: String,
     val order: Int,
     val visible: Int
-)
+) : Parcelable
