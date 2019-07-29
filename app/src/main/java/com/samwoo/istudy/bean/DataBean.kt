@@ -2,14 +2,14 @@ package com.samwoo.istudy.bean
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 //返回体
-@Parcelize
-data class HttpResult<T : Parcelable>(
-    val data: T? = null,
+data class HttpResult<T>(
+    val data: T,
     val errorCode: Int,
     val errorMsg: String
-) : Parcelable
+)
 
 //文章列表
 @Parcelize
@@ -76,6 +76,30 @@ data class Banner(
     val type: Int,
     val url: String
 ) : Parcelable
+
+//知识体系
+
+data class KnowledgeTreeBody(
+    val children: MutableList<Knowledge>,
+    val courseId: Int,
+    val id: Int,
+    val name: String,
+    val order: Int,
+    val parentChapterId: Int,
+    val userControlSetTop: Boolean,
+    val visible: Int
+) : Serializable
+
+data class Knowledge(
+    val children: MutableList<Any>,
+    val courseId: Int,
+    val id: Int,
+    val name: String,
+    val order: Int,
+    val parentChapterId: Int,
+    val userControlSetTop: Boolean,
+    val visible: Int
+) : Serializable
 
 //Hot Words
 @Parcelize

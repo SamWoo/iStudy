@@ -11,16 +11,19 @@ import com.google.android.material.navigation.NavigationView
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.fragment.HomeFragment
+import com.samwoo.istudy.fragment.KnowledgeTreeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
     private val FRAGMENT_HOME = 0x01
+    private val FRAGMENT_KNOWLEDGE_TREE = 0x02
 
     private var mIndex = FRAGMENT_HOME
 
     private var homeFragment: HomeFragment? = null
+    private var knowledgeTreeFragment: KnowledgeTreeFragment? = null
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -77,12 +80,22 @@ class MainActivity : BaseActivity() {
                     transaction.show(homeFragment!!)
                 }
             }
+            FRAGMENT_KNOWLEDGE_TREE -> {
+                toolbar.title = getString(R.string.knowledge_system)
+                if (knowledgeTreeFragment == null) {
+                    knowledgeTreeFragment = KnowledgeTreeFragment.instance()
+                    transaction.add(R.id.container, knowledgeTreeFragment!!, "knowledge")
+                } else {
+                    transaction.show(knowledgeTreeFragment!!)
+                }
+            }
         }
         transaction.commit()
     }
 
     private fun hideFragments(transaction: FragmentTransaction) {
         homeFragment?.let { transaction.hide(it) }
+        knowledgeTreeFragment?.let { transaction.hide(it) }
     }
 
 
@@ -91,6 +104,10 @@ class MainActivity : BaseActivity() {
         when (it.itemId) {
             R.id.action_home -> {
                 showFragment(FRAGMENT_HOME)
+                true
+            }
+            R.id.action_knowledge_system -> {
+                showFragment(FRAGMENT_KNOWLEDGE_TREE)
                 true
             }
             else -> {

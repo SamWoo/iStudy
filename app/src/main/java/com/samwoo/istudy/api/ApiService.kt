@@ -1,9 +1,6 @@
 package com.samwoo.istudy.api
 
-import com.samwoo.istudy.bean.ArticlesListBean
-import com.samwoo.istudy.bean.Banner
-import com.samwoo.istudy.bean.BannerList
-import com.samwoo.istudy.bean.HttpResult
+import com.samwoo.istudy.bean.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import rx.Observable
@@ -23,4 +20,10 @@ interface ApiService {
      */
     @GET("/banner/json")
     fun getBanners(): Observable<BannerList>
+
+    /**
+     * 知识体系
+     */
+    @GET("/tree/json")
+    fun getKnowledgeTree():Observable<HttpResult<List<KnowledgeTreeBody>>>
 }

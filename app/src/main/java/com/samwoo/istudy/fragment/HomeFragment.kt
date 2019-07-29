@@ -1,5 +1,6 @@
 package com.samwoo.istudy.fragment
 
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -17,9 +18,8 @@ import com.samwoo.istudy.mvp.contract.HomeContract
 import com.samwoo.istudy.mvp.presenter.HomePresenter
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -128,7 +128,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
 
     override fun getLayoutResId(): Int {
-        return R.layout.fragment_home
+        return R.layout.fragment_refresh_layout
     }
 
     override fun lazyLoad() {
@@ -141,6 +141,14 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
         swipeRefreshLayout.run {
             isRefreshing = true
+            if (Build.VERSION.SDK_INT >= 23) {
+                setColorSchemeColors(
+                    resources.getColor(R.color.Pink),
+                    resources.getColor(R.color.Deep_Orange),
+                    resources.getColor(R.color.Blue)
+                )
+                setProgressBackgroundColorSchemeColor(resources.getColor(R.color.white))
+            }
             setOnRefreshListener(onRefreshListener)
         }
 
@@ -161,7 +169,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_home)
+            setEmptyView(R.layout.fragment_refresh_layout)
             addHeaderView(bannerView)
         }
     }
