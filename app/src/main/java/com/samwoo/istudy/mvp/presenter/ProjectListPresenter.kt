@@ -13,15 +13,20 @@ class ProjectListPresenter : BasePresenter<ProjectListContract.View>(), ProjectL
     }
 
     override fun getProjectList(curPage: Int, cid: Int) {
+        mView?.showLoading()
         projectListModel.getProjectList(curPage, cid, object : Callback<HttpResult<ArticlesListBean>, String> {
             override fun onSuccess(result: HttpResult<ArticlesListBean>) {
-                mView?.setProjectList(result.data.datas)
-                mView?.hideLoading()
+                mView?.run {
+                    setProjectList(result.data)
+                    hideLoading()
+                }
             }
 
             override fun onFail(msg: String) {
-                mView?.showError(msg)
-                mView?.hideLoading()
+                mView?.run {
+                    showError(msg)
+                    hideLoading()
+                }
             }
 
         })

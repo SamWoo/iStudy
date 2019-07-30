@@ -166,6 +166,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
         homeAdapter.run {
             bindToRecyclerView(recyclerView)
+            openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener

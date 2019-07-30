@@ -123,6 +123,10 @@ class MainActivity : BaseActivity() {
                 showFragment(FRAGMENT_KNOWLEDGE_TREE)
                 true
             }
+            R.id.action_project -> {
+                showFragment(FRAGMENT_PROJECT)
+                true
+            }
             else -> {
                 false
             }

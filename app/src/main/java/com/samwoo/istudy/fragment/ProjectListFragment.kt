@@ -2,6 +2,7 @@ package com.samwoo.istudy.fragment
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.samwoo.istudy.activity.ContentActivity
 import com.samwoo.istudy.adapter.ProjectListAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
+import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.ProjectListContract
 import com.samwoo.istudy.mvp.presenter.ProjectListPresenter
@@ -83,6 +85,8 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         }
 
         projectListAdapter.run {
+            bindToRecyclerView(recyclerView)
+            openLoadAnimation(BaseQuickAdapter.SCALEIN)
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ProjectListFragment.onItemClickListener
             onItemChildClickListener = this@ProjectListFragment.onItemChildClickListener
@@ -98,7 +102,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = datas.size / 20 + 1
+        val page = datas.size / 15 + 1
         mPresenter.getProjectList(page, cid)
     }
 
@@ -135,8 +139,8 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         }
     }
 
-    override fun setProjectList(list: List<Article>) {
-        list.let {
+    override fun setProjectList(list: ArticlesListBean) {
+        list.datas.let {
             projectListAdapter.run {
                 if (isRefresh) {
                     replaceData(it)
@@ -145,7 +149,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
                 }
                 val size = it.size
                 if (size < list.size) {
-                    loadMoreEnd()
+                    loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
                 }
