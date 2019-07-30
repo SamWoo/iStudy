@@ -78,7 +78,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
                 if (datas.size != 0) {
                     val data = datas[position]
-//                    val intent =intentFor<KnowledgeActivity>(
+//                    val intent =activity!!.intentFor<KnowledgeActivity>(
 //                        Pair(Constant.CONTENT_TITLE_KEY, data.name),
 //                        Pair(Constant.CONTENT_DATA_KEY, data)
 //                    )

@@ -101,6 +101,20 @@ data class Knowledge(
     val visible: Int
 ) : Serializable
 
+/**
+ * ProjectTree
+ */
+data class ProjectTreeBody(
+    val children: MutableList<Any>,
+    val courseId: Int,
+    val id: Int,
+    val name: String,
+    val order: Int,
+    val parentChapterId: Int,
+    val userControlSetTop: Boolean,
+    val visible: Int
+)
+
 //Hot Words
 @Parcelize
 data class HotKey(

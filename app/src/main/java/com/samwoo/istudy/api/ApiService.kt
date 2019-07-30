@@ -3,6 +3,7 @@ package com.samwoo.istudy.api
 import com.samwoo.istudy.bean.*
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import rx.Observable
 
 interface ApiService {
@@ -22,8 +23,25 @@ interface ApiService {
     fun getBanners(): Observable<BannerList>
 
     /**
-     * 知识体系
+     * 获取知识体系
+     * http://www.wanandroid.com/tree/json
      */
     @GET("/tree/json")
-    fun getKnowledgeTree():Observable<HttpResult<List<KnowledgeTreeBody>>>
+    fun getKnowledgeTree(): Observable<HttpResult<List<KnowledgeTreeBody>>>
+
+    /**
+     * 项目数据
+     * http://www.wanandroid.com/project/tree/json
+     */
+    @GET("/project/tree/json")
+    fun getProjectTree(): Observable<HttpResult<List<ProjectTreeBody>>>
+
+    /**
+     * 项目列表数据
+     * http://www.wanandroid.com/project/list/1/json?cid=294
+     * @param page
+     * @param cid
+     */
+    @GET("/project/list/{curPage}/json")
+    fun getProjectList(@Path("curPage") curPage: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticlesListBean>>
 }

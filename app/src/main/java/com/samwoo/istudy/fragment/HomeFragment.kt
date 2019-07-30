@@ -169,7 +169,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_refresh_layout)
+            setEmptyView(R.layout.fragment_empty)
             addHeaderView(bannerView)
         }
     }

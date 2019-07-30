@@ -12,6 +12,7 @@ import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.fragment.HomeFragment
 import com.samwoo.istudy.fragment.KnowledgeTreeFragment
+import com.samwoo.istudy.fragment.ProjectFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
@@ -19,11 +20,13 @@ import org.jetbrains.anko.toast
 class MainActivity : BaseActivity() {
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
+    private val FRAGMENT_PROJECT = 0x03
 
     private var mIndex = FRAGMENT_HOME
 
     private var homeFragment: HomeFragment? = null
     private var knowledgeTreeFragment: KnowledgeTreeFragment? = null
+    private var projectFragment: ProjectFragment? = null
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -89,6 +92,15 @@ class MainActivity : BaseActivity() {
                     transaction.show(knowledgeTreeFragment!!)
                 }
             }
+            FRAGMENT_PROJECT -> {
+                toolbar.title = getString(R.string.project)
+                if (projectFragment == null) {
+                    projectFragment = ProjectFragment.instance()
+                    transaction.add(R.id.container, projectFragment!!, "project")
+                } else {
+                    transaction.show(projectFragment!!)
+                }
+            }
         }
         transaction.commit()
     }
@@ -96,6 +108,7 @@ class MainActivity : BaseActivity() {
     private fun hideFragments(transaction: FragmentTransaction) {
         homeFragment?.let { transaction.hide(it) }
         knowledgeTreeFragment?.let { transaction.hide(it) }
+        projectFragment?.let { transaction.hide(it) }
     }
 
 
