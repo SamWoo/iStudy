@@ -6,7 +6,7 @@ import com.samwoo.istudy.bean.ArticlesListBean
 
 interface ProjectListContract {
     interface View : IView {
-        fun scrollTop()
+        fun scrollToTop()
         fun setProjectList(list: ArticlesListBean)
     }
 

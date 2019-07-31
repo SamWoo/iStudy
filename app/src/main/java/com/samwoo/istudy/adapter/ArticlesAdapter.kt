@@ -11,8 +11,8 @@ import com.samwoo.istudy.R
 import com.samwoo.istudy.bean.Article
 import com.samwoo.istudy.util.ImageLoader
 
-class WxArticlesAdapter(private val context: Context?, datas: MutableList<Article>) :
-    BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_recyclerview_list, datas) {
+class ArticlesAdapter(private val context: Context?, datas: MutableList<Article>) :
+    BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_articles_list, datas) {
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
         helper ?: return
@@ -37,13 +37,6 @@ class WxArticlesAdapter(private val context: Context?, datas: MutableList<Articl
             context?.let { ImageLoader.load(context, item.envelopePic, helper.getView(R.id.iv_article_thumbnail)) }
         } else {
             helper.getView<ImageView>(R.id.iv_article_thumbnail).visibility = View.GONE
-        }
-
-        if (item.fresh) {
-//            helper.setText(R.id.tv_article_fresh,item.fresh)
-            helper.getView<TextView>(R.id.tv_article_fresh).visibility = View.VISIBLE
-        } else {
-            helper.getView<TextView>(R.id.tv_article_fresh).visibility = View.GONE
         }
     }
 

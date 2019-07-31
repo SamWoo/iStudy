@@ -3,6 +3,7 @@ package com.samwoo.istudy.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import com.samwoo.istudy.bean.ProjectTreeBody
 import com.samwoo.istudy.fragment.ProjectListFragment
 
@@ -29,4 +30,7 @@ class ProjectPagerAdapter(fm: FragmentManager, private val datas: MutableList<Pr
         return datas[position].name
     }
 
+    override fun getItemPosition(`object`: Any): Int {
+        return PagerAdapter.POSITION_NONE
+    }
 }

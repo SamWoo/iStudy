@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_tab_viewpager.*
 
 class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     companion object {
-        fun instance():ProjectFragment = ProjectFragment()
+        fun instance(): ProjectFragment = ProjectFragment()
     }
 
     private val mPresenter: ProjectTreePresenter by lazy {
@@ -46,8 +46,10 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
         mPresenter.getProjectTree()
     }
 
-    override fun scrollTop() {
+    override fun scrollToTop() {
         if (viewPagerAdapter.count == 0) return
+        val fragment: ProjectListFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ProjectListFragment
+        fragment.scrollToTop()
     }
 
     override fun setProjectTree(data: List<ProjectTreeBody>) {

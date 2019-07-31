@@ -17,7 +17,7 @@ class ProjectListModel {
             .subscribeOn(Schedulers.io())
             .subscribe(object : Subscriber<HttpResult<ArticlesListBean>>() {
                 override fun onNext(bean: HttpResult<ArticlesListBean>?) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "-------->${bean}")
+                    if (BuildConfig.DEBUG) Log.d("Sam", "project-------->${bean}")
                     if (bean == null) {
                         callback.onFail("Error!!")
                     } else if (bean.errorCode != 0) {

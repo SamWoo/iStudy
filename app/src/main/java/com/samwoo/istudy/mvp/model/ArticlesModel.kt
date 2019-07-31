@@ -10,9 +10,9 @@ import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class WxArticlesModel {
-    fun getWxArticles(id:Int, curPage:Int, callback: Callback<HttpResult<ArticlesListBean>, String>){
-        NetUtil.service.getWxArticles(id, curPage)
+class ArticlesModel {
+    fun getArticles(id:Int, curPage:Int, callback: Callback<HttpResult<ArticlesListBean>, String>){
+        NetUtil.service.getArticles(id, curPage)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object :Subscriber<HttpResult<ArticlesListBean>>(){

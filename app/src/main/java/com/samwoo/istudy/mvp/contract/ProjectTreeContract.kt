@@ -5,7 +5,7 @@ import com.samwoo.istudy.bean.ProjectTreeBody
 
 interface ProjectTreeContract {
     interface View:IView{
-        fun scrollTop()
+        fun scrollToTop()
         fun setProjectTree(data:List<ProjectTreeBody>)
     }
 

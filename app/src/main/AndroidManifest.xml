@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:dist="http://schemas.android.com/apk/distribution"
-          package="com.samwoo.istudy">
+    package="com.samwoo.istudy">
 
-    <dist:module dist:instant="true"/> <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 访问网络 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 访问网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!--
         android9.0系统默认禁止http协议，即禁止明文传输，必须使用https来通讯；
@@ -14,32 +13,31 @@
         android:usesCleartextTraffic="true"
     -->
     <application
-            android:name=".App"
-            android:allowBackup="true"
-            android:icon="@mipmap/icon"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:usesCleartextTraffic="true"
-            android:theme="@style/AppTheme">
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
-                android:name=".activity.SplashActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize"
-                android:theme="@style/AppTheme.FullScreen">
+            android:name=".activity.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:name=".activity.MainActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-                android:name=".activity.ContentActivity"
-                android:label="@string/title_activity_content"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ContentActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -41,7 +41,7 @@ interface ApiService {
      * https://wanandroid.com/wxarticle/list/408/1/json
      */
     @GET("/wxarticle/list/{cid}/{curPage}/json")
-    fun getWxArticles(@Path("cid") cid:Int, @Path("curPage") curPage: Int):Observable<HttpResult<ArticlesListBean>>
+    fun getArticles(@Path("cid") cid:Int, @Path("curPage") curPage: Int):Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 项目数据

@@ -31,4 +31,7 @@ class ContentActivity : BaseActivity() {
 
     override fun initData() {}
 
+    fun initAgentWeb() {
+
+    }
 }

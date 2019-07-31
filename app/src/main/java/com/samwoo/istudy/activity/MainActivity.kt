@@ -96,12 +96,12 @@ class MainActivity : BaseActivity() {
                     transaction.show(knowledgeTreeFragment!!)
                 }
             }
-            FRAGMENT_WX_ACCOUNT->{
-                toolbar.title=getString(R.string.wx_account)
-                if (wxAccountFragment==null){
-                    wxAccountFragment=WxAccountFragment.instance()
-                    transaction.add(R.id.container,wxAccountFragment!!,"wxaccount")
-                }else{
+            FRAGMENT_WX_ACCOUNT -> {
+                toolbar.title = getString(R.string.wx_account)
+                if (wxAccountFragment == null) {
+                    wxAccountFragment = WxAccountFragment.instance()
+                    transaction.replace(R.id.container, wxAccountFragment!!, "wxaccount")
+                } else {
                     transaction.show(wxAccountFragment!!)
                 }
             }
@@ -121,7 +121,7 @@ class MainActivity : BaseActivity() {
     private fun hideFragments(transaction: FragmentTransaction) {
         homeFragment?.let { transaction.hide(it) }
         knowledgeTreeFragment?.let { transaction.hide(it) }
-        wxAccountFragment?.let{transaction.hide(it)}
+        wxAccountFragment?.let { transaction.hide(it) }
         projectFragment?.let { transaction.hide(it) }
     }
 
@@ -137,7 +137,7 @@ class MainActivity : BaseActivity() {
                 showFragment(FRAGMENT_KNOWLEDGE_TREE)
                 true
             }
-            R.id.action_wx_account->{
+            R.id.action_wx_account -> {
                 showFragment(FRAGMENT_WX_ACCOUNT)
                 true
             }
@@ -169,6 +169,15 @@ class MainActivity : BaseActivity() {
         when (mIndex) {
             FRAGMENT_HOME -> {
                 homeFragment?.scrollToTop()
+            }
+            FRAGMENT_KNOWLEDGE_TREE -> {
+                knowledgeTreeFragment?.scrollToTop()
+            }
+            FRAGMENT_WX_ACCOUNT -> {
+                wxAccountFragment?.scrollToTop()
+            }
+            FRAGMENT_PROJECT -> {
+                projectFragment?.scrollToTop()
             }
         }
     }

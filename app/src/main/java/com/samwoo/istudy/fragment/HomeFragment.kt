@@ -126,7 +126,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-
     override fun getLayoutResId(): Int {
         return R.layout.fragment_refresh_layout
     }

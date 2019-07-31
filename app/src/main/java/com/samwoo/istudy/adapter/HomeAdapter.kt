@@ -12,7 +12,7 @@ import com.samwoo.istudy.bean.Article
 import com.samwoo.istudy.util.ImageLoader
 
 class HomeAdapter(private val context: Context?, datas: MutableList<Article>) :
-    BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_recyclerview_list, datas) {
+    BaseQuickAdapter<Article, BaseViewHolder>(R.layout.item_home_list, datas) {
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
         helper ?: return

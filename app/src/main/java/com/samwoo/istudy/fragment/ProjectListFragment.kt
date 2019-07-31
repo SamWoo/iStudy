@@ -127,7 +127,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         mPresenter.getProjectList(1, cid)
     }
 
-    override fun scrollTop() {
+    override fun scrollToTop() {
         recyclerView.run {
             if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 20) {
                 scrollToPosition(0)

@@ -5,7 +5,7 @@ import com.samwoo.istudy.bean.WxAccountBody
 
 interface WxAccountContract{
     interface View:IView{
-        fun scrollTop()
+        fun scrollToTop()
         fun setWxAccount(data:List<WxAccountBody>)
     }
 

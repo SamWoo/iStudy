@@ -1,6 +1,5 @@
 package com.samwoo.istudy.fragment
 
-import android.widget.TableLayout
 import com.google.android.material.tabs.TabLayout
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.WxAccountPagerAdapter
@@ -46,8 +45,10 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
         mPresenter.getWxAccount()
     }
 
-    override fun scrollTop() {
+    override fun scrollToTop() {
         if (viewPagerAdapter.count == 0) return
+        val fragment: ArticlesFragment = viewPagerAdapter.getItem(viewPager.currentItem) as ArticlesFragment
+        fragment.scrollToTop()
     }
 
     override fun setWxAccount(data: List<WxAccountBody>) {
