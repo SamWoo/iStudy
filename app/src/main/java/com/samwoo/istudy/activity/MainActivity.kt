@@ -13,6 +13,7 @@ import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.fragment.HomeFragment
 import com.samwoo.istudy.fragment.KnowledgeTreeFragment
 import com.samwoo.istudy.fragment.ProjectFragment
+import com.samwoo.istudy.fragment.WxAccountFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
@@ -20,12 +21,15 @@ import org.jetbrains.anko.toast
 class MainActivity : BaseActivity() {
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
-    private val FRAGMENT_PROJECT = 0x03
+    private val FRAGMENT_WX_ACCOUNT = 0x03
+    private val FRAGMENT_PROJECT = 0x05
+
 
     private var mIndex = FRAGMENT_HOME
 
     private var homeFragment: HomeFragment? = null
     private var knowledgeTreeFragment: KnowledgeTreeFragment? = null
+    private var wxAccountFragment: WxAccountFragment? = null
     private var projectFragment: ProjectFragment? = null
 
     override fun getLayoutResId(): Int {
@@ -92,6 +96,15 @@ class MainActivity : BaseActivity() {
                     transaction.show(knowledgeTreeFragment!!)
                 }
             }
+            FRAGMENT_WX_ACCOUNT->{
+                toolbar.title=getString(R.string.wx_account)
+                if (wxAccountFragment==null){
+                    wxAccountFragment=WxAccountFragment.instance()
+                    transaction.add(R.id.container,wxAccountFragment!!,"wxaccount")
+                }else{
+                    transaction.show(wxAccountFragment!!)
+                }
+            }
             FRAGMENT_PROJECT -> {
                 toolbar.title = getString(R.string.project)
                 if (projectFragment == null) {
@@ -108,6 +121,7 @@ class MainActivity : BaseActivity() {
     private fun hideFragments(transaction: FragmentTransaction) {
         homeFragment?.let { transaction.hide(it) }
         knowledgeTreeFragment?.let { transaction.hide(it) }
+        wxAccountFragment?.let{transaction.hide(it)}
         projectFragment?.let { transaction.hide(it) }
     }
 
@@ -121,6 +135,10 @@ class MainActivity : BaseActivity() {
             }
             R.id.action_knowledge_system -> {
                 showFragment(FRAGMENT_KNOWLEDGE_TREE)
+                true
+            }
+            R.id.action_wx_account->{
+                showFragment(FRAGMENT_WX_ACCOUNT)
                 true
             }
             R.id.action_project -> {

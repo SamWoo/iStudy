@@ -1,32 +1,33 @@
 package com.samwoo.istudy.fragment
 
+import android.widget.TableLayout
 import com.google.android.material.tabs.TabLayout
 import com.samwoo.istudy.R
-import com.samwoo.istudy.adapter.ProjectPagerAdapter
+import com.samwoo.istudy.adapter.WxAccountPagerAdapter
 import com.samwoo.istudy.base.BaseFragment
-import com.samwoo.istudy.bean.ProjectTreeBody
-import com.samwoo.istudy.mvp.contract.ProjectTreeContract
-import com.samwoo.istudy.mvp.presenter.ProjectTreePresenter
+import com.samwoo.istudy.bean.WxAccountBody
+import com.samwoo.istudy.mvp.contract.WxAccountContract
+import com.samwoo.istudy.mvp.presenter.WxAccountPresenter
 import kotlinx.android.synthetic.main.fragment_tab_viewpager.*
+import org.jetbrains.anko.toast
 
-class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
+class WxAccountFragment : BaseFragment(), WxAccountContract.View {
+
     companion object {
-        fun instance():ProjectFragment = ProjectFragment()
+        fun instance(): WxAccountFragment = WxAccountFragment()
     }
 
-    private val mPresenter: ProjectTreePresenter by lazy {
-        ProjectTreePresenter()
+    private val mPresenter: WxAccountPresenter by lazy {
+        WxAccountPresenter()
     }
 
-    private val projectTree = mutableListOf<ProjectTreeBody>()
+    private val wxAccount = mutableListOf<WxAccountBody>()
 
-    private val viewPagerAdapter: ProjectPagerAdapter by lazy {
-        ProjectPagerAdapter(fragmentManager!!, projectTree)
+    private val viewPagerAdapter: WxAccountPagerAdapter by lazy {
+        WxAccountPagerAdapter(fragmentManager!!, wxAccount)
     }
 
-    override fun getLayoutResId(): Int {
-        return R.layout.fragment_tab_viewpager
-    }
+    override fun getLayoutResId(): Int = R.layout.fragment_tab_viewpager
 
     override fun initView() {
         mPresenter.attachView(this)
@@ -39,23 +40,22 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
         viewPager.run {
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         }
-
     }
 
     override fun lazyLoad() {
-        mPresenter.getProjectTree()
+        mPresenter.getWxAccount()
     }
 
     override fun scrollTop() {
         if (viewPagerAdapter.count == 0) return
     }
 
-    override fun setProjectTree(data: List<ProjectTreeBody>) {
+    override fun setWxAccount(data: List<WxAccountBody>) {
         data.let {
-            projectTree.addAll(it)
+            wxAccount.addAll(data)
             viewPager.run {
                 adapter = viewPagerAdapter
-                offscreenPageLimit = projectTree.size
+                offscreenPageLimit = wxAccount.size
             }
         }
     }
@@ -65,6 +65,7 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     override fun hideLoading() {}
 
     override fun showError(errorMsg: String) {
+        activity?.toast(errorMsg)
     }
 
     override fun onDestroy() {

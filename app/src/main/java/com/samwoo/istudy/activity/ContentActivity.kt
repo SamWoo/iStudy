@@ -1,23 +1,34 @@
 package com.samwoo.istudy.activity
 
-import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
 import com.samwoo.istudy.R
-
+import com.samwoo.istudy.base.BaseActivity
+import com.samwoo.istudy.constant.Constant
 import kotlinx.android.synthetic.main.activity_content.*
 
-class ContentActivity : AppCompatActivity() {
+class ContentActivity : BaseActivity() {
+    private lateinit var title: String
+    private var id: Int = -1
+    private lateinit var url: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_content)
-        setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+    override fun getLayoutResId(): Int {
+        return R.layout.activity_content
     }
+
+    override fun initView() {
+        intent.extras?.let {
+            id = it.getInt(Constant.CONTENT_ID_KEY, -1)
+            title = it.getString(Constant.CONTENT_TITLE_KEY, "")
+            url = it.getString(Constant.CONTENT_URL_KEY, "")
+        }
+
+        toolbar.run {
+            title = ""
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+
+    }
+
+    override fun initData() {}
 
 }

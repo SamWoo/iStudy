@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            android:scrollbarSize="@dimen/dp_10"
-            tools:listitem="@layout/item_home_list">
+            android:scrollbarSize="@dimen/dp_4"
+            tools:listitem="@layout/item_recyclerview_list">
 
     </androidx.recyclerview.widget.RecyclerView>
 

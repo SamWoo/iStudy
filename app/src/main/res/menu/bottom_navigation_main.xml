@@ -11,8 +11,8 @@
           android:icon="@drawable/ic_apps_black_24dp"
           android:enabled="true"
           app:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_public_num"
-          android:title="@string/public_num"
+    <item android:id="@+id/action_wx_account"
+          android:title="@string/wx_account"
           android:icon="@drawable/ic_supervisor_account_black_24dp"
           android:enabled="true"
           app:showAsAction="ifRoom"/>

@@ -30,6 +30,20 @@ interface ApiService {
     fun getKnowledgeTree(): Observable<HttpResult<List<KnowledgeTreeBody>>>
 
     /**
+     * 微信公众号
+     * https://wanandroid.com/wxarticle/chapters/json
+     */
+    @GET("/wxarticle/chapters/json")
+    fun getWxAccount(): Observable<HttpResult<List<WxAccountBody>>>
+
+    /**
+     * 查看某个公众号历史数据
+     * https://wanandroid.com/wxarticle/list/408/1/json
+     */
+    @GET("/wxarticle/list/{cid}/{curPage}/json")
+    fun getWxArticles(@Path("cid") cid:Int, @Path("curPage") curPage: Int):Observable<HttpResult<ArticlesListBean>>
+
+    /**
      * 项目数据
      * http://www.wanandroid.com/project/tree/json
      */

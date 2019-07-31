@@ -1,16 +1,15 @@
 package com.samwoo.istudy.mvp.contract
 
 import com.samwoo.istudy.base.IView
-import com.samwoo.istudy.bean.ProjectTreeBody
+import com.samwoo.istudy.bean.WxAccountBody
 
-interface ProjectTreeContract {
+interface WxAccountContract{
     interface View:IView{
         fun scrollTop()
-        fun setProjectTree(data:List<ProjectTreeBody>)
+        fun setWxAccount(data:List<WxAccountBody>)
     }
 
     interface Presenter{
-        fun getProjectTree()
+        fun getWxAccount()
     }
-
 }
