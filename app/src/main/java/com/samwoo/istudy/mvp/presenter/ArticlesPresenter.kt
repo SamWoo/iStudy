@@ -15,20 +15,23 @@ class ArticlesPresenter : BasePresenter<ArticlesContract.View>(), ArticlesContra
     override fun getArticles(id: Int, curPage: Int) {
         mView?.showLoading()
         wxArticlesModel.getArticles(id, curPage, object : Callback<HttpResult<ArticlesListBean>, String> {
-            override fun onSuccess(data: HttpResult<ArticlesListBean>) {
-                mView?.run {
-                    setArticles(data.data)
-                    hideLoading()
+            override fun onSuccess(result: HttpResult<ArticlesListBean>) {
+                if (isViewAttached()) {
+                    mView?.run {
+                        setArticles(result.data)
+                        hideLoading()
+                    }
                 }
             }
 
             override fun onFail(msg: String) {
-                mView?.apply {
-                    showError(msg)
-                    hideLoading()
+                if (isViewAttached()) {
+                    mView?.apply {
+                        showError(msg)
+                        hideLoading()
+                    }
                 }
             }
-
         })
     }
 }

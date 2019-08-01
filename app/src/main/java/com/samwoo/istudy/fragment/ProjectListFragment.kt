@@ -35,9 +35,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         }
     }
 
-    private val mPresenter: ProjectListPresenter by lazy {
-        ProjectListPresenter()
-    }
+    private var mPresenter: ProjectListPresenter? = null
 
     private val datas = mutableListOf<Article>()
 
@@ -59,7 +57,8 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        mPresenter = ProjectListPresenter()
+        mPresenter?.attachView(this)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
         swipeRefreshLayout.run {
@@ -94,14 +93,14 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
-        mPresenter.getProjectList(1, cid)
+        mPresenter?.getProjectList(1, cid)
     }
 
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = datas.size / 15 + 1
-        mPresenter.getProjectList(page, cid)
+        mPresenter?.getProjectList(page, cid)
     }
 
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
@@ -124,7 +123,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getProjectList(1, cid)
+        mPresenter?.getProjectList(1, cid)
     }
 
     override fun scrollToTop() {
@@ -179,8 +178,9 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter?.detachView()
+        mPresenter = null
     }
 }

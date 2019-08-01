@@ -9,7 +9,7 @@ interface HomeContract {
     interface View : IView {
         fun scrollToTop()
         fun setBanner(banners: BannerList)
-        fun setArticles(articles: HttpResult<ArticlesListBean>)
+        fun setArticles(list: ArticlesListBean)
     }
 
     interface Presenter {

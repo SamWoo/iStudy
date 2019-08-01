@@ -24,9 +24,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
 
     private val datas = mutableListOf<KnowledgeTreeBody>()
 
-    private val mPresenter by lazy {
-        KnowledgeTreePresenter()
-    }
+    private var mPresenter: KnowledgeTreePresenter? = null
 
     private val linearLayoutManager by lazy {
         LinearLayoutManager(activity)
@@ -47,7 +45,8 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        mPresenter = KnowledgeTreePresenter()
+        mPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
             isRefreshing = true
@@ -61,7 +60,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             }
 
             setOnRefreshListener {
-                mPresenter.getKnowledgeTree()
+                mPresenter?.getKnowledgeTree()
             }
         }
 
@@ -93,7 +92,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getKnowledgeTree()
+        mPresenter?.getKnowledgeTree()
     }
 
     override fun scrollToTop() {
@@ -127,9 +126,10 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         activity?.toast(errorMsg)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter?.detachView()
+        mPresenter = null
     }
 
 }

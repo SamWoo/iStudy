@@ -33,9 +33,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
 
     private var cid: Int = 0
 
-    private val mPresenter: ArticlesPresenter by lazy {
-        ArticlesPresenter()
-    }
+    private var mPresenter: ArticlesPresenter ?=null
 
     private var datas = mutableListOf<Article>()
 
@@ -59,7 +57,8 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        mPresenter=ArticlesPresenter()
+        mPresenter?.attachView(this)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: 0
 
         swipeRefreshLayout.run {
@@ -95,33 +94,37 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
-        mPresenter.getArticles(cid, 1)
+        mPresenter?.getArticles(cid, 1)
     }
 
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = datas.size / 20 + 1
-        mPresenter.getArticles(cid, page)
+        mPresenter?.getArticles(cid, page)
     }
 
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        val data = datas[position]
-        val intent = activity?.intentFor<ContentActivity>(
-            Pair(Constant.CONTENT_URL_KEY, data.link),
-            Pair(Constant.CONTENT_TITLE_KEY, data.title),
-            Pair(Constant.CONTENT_ID_KEY, data.id)
-        )
-        startActivity(intent)
+        if (datas.size != 0) {
+            val data = datas[position]
+            val intent = activity?.intentFor<ContentActivity>(
+                Pair(Constant.CONTENT_URL_KEY, data.link),
+                Pair(Constant.CONTENT_TITLE_KEY, data.title),
+                Pair(Constant.CONTENT_ID_KEY, data.id)
+            )
+            startActivity(intent)
+        }
     }
 
     private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, _, position ->
-        val data = datas[position]
-        activity?.toast("${data}")
+        if (datas.size != 0) {
+            val data = datas[position]
+            activity?.toast("${data}")
+        }
     }
 
     override fun lazyLoad() {
-        mPresenter.getArticles(cid, 1)
+        mPresenter?.getArticles(cid, 1)
     }
 
     override fun scrollToTop() {
@@ -174,8 +177,9 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter?.detachView()
+        mPresenter = null
     }
 }

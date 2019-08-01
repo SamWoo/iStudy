@@ -16,20 +16,19 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
         fun instance(): WxAccountFragment = WxAccountFragment()
     }
 
-    private val mPresenter: WxAccountPresenter by lazy {
-        WxAccountPresenter()
-    }
+    private var mPresenter: WxAccountPresenter? = null
 
     private val wxAccount = mutableListOf<WxAccountBody>()
 
     private val viewPagerAdapter: WxAccountPagerAdapter by lazy {
-        WxAccountPagerAdapter(fragmentManager!!, wxAccount)
+        WxAccountPagerAdapter(childFragmentManager!!, wxAccount)
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_tab_viewpager
 
     override fun initView() {
-        mPresenter.attachView(this)
+        mPresenter = WxAccountPresenter()
+        mPresenter?.attachView(this)
 
         tabLayout.run {
             setupWithViewPager(viewPager)
@@ -42,7 +41,7 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getWxAccount()
+        mPresenter?.getWxAccount()
     }
 
     override fun scrollToTop() {
@@ -53,7 +52,7 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
 
     override fun setWxAccount(data: List<WxAccountBody>) {
         data.let {
-            wxAccount.addAll(data)
+            wxAccount.addAll(it)
             viewPager.run {
                 adapter = viewPagerAdapter
                 offscreenPageLimit = wxAccount.size
@@ -69,8 +68,9 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
         activity?.toast(errorMsg)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter?.detachView()
+        mPresenter = null
     }
 }

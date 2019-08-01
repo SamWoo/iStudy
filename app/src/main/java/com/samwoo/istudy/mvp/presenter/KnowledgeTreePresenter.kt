@@ -18,15 +18,22 @@ class KnowledgeTreePresenter : BasePresenter<KnowledgeTreeContract.View>(), Know
         knowledgeTreeModel.getKnowledgeTree(object : Callback<HttpResult<List<KnowledgeTreeBody>>, String> {
             override fun onSuccess(result: HttpResult<List<KnowledgeTreeBody>>) {
                 if(BuildConfig.DEBUG) Log.d("Sam","result--->${result.data}")
-                mView?.setKnowledgeTree(result.data)
-                mView?.hideLoading()
+                if (isViewAttached()){
+                    mView?.run {
+                        setKnowledgeTree(result.data)
+                        hideLoading()
+                    }
+                }
             }
 
             override fun onFail(msg: String) {
-                mView?.showError(msg)
-                mView?.hideLoading()
+                if (isViewAttached()){
+                    mView?.run {
+                        showError(msg)
+                        hideLoading()
+                    }
+                }
             }
-
         })
     }
 

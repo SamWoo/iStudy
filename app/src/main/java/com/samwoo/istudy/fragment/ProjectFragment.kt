@@ -14,14 +14,12 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
         fun instance(): ProjectFragment = ProjectFragment()
     }
 
-    private val mPresenter: ProjectTreePresenter by lazy {
-        ProjectTreePresenter()
-    }
+    private var mPresenter: ProjectTreePresenter? = null
 
     private val projectTree = mutableListOf<ProjectTreeBody>()
 
     private val viewPagerAdapter: ProjectPagerAdapter by lazy {
-        ProjectPagerAdapter(fragmentManager!!, projectTree)
+        ProjectPagerAdapter(childFragmentManager!!, projectTree)
     }
 
     override fun getLayoutResId(): Int {
@@ -29,7 +27,8 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        mPresenter = ProjectTreePresenter()
+        mPresenter?.attachView(this)
 
         tabLayout.run {
             setupWithViewPager(viewPager)
@@ -43,7 +42,7 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getProjectTree()
+        mPresenter?.getProjectTree()
     }
 
     override fun scrollToTop() {
@@ -69,8 +68,9 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     override fun showError(errorMsg: String) {
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter?.detachView()
+        mPresenter = null
     }
 }

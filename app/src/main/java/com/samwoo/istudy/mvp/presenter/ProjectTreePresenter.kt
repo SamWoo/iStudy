@@ -16,20 +16,22 @@ class ProjectTreePresenter : BasePresenter<ProjectTreeContract.View>(), ProjectT
         mView?.showLoading()
         projectTreeModel.getProjectTree(object : Callback<HttpResult<List<ProjectTreeBody>>, String> {
             override fun onSuccess(result: HttpResult<List<ProjectTreeBody>>) {
-                mView?.run {
-                    setProjectTree(result.data)
-                    hideLoading()
+                if (isViewAttached()) {
+                    mView?.run {
+                        setProjectTree(result.data)
+                        hideLoading()
+                    }
                 }
             }
 
             override fun onFail(msg: String) {
-                mView?.run {
-                    hideLoading()
-                    showError(msg)
+                if (isViewAttached()) {
+                    mView?.run {
+                        hideLoading()
+                        showError(msg)
+                    }
                 }
             }
-
         })
     }
-
 }

@@ -48,6 +48,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //anko
     implementation "org.jetbrains.anko:anko-common:$anko_version"
+    //leakcanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
     //add
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'

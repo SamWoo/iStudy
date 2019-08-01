@@ -55,9 +55,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         activity?.let { SpaceItemDecoration(it) }
     }
 
-    private val mPresenter: HomePresenter by lazy {
-        HomePresenter()
-    }
+    private var mPresenter: HomePresenter? = null
 
     override fun scrollToTop() {
         recyclerView.run {
@@ -84,17 +82,16 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-    override fun setArticles(result: HttpResult<ArticlesListBean>) {
-//        articles= result.data?.datas!!
-        result.data?.datas.let {
+    override fun setArticles(result: ArticlesListBean) {
+        result.datas.let {
             homeAdapter.run {
                 if (isRefresh) {
-                    replaceData(it!!)
+                    replaceData(it)
                 } else {
-                    addData(it!!)
+                    addData(it)
                 }
-                val size = it?.size
-                if (size!! < result.data?.size!!) {
+                val size = it.size
+                if (size < result.size) {
                     loadMoreEnd(isRefresh)
                 } else {
                     loadMoreComplete()
@@ -131,12 +128,13 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter.getBanners()
-        mPresenter.getArticles(0)
+        mPresenter?.getBanners()
+        mPresenter?.getArticles(0)
     }
 
     override fun initView() {
-        mPresenter.attachView(this)
+        mPresenter = HomePresenter()
+        mPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
             isRefreshing = true
@@ -177,8 +175,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     //RefreshListener
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
-        mPresenter.getBanners()
-        mPresenter.getArticles(0)
+        mPresenter?.getBanners()
+        mPresenter?.getArticles(0)
 
     }
 
@@ -187,7 +185,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = homeAdapter.data.size / 20
-        mPresenter.getArticles(page)
+        mPresenter?.getArticles(page)
 
     }
 
@@ -225,9 +223,9 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.detachView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter?.detachView()
+        mPresenter = null
     }
-
 }
