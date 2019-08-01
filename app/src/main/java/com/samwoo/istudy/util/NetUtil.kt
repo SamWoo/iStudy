@@ -59,7 +59,7 @@ object NetUtil {
             connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(DEFAULT_TIMEOUT_WRITE, TimeUnit.SECONDS)
             readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            addNetworkInterceptor(networkInterceptor)
+            //addNetworkInterceptor(networkInterceptor)
             addInterceptor(httpLoggingInterceptor)
 //            addInterceptor(addHttpInterceptor())
 //            addInterceptor(addCacheInterceptor())
