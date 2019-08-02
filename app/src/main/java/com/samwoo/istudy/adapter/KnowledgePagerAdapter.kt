@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
-import com.samwoo.istudy.bean.WxAccountBody
+import com.samwoo.istudy.bean.Knowledge
 import com.samwoo.istudy.fragment.ArticlesFragment
 
-class WxAccountPagerAdapter(fm:FragmentManager, private val datas: MutableList<WxAccountBody>) :
+class KnowledgePagerAdapter(fm: FragmentManager, private val datas: MutableList<Knowledge>) :
     FragmentStatePagerAdapter(fm) {
-    private val fragments = mutableListOf<Fragment>()
+    private var fragments = mutableListOf<Fragment>()
 
     init {
         fragments.clear()

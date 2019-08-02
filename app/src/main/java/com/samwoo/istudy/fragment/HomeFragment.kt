@@ -1,13 +1,16 @@
 package com.samwoo.istudy.fragment
 
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
 import com.samwoo.istudy.adapter.HomeAdapter
@@ -34,9 +37,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private var isRefresh = true
 
     //LinearLayoutManager
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
+    private val linearLayoutManager = LinearLayoutManager(activity)
+
 
     //homeAdapter
     private val homeAdapter: HomeAdapter by lazy {
@@ -227,5 +229,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        if (BuildConfig.DEBUG) Log.d("Sam", "HomeFragment DestroyView....")
     }
 }

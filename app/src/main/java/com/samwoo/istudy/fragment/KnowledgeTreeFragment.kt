@@ -5,15 +5,19 @@ import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
+import com.samwoo.istudy.activity.KnowledgeActivity
 import com.samwoo.istudy.adapter.KnowledgeTreeAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.KnowledgeTreeBody
+import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.KnowledgeTreeContract
 import com.samwoo.istudy.mvp.presenter.KnowledgeTreePresenter
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
@@ -77,14 +81,13 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
                 if (datas.size != 0) {
                     val data = datas[position]
-//                    val intent =activity!!.intentFor<KnowledgeActivity>(
-//                        Pair(Constant.CONTENT_TITLE_KEY, data.name),
-//                        Pair(Constant.CONTENT_DATA_KEY, data)
-//                    )
-//                    startActivity(intent)
+                    val intent = activity!!.intentFor<KnowledgeActivity>(
+                        Pair(Constant.CONTENT_TITLE_KEY, data.name),
+                        Pair(Constant.CONTENT_DATA_KEY, data)
+                    )
+                    startActivity(intent)
                 }
             }
-
             setEmptyView(R.layout.fragment_empty)
         }
 
@@ -130,6 +133,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        if (BuildConfig.DEBUG) Log.d("Sam", "KnowledgeTreeFragment DestroyView....")
     }
 
 }

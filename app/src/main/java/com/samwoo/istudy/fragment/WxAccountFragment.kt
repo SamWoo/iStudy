@@ -1,6 +1,8 @@
 package com.samwoo.istudy.fragment
 
+import android.util.Log
 import com.google.android.material.tabs.TabLayout
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.WxAccountPagerAdapter
 import com.samwoo.istudy.base.BaseFragment
@@ -55,7 +57,7 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
             wxAccount.addAll(it)
             viewPager.run {
                 adapter = viewPagerAdapter
-                offscreenPageLimit = wxAccount.size
+//                offscreenPageLimit = wxAccount.size
             }
         }
     }
@@ -72,5 +74,6 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        if (BuildConfig.DEBUG) Log.d("Sam", "WxAccountFragment DestroyView....")
     }
 }

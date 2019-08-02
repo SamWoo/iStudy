@@ -2,10 +2,12 @@ package com.samwoo.istudy.fragment
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
 import com.samwoo.istudy.adapter.ArticlesAdapter
@@ -33,7 +35,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
 
     private var cid: Int = 0
 
-    private var mPresenter: ArticlesPresenter ?=null
+    private var mPresenter: ArticlesPresenter? = null
 
     private var datas = mutableListOf<Article>()
 
@@ -44,9 +46,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
         activity?.let { SpaceItemDecoration(it) }
     }
 
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
+    private val linearLayoutManager = LinearLayoutManager(activity)
 
     private val articlesAdapter: ArticlesAdapter by lazy {
         ArticlesAdapter(activity, datas)
@@ -57,7 +57,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     }
 
     override fun initView() {
-        mPresenter=ArticlesPresenter()
+        mPresenter = ArticlesPresenter()
         mPresenter?.attachView(this)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: 0
 
@@ -181,5 +181,6 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        if (BuildConfig.DEBUG) Log.d("Sam", "ArticlesFragment DestroyView.....")
     }
 }

@@ -100,7 +100,7 @@ class MainActivity : BaseActivity() {
                 toolbar.title = getString(R.string.wx_account)
                 if (wxAccountFragment == null) {
                     wxAccountFragment = WxAccountFragment.instance()
-                    transaction.replace(R.id.container, wxAccountFragment!!, "wxaccount")
+                    transaction.add(R.id.container, wxAccountFragment!!, "wxaccount")
                 } else {
                     transaction.show(wxAccountFragment!!)
                 }

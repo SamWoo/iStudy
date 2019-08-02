@@ -1,6 +1,8 @@
 package com.samwoo.istudy.fragment
 
+import android.util.Log
 import com.google.android.material.tabs.TabLayout
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.ProjectPagerAdapter
 import com.samwoo.istudy.base.BaseFragment
@@ -23,7 +25,7 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     }
 
     override fun getLayoutResId(): Int {
-        return R.layout.fragment_tab_viewpager
+        return R.layout.fragment_project
     }
 
     override fun initView() {
@@ -56,7 +58,7 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
             projectTree.addAll(it)
             viewPager.run {
                 adapter = viewPagerAdapter
-                offscreenPageLimit = projectTree.size
+//                offscreenPageLimit = projectTree.size
             }
         }
     }
@@ -72,5 +74,6 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        if (BuildConfig.DEBUG) Log.d("Sam", "ProjectFragment onDestroyView....")
     }
 }

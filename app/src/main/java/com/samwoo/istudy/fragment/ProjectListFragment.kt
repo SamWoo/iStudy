@@ -2,10 +2,12 @@ package com.samwoo.istudy.fragment
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
 import com.samwoo.istudy.adapter.ProjectListAdapter
@@ -48,9 +50,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         activity?.let { SpaceItemDecoration(it) }
     }
 
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
-    }
+    private val linearLayoutManager= LinearLayoutManager(activity)
 
     override fun getLayoutResId(): Int {
         return R.layout.fragment_refresh_layout
@@ -182,5 +182,6 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        if (BuildConfig.DEBUG) Log.d("Sam", "ProjectListFragment DestroyView....")
     }
 }

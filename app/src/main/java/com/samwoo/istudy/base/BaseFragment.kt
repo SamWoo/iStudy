@@ -1,40 +1,63 @@
 package com.samwoo.istudy.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.samwoo.istudy.BuildConfig
 
 abstract class BaseFragment : Fragment() {
-    // 视图是否加载完毕
-    private var isViewPrepare = false
-    //数据是否加载过了
-    private var hasLoadData = false
+    /**
+     * View 的初始化状态，只有初始化完毕才加载数据
+     */
+    private var isViewInitiated: Boolean = false
+    /**
+     * View 能否可见，只有可见时才去加载数据
+     */
+    private var isVisibleToUser: Boolean = false
+    /**
+     * 数据能否已经初始化，避免重复请求数据
+     */
+    private var isDataInitiated: Boolean = false
+
+    private var contentView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(getLayoutResId(), null)
+        if (BuildConfig.DEBUG) Log.d("Sam", "Fragment createView......")
+        if (contentView != null) {
+            (contentView?.parent as ViewGroup)?.removeView(contentView)
+            return contentView
+        }
+        contentView = inflater?.inflate(getLayoutResId(), null)
+        return contentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        isViewPrepare = true
+        isViewInitiated = true
         initView()
-        lazyLoadDataIfPrepared()
+        prepareFetchData()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            lazyLoadDataIfPrepared()
+        this.isVisibleToUser = isVisibleToUser
+        prepareFetchData()
+    }
+
+    private fun prepareFetchData() {
+        if (isViewInitiated && isViewInitiated && !isDataInitiated) {
+            lazyLoad()
+            isDataInitiated = true
         }
     }
 
-    private fun lazyLoadDataIfPrepared() {
-        if (userVisibleHint && isViewPrepare && !hasLoadData) {
-            lazyLoad()
-            hasLoadData = true
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        isViewInitiated = true
+        prepareFetchData()
     }
 
     override fun onDestroy() {
