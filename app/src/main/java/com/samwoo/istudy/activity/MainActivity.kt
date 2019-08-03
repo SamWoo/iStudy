@@ -16,6 +16,7 @@ import com.samwoo.istudy.fragment.ProjectFragment
 import com.samwoo.istudy.fragment.WxAccountFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
@@ -192,6 +193,9 @@ class MainActivity : BaseActivity() {
         when (item?.itemId) {
             R.id.action_search -> {
                 toast("搜索")
+                val intent = intentFor<SearchActivity>()
+                startActivity(intent)
+                true
             }
         }
         return super.onOptionsItemSelected(item)

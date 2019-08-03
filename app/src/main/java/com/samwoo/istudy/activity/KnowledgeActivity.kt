@@ -2,6 +2,7 @@ package com.samwoo.istudy.activity
 
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.google.android.material.tabs.TabLayout
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.KnowledgePagerAdapter
@@ -9,15 +10,19 @@ import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.bean.Knowledge
 import com.samwoo.istudy.bean.KnowledgeTreeBody
 import com.samwoo.istudy.constant.Constant
+import com.samwoo.istudy.fragment.ArticlesFragment
 import kotlinx.android.synthetic.main.activity_knowledge.*
+import kotlinx.android.synthetic.main.activity_knowledge.toolbar
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 class KnowledgeActivity : BaseActivity() {
 
-    private var datas = mutableListOf<Knowledge>()
+    private var knowledges = mutableListOf<Knowledge>()
     private var title: String? = null
+
     private val pagerAdapter: KnowledgePagerAdapter by lazy {
-        KnowledgePagerAdapter(supportFragmentManager, datas)
+        KnowledgePagerAdapter(supportFragmentManager, knowledges)
     }
 
     override fun getLayoutResId(): Int = R.layout.activity_knowledge
@@ -39,6 +44,10 @@ class KnowledgeActivity : BaseActivity() {
             setupWithViewPager(viewPager)
             addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
         }
+
+        fab.run {
+            setOnClickListener(onFabClickListener)
+        }
     }
 
     override fun initData() {
@@ -47,7 +56,7 @@ class KnowledgeActivity : BaseActivity() {
             it.getSerializable(Constant.CONTENT_DATA_KEY).let {
                 val data = it as KnowledgeTreeBody
                 data.children.let { children ->
-                    datas.addAll(children)
+                    knowledges.addAll(children)
                 }
             }
         }
@@ -62,10 +71,18 @@ class KnowledgeActivity : BaseActivity() {
         when (item?.itemId) {
             R.id.action_search -> {
                 toast(getString(R.string.action_search))
+                val intent = intentFor<SearchActivity>()
+                startActivity(intent)
                 true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    //浮点按钮事件监听
+    private val onFabClickListener = View.OnClickListener {
+        if (pagerAdapter.count == 0) return@OnClickListener
+        val fragment: ArticlesFragment = pagerAdapter.getItem(viewPager.currentItem) as ArticlesFragment
+        fragment.scrollToTop()
+    }
 }

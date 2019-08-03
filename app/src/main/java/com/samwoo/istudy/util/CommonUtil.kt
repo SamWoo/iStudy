@@ -1,6 +1,7 @@
 package com.samwoo.istudy.util
 
 import android.app.Activity
+import android.graphics.Color
 import android.view.ViewGroup
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
@@ -37,4 +38,17 @@ fun String.getAgentWeb(
 fun formatCurrentDate(): String {
     val formatter = SimpleDateFormat("yyyy-MM-dd")
     return formatter.format(Date())
+}
+
+/**
+ * 获取随机rgb颜色值
+ */
+fun randomColor(): Int {
+    val random = Random()
+    val COLOR_VALUE: Int = 240
+    var red = random.nextInt(COLOR_VALUE)
+    var green = random.nextInt(COLOR_VALUE)
+    var blue = random.nextInt(COLOR_VALUE)
+
+    return Color.rgb(red, green, blue)
 }

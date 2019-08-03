@@ -8,8 +8,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResId())
+        initData() //先加载数据，否则adapter获取不到数据
         initView()
-        initData()
     }
 
     override fun onStart() {

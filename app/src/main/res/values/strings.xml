@@ -27,13 +27,18 @@
     <string name="wx_account">公众号</string>
     <string name="new_fresh">置顶</string>
 
-    !-- Menu Action -->
+   <!-- Menu Action -->
     <string name="action_search">搜索</string>
     <string name="action_share">分享</string>
     <string name="action_like">收藏</string>
     <string name="action_browser">用浏览器打开</string>
 
+    <!--Hot search-->
+    <string name="hot_key">热门搜索</string>
+    <string name="search_history">搜索历史</string>
+    <string name="clear_all">清空</string>
+    <string name="search_hint">发现更多干货</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="fragment_empty">No datas!!</string>
-    <string name="title_activity_content">ContentActivity</string>
 </resources>

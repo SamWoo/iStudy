@@ -2,6 +2,7 @@ package com.samwoo.istudy.bean
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import org.litepal.crud.LitePalSupport
 import java.io.Serializable
 
 //返回体
@@ -139,3 +140,8 @@ data class HotKey(
     val order: Int,
     val visible: Int
 ) : Parcelable
+
+//搜索历史
+data class SearchHistoryBean(val key: String) : LitePalSupport() {
+    val id: Long = 0
+}

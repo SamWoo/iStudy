@@ -1,9 +1,7 @@
 package com.samwoo.istudy.api
 
 import com.samwoo.istudy.bean.*
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import rx.Observable
 
 interface ApiService {
@@ -41,7 +39,7 @@ interface ApiService {
      * https://wanandroid.com/wxarticle/list/408/1/json
      */
     @GET("/wxarticle/list/{cid}/{curPage}/json")
-    fun getArticles(@Path("cid") cid:Int, @Path("curPage") curPage: Int):Observable<HttpResult<ArticlesListBean>>
+    fun getArticles(@Path("cid") cid: Int, @Path("curPage") curPage: Int): Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 项目数据
@@ -58,4 +56,21 @@ interface ApiService {
      */
     @GET("/project/list/{curPage}/json")
     fun getProjectList(@Path("curPage") curPage: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticlesListBean>>
+
+    /**
+     * 搜索热词
+     * https://www.wanandroid.com//hotkey/json
+     */
+    @GET("/hotkey/json")
+    fun getHotKey(): Observable<HttpResult<List<HotKey>>>
+
+    /**
+     * 搜索
+     * http://www.wanandroid.com/article/query/0/json
+     * @param page
+     * @param key
+     */
+    @POST("/article/query/{page}/json")
+    @FormUrlEncoded
+    fun queryByKey(@Path("page") page: Int, @Field("k") key: String): Observable<HttpResult<ArticlesListBean>>
 }

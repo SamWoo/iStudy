@@ -26,6 +26,10 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (BuildConfig.DEBUG) Log.d("Sam", "Fragment createView......")
+        /**
+         * 以下代码主要解决viewpager中有多个fragment时预加载导致OOM leaked问题
+         * 设置下面代码则无需再在viewpager中设置offscreenPageLimit的值
+         */
         if (contentView != null) {
             (contentView?.parent as ViewGroup)?.removeView(contentView)
             return contentView

@@ -19,7 +19,7 @@ import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
 
-object NetUtil {
+object RequestUtil {
     private val DEFAULT_TIMEOUT: Long = 60
     private val DEFAULT_TIMEOUT_WRITE: Long = 60
     private var retrofit: Retrofit? = null
@@ -29,7 +29,7 @@ object NetUtil {
 //    private var token:String by Preference("token","")
     private fun getRetrofit(): Retrofit? {
         if (retrofit == null) {
-            synchronized(NetUtil::class.java) {
+            synchronized(RequestUtil::class.java) {
                 if (retrofit == null) {
                     retrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)

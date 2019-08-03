@@ -15,7 +15,6 @@ import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.KnowledgeTreeContract
 import com.samwoo.istudy.mvp.presenter.KnowledgeTreePresenter
 import com.samwoo.istudy.widget.SpaceItemDecoration
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast

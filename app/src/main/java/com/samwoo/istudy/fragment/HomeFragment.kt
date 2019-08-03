@@ -59,71 +59,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     private var mPresenter: HomePresenter? = null
 
-    override fun scrollToTop() {
-        recyclerView.run {
-            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 20) {
-                scrollToPosition(0)
-            } else {
-                smoothScrollToPosition(0)
-            }
-        }
-    }
-
-    override fun setBanner(bannerData: BannerList) {
-        banners = bannerData.data
-        val bannerFeedList = ArrayList<String>()
-        val bannerTitleList = ArrayList<String>()
-        for (item in banners) {
-            bannerFeedList.add(item.imagePath)
-            bannerTitleList.add(item.title)
-        }
-        bannerView?.banner?.run {
-            setAutoPlayAble(bannerFeedList.size > 1)
-            setData(bannerFeedList, bannerTitleList)
-            setAdapter(bannerAdapter)
-        }
-    }
-
-    override fun setArticles(result: ArticlesListBean) {
-        result.datas.let {
-            homeAdapter.run {
-                if (isRefresh) {
-                    replaceData(it)
-                } else {
-                    addData(it)
-                }
-                val size = it.size
-                if (size < result.size) {
-                    loadMoreEnd(isRefresh)
-                } else {
-                    loadMoreComplete()
-                }
-            }
-        }
-    }
-
-    override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
-    }
-
-    override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
-        if (isRefresh) {
-            homeAdapter.run {
-                setEnableLoadMore(true)
-            }
-        }
-    }
-
-    override fun showError(errorMsg: String) {
-        homeAdapter.run {
-            if (isRefresh) {
-                setEnableLoadMore(true)
-            } else {
-                loadMoreFail()
-            }
-        }
-    }
 
     override fun getLayoutResId(): Int {
         return R.layout.fragment_refresh_layout
@@ -211,6 +146,73 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             activity?.toast("$data")
         }
     }
+
+    override fun scrollToTop() {
+        recyclerView.run {
+            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
+    }
+
+    override fun setBanner(bannerData: BannerList) {
+        banners = bannerData.data
+        val bannerFeedList = ArrayList<String>()
+        val bannerTitleList = ArrayList<String>()
+        for (item in banners) {
+            bannerFeedList.add(item.imagePath)
+            bannerTitleList.add(item.title)
+        }
+        bannerView?.banner?.run {
+            setAutoPlayAble(bannerFeedList.size > 1)
+            setData(bannerFeedList, bannerTitleList)
+            setAdapter(bannerAdapter)
+        }
+    }
+
+    override fun setArticles(result: ArticlesListBean) {
+        result.datas.let {
+            homeAdapter.run {
+                if (isRefresh) {
+                    replaceData(it)
+                } else {
+                    addData(it)
+                }
+                val size = it.size
+                if (size < result.size) {
+                    loadMoreEnd(isRefresh)
+                } else {
+                    loadMoreComplete()
+                }
+            }
+        }
+    }
+
+    override fun showLoading() {
+        swipeRefreshLayout.isRefreshing = isRefresh
+    }
+
+    override fun hideLoading() {
+        swipeRefreshLayout?.isRefreshing = false
+        if (isRefresh) {
+            homeAdapter.run {
+                setEnableLoadMore(true)
+            }
+        }
+    }
+
+    override fun showError(errorMsg: String) {
+        homeAdapter.run {
+            if (isRefresh) {
+                setEnableLoadMore(true)
+            } else {
+                loadMoreFail()
+            }
+        }
+    }
+
 
     //BannerClickListener
     private val bannerDelegate = BGABanner.Delegate<ImageView, String> { _, _, _, position ->
