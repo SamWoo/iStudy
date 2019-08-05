@@ -97,13 +97,29 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         mPresenter.queryHistory()
     }
 
+    /**
+     * 监听点击item事件
+     */
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        queryByKey(searchHistory[position].key)
+        if (searchHistoryAdapter.data.size != 0) {
+            val item = searchHistoryAdapter.data[position]
+            queryByKey(item.key)
+        }
     }
 
-    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, _, position ->
-        val id = searchHistory[position].id
-        mPresenter.deleteById(id)
+    /**
+     * 监听点击item子控件事件
+     */
+    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
+        if (searchHistoryAdapter.data.size != 0) {
+            val item = searchHistoryAdapter.data[position]
+            when (view.id) {
+                R.id.iv_clear -> {
+                    mPresenter.deleteById(item.id)
+                    searchHistoryAdapter.remove(position)
+                }
+            }
+        }
     }
 
     override fun initData() {
@@ -131,7 +147,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     }
 
     override fun showSearchHistory(data: List<SearchHistoryBean>) {
-        Log.d("Sam","history---->$data")
+        Log.d("Sam", "history---->$data")
         data.let {
             searchHistoryAdapter.run {
                 replaceData(it)
@@ -187,6 +203,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         }
 
         override fun onQueryTextSubmit(query: String?): Boolean {
+            // 文本提交或点击输入法搜索图标的时候回调
             queryByKey(query.toString())
             return false
         }

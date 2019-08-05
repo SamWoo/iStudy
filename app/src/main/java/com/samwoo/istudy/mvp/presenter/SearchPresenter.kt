@@ -10,6 +10,7 @@ import com.samwoo.istudy.mvp.contract.SearchContract
 import com.samwoo.istudy.mvp.model.SearchModel
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import org.litepal.BuildConfig
 import org.litepal.LitePal
 
 class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Presenter {
@@ -51,7 +52,7 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
             val beans = LitePal.where("key='${key.trim()}'").find(SearchHistoryBean::class.java)
             if (beans.size != 0) deleteById(beans[0].id)
             historyBean.save()
-            Log.d("Sam", "save bean--->${key.trim()}/${historyBean}")
+            if(BuildConfig.DEBUG) Log.d("Sam", "save bean--->${key.trim()}/${historyBean}")
         }
     }
 

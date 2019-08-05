@@ -32,7 +32,7 @@ class ArticlesAdapter(private val context: Context?, datas: MutableList<Article>
             item.chapterName.isNotEmpty() -> item.chapterName
             else -> ""
         }
-        helper.setText(R.id.tv_article_chapterName, chapterName)
+//        helper.setText(R.id.tv_article_chapterName, chapterName)
 
         if (item.envelopePic.isNotEmpty()) {
             helper.getView<ImageView>(R.id.iv_article_thumbnail).visibility = View.VISIBLE

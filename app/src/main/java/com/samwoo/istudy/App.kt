@@ -2,6 +2,7 @@ package com.samwoo.istudy
 
 import android.app.Application
 import android.content.Context
+import org.litepal.LitePal
 import kotlin.properties.Delegates
 
 class App : Application() {
@@ -16,5 +17,7 @@ class App : Application() {
         super.onCreate()
         instance = this
         context = applicationContext
+        // LitePal
+        LitePal.initialize(this)
     }
 }
