@@ -212,7 +212,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     fun queryByKey(key: String) {
         toast("关键词--->$key")
         mPresenter.saveSearchKey(key)
-        searchHistoryAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroy() {

@@ -35,11 +35,13 @@ interface ApiService {
     fun getWxAccount(): Observable<HttpResult<List<WxAccountBody>>>
 
     /**
-     * 查看某个公众号历史数据
-     * https://wanandroid.com/wxarticle/list/408/1/json
+     *  获取知识体系下的文章 或 查看某个公众号历史数据
+     * https://www.wanandroid.com/article/list/0/json?cid=60
+     * @param curPage
+     * @param cid
      */
-    @GET("/wxarticle/list/{cid}/{curPage}/json")
-    fun getArticles(@Path("cid") cid: Int, @Path("curPage") curPage: Int): Observable<HttpResult<ArticlesListBean>>
+    @GET("/article/list/{curPage}/json")
+    fun getArticleList(@Path("curPage") curPage: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 项目数据
@@ -51,8 +53,8 @@ interface ApiService {
     /**
      * 项目列表数据
      * http://www.wanandroid.com/project/list/1/json?cid=294
-     * @param page
-     * @param cid
+     * @param curPage
+     * @param cid 分类的id，上述二级目录的id
      */
     @GET("/project/list/{curPage}/json")
     fun getProjectList(@Path("curPage") curPage: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticlesListBean>>

@@ -1,15 +1,23 @@
 package com.samwoo.istudy.activity
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.Window
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.widget.LinearLayout
+import androidx.core.view.isNotEmpty
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
+import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.constant.Constant
@@ -29,12 +37,6 @@ class ContentActivity : BaseActivity() {
     }
 
     override fun initView() {
-        intent.extras?.let {
-            id = it.getInt(Constant.CONTENT_ID_KEY, -1)
-            title = it.getString(Constant.CONTENT_TITLE_KEY, "")
-            url = it.getString(Constant.CONTENT_URL_KEY, "")
-        }
-
         toolbar.run {
             title = ""
             setSupportActionBar(this)
@@ -44,7 +46,13 @@ class ContentActivity : BaseActivity() {
         initAgentWeb()
     }
 
-    override fun initData() {}
+    override fun initData() {
+        intent.extras?.let {
+            id = it.getInt(Constant.CONTENT_ID_KEY, -1)
+            title = it.getString(Constant.CONTENT_TITLE_KEY, "")
+            url = it.getString(Constant.CONTENT_URL_KEY, "")
+        }
+    }
 
     fun initAgentWeb() {
         agentWeb = url.getAgentWeb(
@@ -80,6 +88,15 @@ class ContentActivity : BaseActivity() {
         when (item?.itemId) {
             R.id.action_share -> {
                 toast("Share it!!")
+                Intent().run {
+                    this.action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        getString(R.string.share_text, getString(R.string.app_name), title, url)
+                    )
+                    type = Constant.CONTENT_SHARE_TYPE
+                    startActivity(Intent.createChooser(this, getString(R.string.action_share)))
+                }
                 true
             }
             R.id.action_like -> {
@@ -88,10 +105,56 @@ class ContentActivity : BaseActivity() {
             }
             R.id.action_browser -> {
                 toast("Browser it!!")
+                Intent().run {
+                    action = "android.intent.action.VIEW"
+                    data = Uri.parse(url)
+                    startActivity(this)
+                }
                 true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * 默认情况下如果隐藏了Menu item则其下面的icon是不显示的，可以通过反射显示menu下面的icon图标
+     */
+    override fun onMenuOpened(featureId: Int, menu: Menu?): Boolean {
+        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+            if (menu.javaClass.simpleName == "MenuBuilder") {
+                try {
+                    val method = menu.javaClass.getDeclaredMethod("setOptionnalIconVisible", Boolean::class.java)
+                    method.run {
+                        isAccessible = true
+                        invoke(menu, true)
+                    }
+                } catch (e: Exception) {
+                    if (BuildConfig.DEBUG) Log.d("Sam", "$e")
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu)
+    }
+
+    /**
+     * 如果你是用的是AppCompactActivity，可以使用下面的方法
+     */
+    @SuppressLint("RestrictedApi")
+    override fun onPrepareOptionsPanel(view: View?, menu: Menu?): Boolean {
+        if (menu!!.isNotEmpty()) {
+            if (menu.javaClass.simpleName == "MenuBuilder") {
+                try {
+                    val method = menu.javaClass.getDeclaredMethod("setOptionnalIconVisible", Boolean::class.java)
+                    method.run {
+                        isAccessible = true
+                        invoke(menu, true)
+                    }
+                } catch (e: Exception) {
+                    if (BuildConfig.DEBUG) Log.d("Sam", "$e")
+                }
+            }
+        }
+        return super.onPrepareOptionsPanel(view, menu)
     }
 
     override fun onPause() {

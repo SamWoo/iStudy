@@ -11,6 +11,7 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/dp_1"
     app:cardElevation="@dimen/dp_1">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:drawableLeft="@mipmap/time"
+            android:drawablePadding="@dimen/dp_4"
             android:textColor="@color/item_desc"
             tools:text="TextView" />
 

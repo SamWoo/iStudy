@@ -8,5 +8,7 @@ object Constant {
     const val CONTENT_ID_KEY = "id"
     const val CONTENT_CID_KEY = "cid"
     const val CONTENT_DATA_KEY = "data"
+    
+    const val CONTENT_SHARE_TYPE="text/plain"
 
 }

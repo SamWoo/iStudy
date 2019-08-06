@@ -10,6 +10,6 @@ interface ArticlesContract {
     }
 
     interface Presenter {
-        fun getArticles(id: Int, curPage: Int)
+        fun getArticleList(curPage: Int, id: Int)
     }
 }

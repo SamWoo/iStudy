@@ -39,8 +39,7 @@
             android:maxLines="2"
             android:paddingBottom="@dimen/dp_8"
             android:textColor="@color/item_title"
-            android:textSize="@dimen/item_tv_title"
-            android:textStyle="bold" />
+            android:textSize="@dimen/item_tv_title" />
 
         <TextView
             android:id="@+id/tv_article_author"

@@ -22,6 +22,12 @@ import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
+/**
+ * 1. 知识体系下的文章  https://www.wanandroid.com/article/list/0/json?cid=60
+ * 2. 查看某个公众号历史数据  https://wanandroid.com/wxarticle/list/408/1/json
+ * 因1,2
+ */
+
 class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     companion object {
         fun instance(cid: Int): ArticlesFragment {
@@ -94,14 +100,14 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         isRefresh = true
-        mPresenter?.getArticles(cid, 1)
+        mPresenter?.getArticleList(0, cid)
     }
 
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = datas.size / 20 + 1
-        mPresenter?.getArticles(cid, page)
+        mPresenter?.getArticleList(page, cid)
     }
 
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
@@ -124,7 +130,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter?.getArticles(cid, 1)
+        mPresenter?.getArticleList(0, cid)
     }
 
     override fun scrollToTop() {

@@ -11,11 +11,11 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class ArticlesModel {
-    fun getArticles(id:Int, curPage:Int, callback: Callback<HttpResult<ArticlesListBean>, String>){
-        RequestUtil.service.getArticles(id, curPage)
+    fun getArticleList(curPage: Int, id: Int, callback: Callback<HttpResult<ArticlesListBean>, String>) {
+        RequestUtil.service.getArticleList(curPage, id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object :Subscriber<HttpResult<ArticlesListBean>>(){
+            .subscribe(object : Subscriber<HttpResult<ArticlesListBean>>() {
                 override fun onNext(result: HttpResult<ArticlesListBean>?) {
                     if (BuildConfig.DEBUG) Log.d("Sam", "wxarticles-------->${result}")
                     when {
