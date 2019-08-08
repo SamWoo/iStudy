@@ -77,4 +77,6 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     //LitePal
     implementation 'org.litepal.android:kotlin:3.0.0'
+    //VerticalTabLayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
 }

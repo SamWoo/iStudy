@@ -75,4 +75,13 @@ interface ApiService {
     @POST("/article/query/{page}/json")
     @FormUrlEncoded
     fun queryByKey(@Path("page") page: Int, @Field("k") key: String): Observable<HttpResult<ArticlesListBean>>
+
+    /**
+     * 导航
+     * https://www.wanandroid.com/navi/json
+     * @method GET
+     * @param null
+     */
+    @GET("/navi/json")
+    fun getNavList(): Observable<HttpResult<List<NavigationBean>>>
 }

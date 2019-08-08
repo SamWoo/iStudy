@@ -78,8 +78,9 @@ data class Banner(
     val url: String
 ) : Parcelable
 
-//知识体系
-
+/**
+ * 知识体系
+ */
 data class KnowledgeTreeBody(
     val children: MutableList<Knowledge>,
     val courseId: Int,
@@ -116,6 +117,14 @@ data class WxAccountBody(
     val visible: Int
 )
 
+/**
+ * 导航数据Navigation
+ */
+data class NavigationBean(
+    val articles: MutableList<Article>,
+    val cid: Int,
+    val name: String
+)
 
 /**
  * ProjectTree

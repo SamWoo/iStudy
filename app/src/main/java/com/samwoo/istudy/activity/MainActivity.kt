@@ -10,10 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
-import com.samwoo.istudy.fragment.HomeFragment
-import com.samwoo.istudy.fragment.KnowledgeTreeFragment
-import com.samwoo.istudy.fragment.ProjectFragment
-import com.samwoo.istudy.fragment.WxAccountFragment
+import com.samwoo.istudy.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.intentFor
@@ -23,6 +20,7 @@ class MainActivity : BaseActivity() {
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
     private val FRAGMENT_WX_ACCOUNT = 0x03
+    private val FRAGMENT_NAVIGATION = 0X04
     private val FRAGMENT_PROJECT = 0x05
 
 
@@ -31,6 +29,7 @@ class MainActivity : BaseActivity() {
     private var homeFragment: HomeFragment? = null
     private var knowledgeTreeFragment: KnowledgeTreeFragment? = null
     private var wxAccountFragment: WxAccountFragment? = null
+    private var navigationFragment: NavigationFragment? = null
     private var projectFragment: ProjectFragment? = null
 
     override fun getLayoutResId(): Int {
@@ -106,6 +105,15 @@ class MainActivity : BaseActivity() {
                     transaction.show(wxAccountFragment!!)
                 }
             }
+            FRAGMENT_NAVIGATION -> {
+                toolbar.title = getString(R.string.navigation)
+                if (navigationFragment == null) {
+                    navigationFragment = NavigationFragment.instance()
+                    transaction.add(R.id.container, navigationFragment!!, "navigation")
+                } else {
+                    transaction.show(navigationFragment!!)
+                }
+            }
             FRAGMENT_PROJECT -> {
                 toolbar.title = getString(R.string.project)
                 if (projectFragment == null) {
@@ -123,6 +131,7 @@ class MainActivity : BaseActivity() {
         homeFragment?.let { transaction.hide(it) }
         knowledgeTreeFragment?.let { transaction.hide(it) }
         wxAccountFragment?.let { transaction.hide(it) }
+        navigationFragment?.let { transaction.hide(it) }
         projectFragment?.let { transaction.hide(it) }
     }
 
@@ -140,6 +149,10 @@ class MainActivity : BaseActivity() {
             }
             R.id.action_wx_account -> {
                 showFragment(FRAGMENT_WX_ACCOUNT)
+                true
+            }
+            R.id.action_navigation -> {
+                showFragment(FRAGMENT_NAVIGATION)
                 true
             }
             R.id.action_project -> {

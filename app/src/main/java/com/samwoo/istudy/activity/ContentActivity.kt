@@ -43,6 +43,11 @@ class ContentActivity : BaseActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
+        //必须设置为True,否则跑马灯无效
+        tb_title.apply {
+            isSelected = true
+        }
+
         initAgentWeb()
     }
 
@@ -64,7 +69,8 @@ class ContentActivity : BaseActivity() {
     private val mWebChromeClient = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView?, title: String?) {
             super.onReceivedTitle(view, title)
-            toolbar.title = title
+//            toolbar.title = title
+            tb_title.text = title
         }
     }
 
@@ -121,15 +127,16 @@ class ContentActivity : BaseActivity() {
      */
     override fun onMenuOpened(featureId: Int, menu: Menu?): Boolean {
         if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
-            if (menu.javaClass.simpleName == "MenuBuilder") {
+            if (menu::class.java.simpleName == "MenuBuilder") {
                 try {
-                    val method = menu.javaClass.getDeclaredMethod("setOptionnalIconVisible", Boolean::class.java)
+                    val method =
+                        menu::class.java.getDeclaredMethod("setOptionalIconsVisible", java.lang.Boolean.TYPE)
                     method.run {
                         isAccessible = true
                         invoke(menu, true)
                     }
                 } catch (e: Exception) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "$e")
+                    if (BuildConfig.DEBUG) Log.d("Sam", "onMenuOpened--->$e")
                 }
             }
         }
@@ -144,13 +151,14 @@ class ContentActivity : BaseActivity() {
         if (menu!!.isNotEmpty()) {
             if (menu.javaClass.simpleName == "MenuBuilder") {
                 try {
-                    val method = menu.javaClass.getDeclaredMethod("setOptionnalIconVisible", Boolean::class.java)
+                    val method =
+                        menu.javaClass.getDeclaredMethod("setOptionalIconsVisible", java.lang.Boolean.TYPE)
                     method.run {
                         isAccessible = true
                         invoke(menu, true)
                     }
                 } catch (e: Exception) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "$e")
+                    if (BuildConfig.DEBUG) Log.d("Sam", "onPrepareOptionsPanel--->$e")
                 }
             }
         }

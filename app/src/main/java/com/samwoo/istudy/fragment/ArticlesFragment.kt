@@ -106,7 +106,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = datas.size / 20 + 1
+        val page = datas.size / 20
         mPresenter?.getArticleList(page, cid)
     }
 
@@ -144,7 +144,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     }
 
     override fun setArticles(list: ArticlesListBean) {
-        list?.datas.let {
+        list.datas.let {
             articlesAdapter.run {
                 if (isRefresh) {
                     replaceData(it)

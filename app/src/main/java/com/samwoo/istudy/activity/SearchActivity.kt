@@ -16,6 +16,7 @@ import com.samwoo.istudy.adapter.SearchHistoryAdapter
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.bean.HotKey
 import com.samwoo.istudy.bean.SearchHistoryBean
+import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.SearchContract
 import com.samwoo.istudy.mvp.presenter.SearchPresenter
 import com.samwoo.istudy.util.randomColor
@@ -23,6 +24,7 @@ import com.samwoo.istudy.widget.SpaceItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 class SearchActivity : BaseActivity(), SearchContract.View {
@@ -212,6 +214,11 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     fun queryByKey(key: String) {
         toast("关键词--->$key")
         mPresenter.saveSearchKey(key)
+        val intent = intentFor<GeneralActivity>(
+            Pair(Constant.TYPE_KEY, Constant.TYPE.SEARCH_TYPE_KEY),
+            Pair(Constant.SEARCH_KEY, key.trim())
+        )
+        startActivity(intent)
     }
 
     override fun onDestroy() {
