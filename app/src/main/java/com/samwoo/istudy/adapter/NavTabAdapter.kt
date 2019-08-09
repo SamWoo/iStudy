@@ -25,7 +25,7 @@ class NavTabAdapter(val context: Context?, val list: List<NavigationBean>) : Tab
             .setContent(list[position].name)
             .setTextColor(
                 ContextCompat.getColor(context!!, R.color.Red),
-                ContextCompat.getColor(context!!, R.color.white)
+                ContextCompat.getColor(context!!, R.color.Black)
             )
             .build()
     }

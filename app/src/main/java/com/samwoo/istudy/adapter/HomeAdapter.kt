@@ -16,15 +16,19 @@ class HomeAdapter(private val context: Context?, datas: MutableList<Article>) :
     override fun convert(helper: BaseViewHolder?, item: Article?) {
         item ?: return
         helper ?: return
-        helper.setText(R.id.tv_article_title, Html.fromHtml(item.title))
-            .setText(R.id.tv_article_author, item.author)
-            .setText(R.id.tv_article_date, item.niceDate)
-            .setImageResource(R.id.iv_like, if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not)
-            .addOnClickListener(R.id.iv_like)
+        helper.apply {
+            setText(R.id.tv_article_title, Html.fromHtml(item.title))
+            setText(R.id.tv_article_author, item.author)
+            setText(R.id.tv_article_date, item.niceDate)
+            setImageResource(R.id.iv_like, if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not)
+            addOnClickListener(R.id.iv_like)
+        }
 
         if (item.chapterName.isNotEmpty()) {
-            helper.setText(R.id.tv_article_chapterName, item.chapterName)
-            helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.VISIBLE
+            helper.apply {
+                setText(R.id.tv_article_chapterName, item.chapterName)
+                getView<TextView>(R.id.tv_article_chapterName).visibility = View.VISIBLE
+            }
         } else {
             helper.getView<TextView>(R.id.tv_article_chapterName).visibility = View.INVISIBLE
         }

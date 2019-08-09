@@ -190,6 +190,9 @@ class MainActivity : BaseActivity() {
             FRAGMENT_WX_ACCOUNT -> {
                 wxAccountFragment?.scrollToTop()
             }
+            FRAGMENT_NAVIGATION -> {
+                navigationFragment?.scrollToTop()
+            }
             FRAGMENT_PROJECT -> {
                 projectFragment?.scrollToTop()
             }
