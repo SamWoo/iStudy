@@ -21,7 +21,7 @@ class SearchResultModel {
                     if (BuildConfig.DEBUG) Log.d("Sam", "$result")
                     when {
                         result == null -> callback.onFail("数据为空!")
-                        result.errorCode != 0 -> callback.onFail("Bad Request!! errorCode=${result.errorCode}")
+                        result.errorCode != 0 -> callback.onFail("Bad Request!! errorMsg=${result.errorMsg}")
                         else -> callback.onSuccess(result)
                     }
                 }

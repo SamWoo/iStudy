@@ -1,6 +1,8 @@
 package com.samwoo.istudy.adapter
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
@@ -37,8 +39,8 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
                     tv.apply {
                         text = articles[position].title
                         setTextColor(resources.getColor(R.color.white))
-//                        background = resources.getDrawable(R.drawable.tag_flow_bg)
-                        setBackgroundColor(randomColor())
+                        background = getBackGround()
+//                        setBackgroundColor(randomColor())
                     }
 
                     return tv
@@ -60,5 +62,15 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
         }
     }
 
-
+    /**
+     * 随机获取标签背景颜色
+     */
+    private fun getBackGround(): Drawable {
+        val drawable = GradientDrawable()
+        drawable.apply {
+//            cornerRadius = 8f
+            setColor(randomColor())
+        }
+        return drawable
+    }
 }

@@ -1,5 +1,7 @@
 package com.samwoo.istudy.activity
 
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.SearchHistoryAdapter
@@ -24,6 +27,7 @@ import com.samwoo.istudy.widget.SpaceItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -46,6 +50,10 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     private val recyclerViewItemDecoration by lazy {
         SpaceItemDecoration(this)
+    }
+
+    override fun useEventBus(): Boolean {
+        return false
     }
 
     override fun getLayoutResId(): Int {
@@ -73,7 +81,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
         rv_search_history.apply {
             layoutManager = linearLayoutManager
-            itemAnimator = DefaultItemAnimator()
+            itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator
             adapter = searchHistoryAdapter
         }
 
@@ -85,9 +93,17 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         }
 
         search_history_clear.setOnClickListener {
-            searchHistory.clear()
-            searchHistoryAdapter.replaceData(searchHistory)
-            mPresenter.clearAllHistory()
+            alert(R.string.clear_all_history, R.string.clear_history) {
+                positiveButton(getString(R.string.confirm)) {
+                    searchHistory.clear()
+                    searchHistoryAdapter.replaceData(searchHistory)
+                    mPresenter.clearAllHistory()
+                }
+                negativeButton(getString(R.string.cancel)) {
+                    dismiss()
+                }
+            }.show()
+
         }
 
         // 获取搜索热词
@@ -142,10 +158,20 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             tv.apply {
                 text = hotKey?.name
                 setTextColor(resources.getColor(R.color.white))
-                setBackgroundColor(randomColor())
+//                setBackgroundColor(randomColor())
+                background = getBackGround()
             }
             return tv
         }
+    }
+
+    private fun getBackGround(): Drawable {
+        val drawable = GradientDrawable()
+        drawable.apply {
+            cornerRadius = 8f
+            setColor(randomColor())
+        }
+        return drawable
     }
 
     override fun showSearchHistory(data: List<SearchHistoryBean>) {
@@ -219,6 +245,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             Pair(Constant.SEARCH_KEY, key.trim())
         )
         startActivity(intent)
+        overridePendingTransition(R.anim.left_in, R.anim.right_out)
     }
 
     override fun onDestroy() {

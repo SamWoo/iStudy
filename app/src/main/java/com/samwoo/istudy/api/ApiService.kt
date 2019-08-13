@@ -12,7 +12,9 @@ interface ApiService {
      * 参数：页码，拼接在连接中，从0开始。
      **/
     @GET("/article/list/{curPage}/json")
-    fun getArticles(@Path("curPage") pageNum: Int): Observable<HttpResult<ArticlesListBean>>
+    fun getArticles(
+        @Path("curPage") pageNum: Int
+    ): Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 首页Banner
@@ -41,7 +43,10 @@ interface ApiService {
      * @param cid
      */
     @GET("/article/list/{curPage}/json")
-    fun getArticleList(@Path("curPage") curPage: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticlesListBean>>
+    fun getArticleList(
+        @Path("curPage") curPage: Int,
+        @Query("cid") cid: Int
+    ): Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 项目数据
@@ -57,7 +62,10 @@ interface ApiService {
      * @param cid 分类的id，上述二级目录的id
      */
     @GET("/project/list/{curPage}/json")
-    fun getProjectList(@Path("curPage") curPage: Int, @Query("cid") cid: Int): Observable<HttpResult<ArticlesListBean>>
+    fun getProjectList(
+        @Path("curPage") curPage: Int,
+        @Query("cid") cid: Int
+    ): Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 搜索热词
@@ -74,7 +82,10 @@ interface ApiService {
      */
     @POST("/article/query/{page}/json")
     @FormUrlEncoded
-    fun queryByKey(@Path("page") page: Int, @Field("k") key: String): Observable<HttpResult<ArticlesListBean>>
+    fun queryByKey(
+        @Path("page") page: Int,
+        @Field("k") key: String
+    ): Observable<HttpResult<ArticlesListBean>>
 
     /**
      * 导航
@@ -84,4 +95,34 @@ interface ApiService {
      */
     @GET("/navi/json")
     fun getNavList(): Observable<HttpResult<List<NavigationBean>>>
+
+    /**
+     * 登录
+     * https://www.wanandroid.com/user/login
+     * @method POST
+     * @param username
+     * @param password
+     */
+    @POST("/user/login")
+    @FormUrlEncoded
+    fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): Observable<HttpResult<LoginData>>
+
+    /**
+     * 注册
+     * https://www.wanandroid.com/user/register
+     * @method POST
+     * @param username
+     * @param password
+     * @param repassword
+     */
+    @POST("/user/register")
+    @FormUrlEncoded
+    fun register(
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("repassword") repassword: String
+    ): Observable<HttpResult<LoginData>>
 }

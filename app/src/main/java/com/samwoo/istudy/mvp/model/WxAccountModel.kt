@@ -20,7 +20,7 @@ class WxAccountModel {
                         if (BuildConfig.DEBUG) Log.d("Sam", "wxaccount-------->${result}")
                         when {
                             result == null -> callback.onFail("Error!!")
-                            result.errorCode != 0 -> callback.onFail("errorCode=" + result.errorCode)
+                            result.errorCode != 0 -> callback.onFail("errorCode=${result.errorMsg}")
                             else -> callback.onSuccess(result)
                         }
                     }

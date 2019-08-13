@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_login_page.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.startActivityForResult
 
 class LoginPageActivity : AppCompatActivity() {
     private val mRequestCode = 0

@@ -25,6 +25,10 @@ class KnowledgeActivity : BaseActivity() {
         KnowledgePagerAdapter(supportFragmentManager, knowledges)
     }
 
+    override fun useEventBus(): Boolean {
+        return false
+    }
+
     override fun getLayoutResId(): Int = R.layout.activity_knowledge
 
     override fun initView() {

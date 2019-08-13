@@ -57,15 +57,12 @@ class SplashActivity : AppCompatActivity() {
 
     private val animator = object : Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onAnimationCancel(animation: Animator?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onAnimationStart(animation: Animator?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onAnimationEnd(animation: Animator?) {
@@ -73,6 +70,5 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
 }

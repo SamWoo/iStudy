@@ -1,6 +1,5 @@
 package com.samwoo.istudy.activity
 
-import androidx.fragment.app.Fragment
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.constant.Constant
@@ -8,6 +7,10 @@ import com.samwoo.istudy.fragment.SearchResultFragment
 import kotlinx.android.synthetic.main.activity_general.*
 
 class GeneralActivity : BaseActivity() {
+
+    override fun useEventBus(): Boolean {
+        return false
+    }
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_general

@@ -78,9 +78,7 @@ data class Banner(
     val url: String
 ) : Parcelable
 
-/**
- * 知识体系
- */
+//知识体系
 data class KnowledgeTreeBody(
     val children: MutableList<Knowledge>,
     val courseId: Int,
@@ -103,9 +101,7 @@ data class Knowledge(
     val visible: Int
 ) : Serializable
 
-/**
- * WxAccount
- */
+//WxAccount
 data class WxAccountBody(
     val children: MutableList<Any>,
     val courseId: Int,
@@ -117,18 +113,14 @@ data class WxAccountBody(
     val visible: Int
 )
 
-/**
- * 导航数据Navigation
- */
+//导航数据Navigation
 data class NavigationBean(
     val articles: MutableList<Article>,
     val cid: Int,
     val name: String
 )
 
-/**
- * ProjectTree
- */
+//ProjectTree
 data class ProjectTreeBody(
     val children: MutableList<Any>,
     val courseId: Int,
@@ -154,3 +146,18 @@ data class HotKey(
 data class SearchHistoryBean(val key: String) : LitePalSupport() {
     val id: Long = 0
 }
+
+//登录
+data class LoginData(
+    val admin: Boolean,
+    val chapterTops: List<Any>,
+    val nickname: String,
+    val token: String,
+    val username: String,
+    val password: String,
+    val email: String,
+    val icon: String,
+    val id: Int,
+    val type: Int,
+    val collectIds: List<Any>
+)

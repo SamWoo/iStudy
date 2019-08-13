@@ -16,7 +16,7 @@
         android:padding="@dimen/dp_2"
         android:text="Title"
         android:textColor="@color/black"
-        android:textSize="@dimen/textSize_title" />
+        android:textSize="@dimen/textSize_titleSmall" />
 
     <com.zhy.view.flowlayout.TagFlowLayout
 
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/nav_title"
         android:layout_marginTop="@dimen/dp_6"
-        android:background="@drawable/tag_flow_bg"
+        android:background="@drawable/nav_item_bg"
         app:max_select="-1" />
 
 

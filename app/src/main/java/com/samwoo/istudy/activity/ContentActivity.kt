@@ -1,9 +1,7 @@
 package com.samwoo.istudy.activity
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +22,8 @@ import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.util.getAgentWeb
 import kotlinx.android.synthetic.main.activity_content.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.browse
+import org.jetbrains.anko.share
 import org.jetbrains.anko.toast
 
 class ContentActivity : BaseActivity() {
@@ -31,6 +31,10 @@ class ContentActivity : BaseActivity() {
     private var id: Int = -1
     private lateinit var url: String
     private lateinit var agentWeb: AgentWeb
+
+    override fun useEventBus(): Boolean {
+        return false
+    }
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_content
@@ -93,16 +97,17 @@ class ContentActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_share -> {
-                toast("Share it!!")
-                Intent().run {
-                    this.action = Intent.ACTION_SEND
-                    putExtra(
-                        Intent.EXTRA_TEXT,
-                        getString(R.string.share_text, getString(R.string.app_name), title, url)
-                    )
-                    type = Constant.CONTENT_SHARE_TYPE
-                    startActivity(Intent.createChooser(this, getString(R.string.action_share)))
-                }
+//                toast("Share it!!")
+                share(getString(R.string.share_text, getString(R.string.app_name), title, url), title)
+//                Intent().run {
+//                    this.action = Intent.ACTION_SEND
+//                    putExtra(
+//                        Intent.EXTRA_TEXT,
+//                        getString(R.string.share_text, getString(R.string.app_name), title, url)
+//                    )
+//                    type = Constant.CONTENT_SHARE_TYPE
+//                    startActivity(Intent.createChooser(this, getString(R.string.action_share)))
+//                }
                 true
             }
             R.id.action_like -> {
@@ -110,12 +115,13 @@ class ContentActivity : BaseActivity() {
                 true
             }
             R.id.action_browser -> {
-                toast("Browser it!!")
-                Intent().run {
-                    action = "android.intent.action.VIEW"
-                    data = Uri.parse(url)
-                    startActivity(this)
-                }
+//                toast("Browser it!!")
+                browse(url)
+//                Intent().run {
+//                    action = "android.intent.action.VIEW"
+//                    data = Uri.parse(url)
+//                    startActivity(this)
+//                }
                 true
             }
         }

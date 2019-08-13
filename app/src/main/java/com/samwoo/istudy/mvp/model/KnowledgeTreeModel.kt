@@ -16,12 +16,12 @@ class KnowledgeTreeModel {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object : Subscriber<HttpResult<List<KnowledgeTreeBody>>>() {
-                override fun onNext(bean: HttpResult<List<KnowledgeTreeBody>>?) {
-                    Log.d("Sam", "-------->${bean}")
+                override fun onNext(result: HttpResult<List<KnowledgeTreeBody>>?) {
+                    Log.d("Sam", "-------->${result}")
                     when {
-                        bean == null -> callback.onFail("Error!!")
-                        bean.errorCode != 0 -> callback.onFail("errorCode=" + bean.errorCode)
-                        else -> callback.onSuccess(bean)
+                        result == null -> callback.onFail("Error!!")
+                        result.errorCode != 0 -> callback.onFail("errorMsg=${result.errorMsg}")
+                        else -> callback.onSuccess(result)
                     }
                 }
 

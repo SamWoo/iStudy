@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.ContextCompat
 import com.samwoo.istudy.R
 import com.samwoo.istudy.bean.NavigationBean
+import com.samwoo.istudy.util.DisplayManager
 import q.rorbin.verticaltablayout.adapter.TabAdapter
 import q.rorbin.verticaltablayout.widget.ITabView
 
@@ -23,6 +24,7 @@ class NavTabAdapter(val context: Context?, val list: List<NavigationBean>) : Tab
     override fun getTitle(position: Int): ITabView.TabTitle {
         return ITabView.TabTitle.Builder()
             .setContent(list[position].name)
+            .setTextSize(14)
             .setTextColor(
                 ContextCompat.getColor(context!!, R.color.Red),
                 ContextCompat.getColor(context!!, R.color.Black)

@@ -20,7 +20,7 @@ class NavigationModel {
                     if (BuildConfig.DEBUG) Log.d("Sam", "NavList--->${t}")
                     when {
                         t == null -> callback.onFail("数据为空")
-                        t.errorCode != 0 -> callback.onFail("errorCode=${t.errorCode}")
+                        t.errorCode != 0 -> callback.onFail("errorMsg=${t.errorMsg}")
                         else -> callback.onSuccess(t)
                     }
                 }

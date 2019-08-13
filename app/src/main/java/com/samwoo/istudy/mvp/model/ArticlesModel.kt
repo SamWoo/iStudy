@@ -20,7 +20,7 @@ class ArticlesModel {
                     if (BuildConfig.DEBUG) Log.d("Sam", "wxarticles-------->${result}")
                     when {
                         result == null -> callback.onFail("Error!!")
-                        result.errorCode != 0 -> callback.onFail("errorCode=" + result.errorCode)
+                        result.errorCode != 0 -> callback.onFail("errorMsg=${result.errorMsg}")
                         else -> callback.onSuccess(result)
                     }
                 }

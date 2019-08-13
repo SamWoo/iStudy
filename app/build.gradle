@@ -46,10 +46,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
     //anko
     implementation "org.jetbrains.anko:anko-common:$anko_version"
+
     //leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+
     //add
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
@@ -61,22 +64,35 @@ dependencies {
     implementation('com.squareup.retrofit2:adapter-rxjava:2.1.0') {
         exclude group: 'io.reactivex'
     }
+
     //banner
     implementation 'cn.bingoogolapple:bga-banner:2.2.6@aar'
+
     //BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+
     //glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
     //Agentweb
     api 'com.just.agentweb:agentweb:4.0.3-beta'
     api 'com.just.agentweb:filechooser:4.0.3-beta'// (可选)
     api 'com.just.agentweb:download:4.0.3-beta' // (可选)
     api 'com.github.Justson:Downloader:v4.0.3'// (可选)
+
     //TagFlowLayout
     implementation 'com.hyman:flowlayout-lib:1.1.2'
+
     //LitePal
     implementation 'org.litepal.android:kotlin:3.0.0'
+
     //VerticalTabLayout
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

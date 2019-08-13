@@ -4,19 +4,30 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
+import com.samwoo.istudy.constant.Constant
+import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.fragment.*
+import com.samwoo.istudy.util.Preference
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
+
+    private val username: String by Preference(Constant.USERNAME_KEY, "")
+
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
     private val FRAGMENT_WX_ACCOUNT = 0x03
@@ -31,6 +42,13 @@ class MainActivity : BaseActivity() {
     private var wxAccountFragment: WxAccountFragment? = null
     private var navigationFragment: NavigationFragment? = null
     private var projectFragment: ProjectFragment? = null
+
+    private lateinit var nav_nickname: TextView
+    private lateinit var nav_avatar: CircleImageView
+
+    override fun useEventBus(): Boolean {
+        return true
+    }
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -62,12 +80,43 @@ class MainActivity : BaseActivity() {
             toggle.syncState()
         }
 
+        //抽屉item事件监听
         nav_view.run {
+            nav_nickname = getHeaderView(0).findViewById(R.id.tv_nick)
+            nav_avatar = getHeaderView(0).findViewById(R.id.profile_image)
+            menu.findItem(R.id.nav_logout).isVisible = isLogin
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
         }
 
+        //floatButton事件监听
         fab.run {
             setOnClickListener(onFabClickListener)
+        }
+
+        //nickname点击事件
+        nav_nickname.run {
+            text = if (!isLogin) getString(R.string.btn_login) else username
+            setOnClickListener {
+                if (!isLogin) {
+                    val intent = intentFor<LoginActivity>()
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                } else {
+//                    isClickable = false
+                }
+            }
+        }
+
+        //circleImage点击事件监听
+        nav_avatar.run {
+            setImageResource(if (!isLogin) R.mipmap.ic_launcher else R.mipmap.icon)
+            setOnClickListener {
+                if (isLogin) {
+//                    val intent = intentFor<ProfileActivity>()
+//                    startActivity(intent)
+                } else {
+                }
+            }
         }
 
         showFragment(mIndex)
@@ -141,28 +190,24 @@ class MainActivity : BaseActivity() {
         when (it.itemId) {
             R.id.action_home -> {
                 showFragment(FRAGMENT_HOME)
-                true
             }
             R.id.action_knowledge_system -> {
                 showFragment(FRAGMENT_KNOWLEDGE_TREE)
-                true
             }
             R.id.action_wx_account -> {
                 showFragment(FRAGMENT_WX_ACCOUNT)
-                true
             }
             R.id.action_navigation -> {
                 showFragment(FRAGMENT_NAVIGATION)
-                true
             }
             R.id.action_project -> {
                 showFragment(FRAGMENT_PROJECT)
-                true
             }
             else -> {
                 false
             }
         }
+        true
     }
 
 
@@ -170,12 +215,20 @@ class MainActivity : BaseActivity() {
     private val onDrawerNavigationItemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
             R.id.nav_home -> {
-                true
+                toast("Click home")
             }
-            else -> {
-                false
-            }
+            R.id.nav_logout -> logout()
         }
+        true
+    }
+
+    //logout
+    private fun logout() {
+        isLogin = false
+        EventBus.getDefault().post(LoginEvent(false))
+
+        val intent = intentFor<LoginActivity>()
+        startActivity(intent)
     }
 
     //浮点按钮事件监听
@@ -234,4 +287,22 @@ class MainActivity : BaseActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
+    //LoginEvent
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun loginEvent(event: LoginEvent) {
+        nav_view.menu.findItem(R.id.nav_logout).isVisible = event.isLogin
+        when (event.isLogin) {
+            true -> {
+                nav_nickname.text = username
+                nav_avatar.setImageResource(R.mipmap.icon)
+
+                homeFragment?.lazyLoad()
+            }
+            else -> {
+                nav_nickname.text = getString(R.string.btn_login)
+                nav_avatar.setImageResource(R.mipmap.ic_launcher)
+                homeFragment?.lazyLoad()
+            }
+        }
+    }
 }

@@ -20,7 +20,7 @@ class ProjectTreeModel {
                     if (BuildConfig.DEBUG) Log.d("Sam", "-------->${bean}")
                     when {
                         bean == null -> callback.onFail("Error!!")
-                        bean.errorCode != 0 -> callback.onFail("errorCode=" + bean.errorCode)
+                        bean.errorCode != 0 -> callback.onFail("errorMsg=${bean.errorMsg}")
                         else -> callback.onSuccess(bean)
                     }
                 }
