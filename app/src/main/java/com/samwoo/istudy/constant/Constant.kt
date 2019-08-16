@@ -22,4 +22,5 @@ object Constant {
         const val SEARCH_TYPE_KEY = "search_type_key"
     }
 
+    const val NETWORK_CHANGE="android.net.conn.CONNECTIVITY_CHANGE"
 }

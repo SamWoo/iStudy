@@ -62,7 +62,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
         swipeRefreshLayout.run {
-            isRefreshing = true
+//            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),

@@ -52,7 +52,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         mPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
-            isRefreshing = true
+//            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),

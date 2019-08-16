@@ -227,8 +227,8 @@ class MainActivity : BaseActivity() {
         isLogin = false
         EventBus.getDefault().post(LoginEvent(false))
 
-        val intent = intentFor<LoginActivity>()
-        startActivity(intent)
+//        val intent = intentFor<LoginActivity>()
+//        startActivity(intent)
     }
 
     //浮点按钮事件监听
