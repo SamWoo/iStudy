@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -104,7 +103,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty)
+            setEmptyView(R.layout.layout_empty)
             addHeaderView(bannerView)
         }
     }

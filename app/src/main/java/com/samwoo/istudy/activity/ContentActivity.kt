@@ -3,16 +3,17 @@ package com.samwoo.istudy.activity
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.Window
+import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isNotEmpty
+import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.AgentWeb
+import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.samwoo.istudy.BuildConfig
@@ -31,9 +32,12 @@ class ContentActivity : BaseActivity() {
     private var id: Int = -1
     private lateinit var url: String
     private lateinit var agentWeb: AgentWeb
+    private val mWebView: NestedScrollAgentWebView by lazy { NestedScrollAgentWebView(this) }
 
-    override fun useEventBus(): Boolean {
-        return false
+//    override fun useEventBus(): Boolean = false
+
+    override fun requestData() {
+        initAgentWeb()
     }
 
     override fun getLayoutResId(): Int {
@@ -51,8 +55,6 @@ class ContentActivity : BaseActivity() {
         tb_title.apply {
             isSelected = true
         }
-
-        initAgentWeb()
     }
 
     override fun initData() {
@@ -63,10 +65,16 @@ class ContentActivity : BaseActivity() {
         }
     }
 
-    fun initAgentWeb() {
+    private fun initAgentWeb() {
+        val params = CoordinatorLayout.LayoutParams(-1, -1)
+        params.behavior = AppBarLayout.ScrollingViewBehavior()
         agentWeb = url.getAgentWeb(
-            this, container, LinearLayout.LayoutParams(-1, -1),
-            webChromeClient = mWebChromeClient, webViewClient = mWebViewClient
+            this,
+            cl_content,
+            params,
+            mWebView,
+            webChromeClient = mWebChromeClient,
+            webViewClient = mWebViewClient
         )
     }
 
@@ -186,4 +194,15 @@ class ContentActivity : BaseActivity() {
         agentWeb.webLifeCycle.onDestroy()
     }
 
+    //回退
+    override fun onBackPressed() {
+        agentWeb?.let {
+            if (!it.back()) super.onBackPressed()
+        }
+    }
+
+    //按键处理
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return if (agentWeb?.handleKeyEvent(keyCode, event)) true else super.onKeyDown(keyCode, event)
+    }
 }

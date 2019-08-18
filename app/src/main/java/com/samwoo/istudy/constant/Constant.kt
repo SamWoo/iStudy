@@ -22,5 +22,8 @@ object Constant {
         const val SEARCH_TYPE_KEY = "search_type_key"
     }
 
+    //网络变化action
     const val NETWORK_CHANGE="android.net.conn.CONNECTIVITY_CHANGE"
+    //上次网络状态
+    const val LAST_NETWORK_STATUS_KEY="last_network_status"
 }

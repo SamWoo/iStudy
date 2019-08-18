@@ -13,7 +13,7 @@ class ArticlesPresenter : BasePresenter<ArticlesContract.View>(), ArticlesContra
     }
 
     override fun getArticleList(curPage: Int, id: Int) {
-        mView?.showLoading()
+//        mView?.showLoading()
         wxArticlesModel.getArticleList(curPage, id, object : Callback<HttpResult<ArticlesListBean>, String> {
             override fun onSuccess(result: HttpResult<ArticlesListBean>) {
                 if (isViewAttached()) {

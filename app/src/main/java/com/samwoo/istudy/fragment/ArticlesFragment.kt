@@ -93,7 +93,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ArticlesFragment.onItemClickListener
             onItemChildClickListener = this@ArticlesFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty)
+            setEmptyView(R.layout.layout_empty)
         }
 
     }

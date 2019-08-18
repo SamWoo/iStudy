@@ -23,6 +23,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     private var mPresenter: LoginPresenter? = null
 
     override fun useEventBus(): Boolean = false
+    override fun requestData() {}
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_login

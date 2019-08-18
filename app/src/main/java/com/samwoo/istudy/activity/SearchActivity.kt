@@ -22,6 +22,7 @@ import com.samwoo.istudy.bean.SearchHistoryBean
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.SearchContract
 import com.samwoo.istudy.mvp.presenter.SearchPresenter
+import com.samwoo.istudy.util.SLog
 import com.samwoo.istudy.util.randomColor
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
@@ -52,8 +53,12 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         SpaceItemDecoration(this)
     }
 
-    override fun useEventBus(): Boolean {
-        return false
+//    override fun useEventBus(): Boolean = true
+
+    override fun requestData() {
+        // 获取搜索热词
+        mPresenter.getHotKey()
+        mPresenter.queryHistory()
     }
 
     override fun getLayoutResId(): Int {
@@ -89,7 +94,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
             bindToRecyclerView(rv_search_history)
             onItemClickListener = this@SearchActivity.onItemClickListener
             onItemChildClickListener = this@SearchActivity.onItemChildClickListener
-//            setEmptyView(R.layout.fragment_empty)
+//            setEmptyView(R.layout.layout_empty)
         }
 
         search_history_clear.setOnClickListener {
@@ -107,13 +112,14 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         }
 
         // 获取搜索热词
-        mPresenter.getHotKey()
+//        mPresenter.getHotKey()
     }
 
-    override fun onResume() {
-        super.onResume()
-        mPresenter.queryHistory()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        SLog.d("children--->onResume")
+//        mPresenter.queryHistory()
+//    }
 
     /**
      * 监听点击item事件

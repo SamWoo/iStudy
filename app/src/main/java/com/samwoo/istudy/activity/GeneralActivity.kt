@@ -8,9 +8,9 @@ import kotlinx.android.synthetic.main.activity_general.*
 
 class GeneralActivity : BaseActivity() {
 
-    override fun useEventBus(): Boolean {
-        return false
-    }
+    override fun useEventBus(): Boolean = false
+
+    override fun requestData() {}
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_general
@@ -39,7 +39,6 @@ class GeneralActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment, "")
             .commit()
-
     }
 
     override fun initData() {}

@@ -29,6 +29,8 @@ class KnowledgeActivity : BaseActivity() {
         return false
     }
 
+    override fun requestData() {}
+
     override fun getLayoutResId(): Int = R.layout.activity_knowledge
 
     override fun initView() {

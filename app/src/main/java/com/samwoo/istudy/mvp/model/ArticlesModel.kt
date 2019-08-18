@@ -6,6 +6,7 @@ import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.bean.HttpResult
 import com.samwoo.istudy.callback.Callback
 import com.samwoo.istudy.util.RequestUtil
+import com.samwoo.istudy.util.SLog
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -17,7 +18,7 @@ class ArticlesModel {
             .subscribeOn(Schedulers.io())
             .subscribe(object : Subscriber<HttpResult<ArticlesListBean>>() {
                 override fun onNext(result: HttpResult<ArticlesListBean>?) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "wxarticles-------->${result}")
+//                    SLog.d("wxarticles-------->${result}")
                     when {
                         result == null -> callback.onFail("Error!!")
                         result.errorCode != 0 -> callback.onFail("errorMsg=${result.errorMsg}")
@@ -29,7 +30,7 @@ class ArticlesModel {
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("Sam", "-------->${e}")
+                    SLog.d("-------->${e}")
                 }
             })
     }

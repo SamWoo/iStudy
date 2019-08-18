@@ -87,7 +87,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
                     startActivity(intent)
                 }
             }
-            setEmptyView(R.layout.fragment_empty)
+            setEmptyView(R.layout.layout_empty)
         }
 
 

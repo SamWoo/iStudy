@@ -87,7 +87,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ProjectListFragment.onItemClickListener
             onItemChildClickListener = this@ProjectListFragment.onItemChildClickListener
-            setEmptyView(R.layout.fragment_empty)
+            setEmptyView(R.layout.layout_empty)
         }
     }
 

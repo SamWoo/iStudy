@@ -46,9 +46,8 @@ class MainActivity : BaseActivity() {
     private lateinit var nav_nickname: TextView
     private lateinit var nav_avatar: CircleImageView
 
-    override fun useEventBus(): Boolean {
-        return true
-    }
+//    override fun useEventBus(): Boolean =true
+    override fun requestData() {}
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
@@ -118,7 +117,6 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
-
         showFragment(mIndex)
     }
 
@@ -289,7 +287,7 @@ class MainActivity : BaseActivity() {
 
     //LoginEvent
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun loginEvent(event: LoginEvent) {
+    fun onLoginEvent(event: LoginEvent) {
         nav_view.menu.findItem(R.id.nav_logout).isVisible = event.isLogin
         when (event.isLogin) {
             true -> {

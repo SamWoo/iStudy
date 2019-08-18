@@ -7,6 +7,7 @@ import com.samwoo.istudy.bean.BannerList
 import com.samwoo.istudy.bean.HttpResult
 import com.samwoo.istudy.callback.Callback
 import com.samwoo.istudy.util.RequestUtil
+import com.samwoo.istudy.util.SLog
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -20,7 +21,7 @@ class HomeModel {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<BannerList>() {
                 override fun onNext(result: BannerList?) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "-------->${result}")
+//                    SLog.d("-------->${result}")
                     when {
                         result == null -> callback.onFail("Error!!")
                         result.errorCode != 0 -> callback.onFail("errorMsg=${result.errorMsg}")
@@ -32,7 +33,7 @@ class HomeModel {
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("Sam", "-------->${e}")
+                    SLog.d("-------->${e}")
                 }
             })
     }

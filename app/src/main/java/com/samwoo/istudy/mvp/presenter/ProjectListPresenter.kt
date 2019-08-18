@@ -13,7 +13,7 @@ class ProjectListPresenter : BasePresenter<ProjectListContract.View>(), ProjectL
     }
 
     override fun getProjectList(curPage: Int, cid: Int) {
-        mView?.showLoading()
+//        mView?.showLoading()
         projectListModel.getProjectList(curPage, cid, object : Callback<HttpResult<ArticlesListBean>, String> {
             override fun onSuccess(result: HttpResult<ArticlesListBean>) {
                 if (isViewAttached()){

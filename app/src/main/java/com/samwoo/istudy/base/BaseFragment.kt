@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.samwoo.istudy.BuildConfig
+import com.samwoo.istudy.event.NetworkChangeEvent
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseFragment : Fragment() {
     /**
@@ -24,6 +28,14 @@ abstract class BaseFragment : Fragment() {
 
     private var contentView: View? = null
 
+    //是否使用EventBus
+    open fun useEventBus(): Boolean = true
+
+    //无网络-->有网络，重新请求数据
+    open fun doReConnect() {
+        lazyLoad()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (BuildConfig.DEBUG) Log.d("Sam", "Fragment createView......")
         /**
@@ -40,6 +52,10 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (useEventBus()) {
+            if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
+        }
+
         isViewInitiated = true
         initView()
         prepareFetchData()
@@ -66,6 +82,9 @@ abstract class BaseFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (useEventBus()) {
+            if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this)
+        }
     }
 
     //获取fragment布局文件
@@ -76,4 +95,10 @@ abstract class BaseFragment : Fragment() {
 
     //lazyLoad
     abstract fun lazyLoad()
+
+    //网络变化重载内容
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNetWorkChangeEvent(event: NetworkChangeEvent) {
+        if (event.isConnected) doReConnect()
+    }
 }

@@ -72,9 +72,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
             linearLayoutManager.scrollToPositionWithOffset(position, 0)
         }
 
-        override fun onTabReselected(tab: TabView?, position: Int) {
-
-        }
+        override fun onTabReselected(tab: TabView?, position: Int) {}
     }
 
     //RecyclerView和tab栏联动

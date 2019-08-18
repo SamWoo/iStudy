@@ -8,6 +8,7 @@ import com.samwoo.istudy.bean.HttpResult
 import com.samwoo.istudy.callback.Callback
 import com.samwoo.istudy.mvp.contract.HomeContract
 import com.samwoo.istudy.mvp.model.HomeModel
+import com.samwoo.istudy.util.SLog
 
 class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter {
 
@@ -19,7 +20,7 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
         homeModel.getBanners(object : Callback<BannerList, String> {
             override fun onSuccess(data: BannerList) {
                 if (isViewAttached()) {
-                    Log.d("Sam", "banner=${data}")
+                    SLog.d("banner=${data}")
                     mView?.setBanner(data)
                     mView?.hideLoading()
                 }
@@ -38,7 +39,7 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
         homeModel.getArticles(curPage, object : Callback<HttpResult<ArticlesListBean>, String> {
             override fun onSuccess(result: HttpResult<ArticlesListBean>) {
                 if (isViewAttached()) {
-                    Log.d("Sam", "articles=${result}")
+                    SLog.d("articles=${result}")
                     mView?.setArticles(result.data)
                     mView?.hideLoading()
                 }

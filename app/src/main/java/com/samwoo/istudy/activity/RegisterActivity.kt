@@ -20,6 +20,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     private var password: String by Preference(Constant.PASSWORD_KEY, "")
 
     override fun useEventBus(): Boolean = false
+    override fun requestData() {}
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_register

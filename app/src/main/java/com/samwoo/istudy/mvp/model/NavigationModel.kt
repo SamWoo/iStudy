@@ -6,6 +6,7 @@ import com.samwoo.istudy.bean.HttpResult
 import com.samwoo.istudy.bean.NavigationBean
 import com.samwoo.istudy.callback.Callback
 import com.samwoo.istudy.util.RequestUtil
+import com.samwoo.istudy.util.SLog
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -17,7 +18,7 @@ class NavigationModel {
             .subscribeOn(Schedulers.io())
             .subscribe(object : Subscriber<HttpResult<List<NavigationBean>>>() {
                 override fun onNext(t: HttpResult<List<NavigationBean>>?) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "NavList--->${t}")
+                    SLog.d("Sam", "NavList--->${t}")
                     when {
                         t == null -> callback.onFail("数据为空")
                         t.errorCode != 0 -> callback.onFail("errorMsg=${t.errorMsg}")
@@ -29,7 +30,7 @@ class NavigationModel {
                 }
 
                 override fun onError(e: Throwable?) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "error----->${e}")
+                    SLog.d("error----->${e}")
                 }
 
             })
