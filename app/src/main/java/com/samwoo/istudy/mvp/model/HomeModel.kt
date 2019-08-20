@@ -34,6 +34,7 @@ class HomeModel {
 
                 override fun onError(e: Throwable?) {
                     SLog.d("-------->${e}")
+                    callback.onFail(e.toString())
                 }
             })
     }
@@ -53,11 +54,12 @@ class HomeModel {
                 }
 
                 override fun onCompleted() {
+                    SLog.d("request comleted!!!")
                 }
 
                 override fun onError(e: Throwable?) {
+                    callback.onFail(e.toString())
                 }
-
             })
     }
 }

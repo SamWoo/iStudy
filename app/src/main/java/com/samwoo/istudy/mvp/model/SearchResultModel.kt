@@ -31,8 +31,8 @@ class SearchResultModel {
 
                 override fun onError(e: Throwable?) {
                     if (BuildConfig.DEBUG) Log.d("Sam", "$e")
+                    callback.onFail(e.toString())
                 }
-
             })
     }
 }

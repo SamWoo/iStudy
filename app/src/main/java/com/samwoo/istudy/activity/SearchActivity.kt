@@ -53,8 +53,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         SpaceItemDecoration(this)
     }
 
-//    override fun useEventBus(): Boolean = true
-
     override fun requestData() {
         // 获取搜索热词
         mPresenter.getHotKey()
@@ -114,12 +112,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         // 获取搜索热词
 //        mPresenter.getHotKey()
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        SLog.d("children--->onResume")
-//        mPresenter.queryHistory()
-//    }
 
     /**
      * 监听点击item事件

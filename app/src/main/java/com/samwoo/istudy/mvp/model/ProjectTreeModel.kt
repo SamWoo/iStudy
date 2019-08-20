@@ -30,8 +30,8 @@ class ProjectTreeModel {
 
                 override fun onError(e: Throwable?) {
                     Log.d("Sam", "-------->${e}")
+                    callback.onFail(e.toString())
                 }
-
             })
     }
 }

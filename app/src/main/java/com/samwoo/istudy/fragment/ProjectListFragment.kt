@@ -50,7 +50,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         activity?.let { SpaceItemDecoration(it) }
     }
 
-    private val linearLayoutManager= LinearLayoutManager(activity)
+    private val linearLayoutManager = LinearLayoutManager(activity)
 
     override fun getLayoutResId(): Int {
         return R.layout.fragment_refresh_layout
@@ -62,7 +62,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
         swipeRefreshLayout.run {
-//            isRefreshing = true
+            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -92,6 +92,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getProjectList(1, cid)
     }
@@ -155,11 +156,13 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+//        swipeRefreshLayout.isRefreshing = isRefresh
+        loadingDialog.show()
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.isRefreshing = false
+//        swipeRefreshLayout.isRefreshing = false
+        loadingDialog.hide()
         if (isRefresh) {
             projectListAdapter.run {
                 setEnableLoadMore(true)

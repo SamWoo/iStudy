@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="@dimen/dp_96"
         android:layout_height="@dimen/dp_96"
-        android:src="@drawable/nodata"
+        android:src="@mipmap/nodata"
         android:layout_marginTop="@dimen/dp_230"/>
 
     <TextView

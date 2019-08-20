@@ -106,10 +106,11 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
     }
 
     override fun showLoading() {
-
+        loadingDialog.show()
     }
 
     override fun hideLoading() {
+        loadingDialog.hide()
 
     }
 

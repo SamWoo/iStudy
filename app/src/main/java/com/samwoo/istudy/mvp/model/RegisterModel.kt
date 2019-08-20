@@ -15,7 +15,7 @@ class RegisterModel {
         username: String,
         password: String,
         repassword: String,
-        callbak: Callback<HttpResult<LoginData>, String>
+        callback: Callback<HttpResult<LoginData>, String>
     ) {
         RequestUtil.service.register(username, password, repassword)
             .observeOn(AndroidSchedulers.mainThread())
@@ -24,9 +24,9 @@ class RegisterModel {
                 override fun onNext(t: HttpResult<LoginData>?) {
                     if (BuildConfig.DEBUG) Log.d("Sam", "$t")
                     when {
-                        t == null -> callbak.onFail("空数据!!")
-                        t.errorCode != 0 -> callbak.onFail("errorMsg=${t.errorMsg}")
-                        else -> callbak.onSuccess(t)
+                        t == null -> callback.onFail("空数据!!")
+                        t.errorCode != 0 -> callback.onFail("errorMsg=${t.errorMsg}")
+                        else -> callback.onSuccess(t)
                     }
 
                 }
@@ -36,8 +36,8 @@ class RegisterModel {
 
                 override fun onError(e: Throwable?) {
                     if (BuildConfig.DEBUG) Log.d("Sam", "$e")
+                    callback.onFail(e.toString())
                 }
-
             })
     }
 }

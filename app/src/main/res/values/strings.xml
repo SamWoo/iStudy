@@ -59,4 +59,5 @@
     <string name="password_not_equal">两次输入的密码不相同</string>
 
     <string name="fragment_empty">暂无数据!!</string>
+    <string name="loading_data">数据加载中...</string>
 </resources>

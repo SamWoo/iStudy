@@ -52,7 +52,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         mPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
-//            isRefreshing = true
+            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -63,6 +63,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             }
 
             setOnRefreshListener {
+                isRefreshing = false
                 mPresenter?.getKnowledgeTree()
             }
         }
@@ -115,11 +116,13 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = true
+//        swipeRefreshLayout.isRefreshing = true
+        loadingDialog.show()
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.isRefreshing = false
+//        swipeRefreshLayout.isRefreshing = false
+        loadingDialog.hide()
         knowledgeTreeAdapter.loadMoreComplete()
     }
 

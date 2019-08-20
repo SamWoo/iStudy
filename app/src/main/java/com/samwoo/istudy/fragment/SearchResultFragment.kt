@@ -59,7 +59,7 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View {
         searchKey = arguments?.getString(Constant.SEARCH_KEY, "")
 
         swipeRefreshLayout.apply {
-//            isRefreshing = true
+            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -69,6 +69,7 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View {
                 setProgressBackgroundColorSchemeColor(resources.getColor(R.color.white))
             }
             setOnRefreshListener {
+                isRefreshing = false
                 isRefresh = true
                 mPresenter?.getSearchResult(0, searchKey!!)
             }

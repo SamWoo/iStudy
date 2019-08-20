@@ -14,11 +14,15 @@ import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
 import com.samwoo.istudy.adapter.HomeAdapter
 import com.samwoo.istudy.base.BaseFragment
-import com.samwoo.istudy.bean.*
+import com.samwoo.istudy.bean.Article
+import com.samwoo.istudy.bean.ArticlesListBean
+import com.samwoo.istudy.bean.Banner
+import com.samwoo.istudy.bean.BannerList
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.HomeContract
 import com.samwoo.istudy.mvp.presenter.HomePresenter
 import com.samwoo.istudy.util.ImageLoader
+import com.samwoo.istudy.view.LoadingDialog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
@@ -34,10 +38,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private lateinit var banners: MutableList<Banner>
     private var bannerView: View? = null
     private var isRefresh = true
-
     //LinearLayoutManager
     private val linearLayoutManager = LinearLayoutManager(activity)
-
 
     //homeAdapter
     private val homeAdapter: HomeAdapter by lazy {
@@ -73,7 +75,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         mPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
-//            isRefreshing = true
+            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -110,6 +112,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     //RefreshListener
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getBanners()
         mPresenter?.getArticles(0)
@@ -190,11 +193,13 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+//        swipeRefreshLayout.isRefreshing = isRefresh
+        loadingDialog.show()
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout?.isRefreshing = false
+//        swipeRefreshLayout?.isRefreshing = false
+        loadingDialog.hide()
         if (isRefresh) {
             homeAdapter.run {
                 setEnableLoadMore(true)

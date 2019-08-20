@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:contentDescription=""
         android:scaleType="fitXY"
-        android:src="@drawable/splash8"
+        android:src="@mipmap/splash8"
         tools:ignore="ContentDescription" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ban_shadow" />
+        android:background="@mipmap/ban_shadow" />
 
     <TextView
         android:id="@+id/splash_app_name"

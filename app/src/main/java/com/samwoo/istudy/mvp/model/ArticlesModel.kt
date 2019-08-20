@@ -31,6 +31,7 @@ class ArticlesModel {
 
                 override fun onError(e: Throwable?) {
                     SLog.d("-------->${e}")
+                    callback.onFail(e.toString())
                 }
             })
     }

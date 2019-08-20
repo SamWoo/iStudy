@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.event.NetworkChangeEvent
+import com.samwoo.istudy.view.LoadingDialog
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -31,10 +32,16 @@ abstract class BaseFragment : Fragment() {
     //是否使用EventBus
     open fun useEventBus(): Boolean = true
 
+    //loadingDailog
+    protected val loadingDialog: LoadingDialog by lazy {
+        LoadingDialog.getInstance(context!!)
+    }
+
     //无网络-->有网络，重新请求数据
     open fun doReConnect() {
         lazyLoad()
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (BuildConfig.DEBUG) Log.d("Sam", "Fragment createView......")
@@ -42,10 +49,10 @@ abstract class BaseFragment : Fragment() {
          * 以下代码主要解决viewpager中有多个fragment时预加载导致OOM leaked问题
          * 设置下面代码则无需再在viewpager中设置offscreenPageLimit的值
          */
-        if (contentView != null) {
-            (contentView?.parent as ViewGroup)?.removeView(contentView)
-            return contentView
-        }
+//        if (contentView != null) {
+//            (contentView?.parent as ViewGroup)?.removeView(contentView)
+//            return contentView
+//        }
         contentView = inflater?.inflate(getLayoutResId(), null)
         return contentView
     }

@@ -2,6 +2,7 @@ package com.samwoo.istudy.fragment
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.ArticlesContract
 import com.samwoo.istudy.mvp.presenter.ArticlesPresenter
+import com.samwoo.istudy.view.LoadingDialog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
@@ -68,7 +70,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: 0
 
         swipeRefreshLayout.run {
-//            isRefreshing = true
+            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -99,6 +101,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     }
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getArticleList(0, cid)
     }
@@ -163,11 +166,13 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
+//        swipeRefreshLayout.isRefreshing = isRefresh
+        loadingDialog.show()
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.isRefreshing = false
+//        swipeRefreshLayout.isRefreshing = false
+        loadingDialog.hide()
         if (isRefresh) {
             articlesAdapter.setEnableLoadMore(true)
         }

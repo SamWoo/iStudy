@@ -31,8 +31,8 @@ class NavigationModel {
 
                 override fun onError(e: Throwable?) {
                     SLog.d("error----->${e}")
+                    callback.onFail(e.toString())
                 }
-
             })
     }
 }

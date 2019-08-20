@@ -25,7 +25,7 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     }
 
     override fun getLayoutResId(): Int {
-        return R.layout.fragment_project
+        return R.layout.fragment_tab_viewpager
     }
 
     override fun initView() {
@@ -63,9 +63,18 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
         }
     }
 
-    override fun showLoading() {}
+    override fun doReConnect() {
+        //如果projectTree不为null则说明非第一次进入，此时恢复网络连接不可再次请求数据，否则会造成“越界”问题
+        if (projectTree.isEmpty()) super.doReConnect()
+    }
 
-    override fun hideLoading() {}
+    override fun showLoading() {
+        loadingDialog.show()
+    }
+
+    override fun hideLoading() {
+        loadingDialog.hide()
+    }
 
     override fun showError(errorMsg: String) {
     }

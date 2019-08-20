@@ -15,24 +15,14 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
         mView?.showLoading()
         model.login(username, password, object : Callback<HttpResult<LoginData>, String> {
             override fun onSuccess(data: HttpResult<LoginData>) {
-                if (isViewAttached()) {
-                    mView?.run {
-                        loginSuccess(data.data)
-                        hideLoading()
-                    }
-                }
+                if (isViewAttached()) mView?.loginSuccess(data.data)
             }
 
             override fun onFail(msg: String) {
-                if (isViewAttached()) {
-                    mView?.run {
-                        showError(msg)
-                        hideLoading()
-                    }
-                }
+                if (isViewAttached()) mView?.showError(msg)
             }
-
         })
+        mView?.hideLoading()
     }
 
 }

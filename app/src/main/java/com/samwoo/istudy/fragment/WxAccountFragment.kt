@@ -62,9 +62,17 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
         }
     }
 
-    override fun showLoading() {}
+    override fun doReConnect() {
+        if (wxAccount.isEmpty()) super.doReConnect()
+    }
 
-    override fun hideLoading() {}
+    override fun showLoading() {
+        loadingDialog.show()
+    }
+
+    override fun hideLoading() {
+        loadingDialog.hide()
+    }
 
     override fun showError(errorMsg: String) {
         activity?.toast(errorMsg)

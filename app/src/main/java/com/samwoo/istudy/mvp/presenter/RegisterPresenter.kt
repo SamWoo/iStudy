@@ -17,24 +17,13 @@ class RegisterPresenter : BasePresenter<RegisterContract.View>(), RegisterContra
         mView?.showLoading()
         model.register(username, password, repassword, object : Callback<HttpResult<LoginData>, String> {
             override fun onSuccess(data: HttpResult<LoginData>) {
-                if (isViewAttached()) {
-                    mView?.run {
-                        registerSuccess(data.data)
-                        hideLoading()
-                    }
-                }
+                if (isViewAttached()) mView?.registerSuccess(data.data)
             }
 
             override fun onFail(msg: String) {
-                if (isViewAttached()) {
-                    mView?.run {
-                        showError(msg)
-                        hideLoading()
-                    }
-                }
+                if (isViewAttached()) mView?.showError(msg)
             }
-
         })
+        mView?.hideLoading()
     }
-
 }
