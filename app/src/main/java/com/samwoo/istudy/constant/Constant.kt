@@ -6,7 +6,7 @@ object Constant {
     const val LOGIN_KEY = "login"
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
-    const val REMEMBER_PASSWORD_KEY="is_remember"
+    const val REMEMBER_PASSWORD_KEY = "is_remember"
 
     const val CONTENT_URL_KEY = "url"
     const val CONTENT_TITLE_KEY = "title"
@@ -23,7 +23,25 @@ object Constant {
     }
 
     //网络变化action
-    const val NETWORK_CHANGE="android.net.conn.CONNECTIVITY_CHANGE"
+    const val NETWORK_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE"
     //上次网络状态
-    const val LAST_NETWORK_STATUS_KEY="last_network_status"
+    const val LAST_NETWORK_STATUS_KEY = "last_network_status"
+    //token
+    const val TOKEN_KEY = "token"
+    const val SAVE_USER_LOGIN_KEY = "user/login"
+    const val SAVE_USER_REGISTER_KEY = "user/register"
+
+    //收藏网址
+    const val COLLECTIONS_WEBSITE = "lg/collect"
+    //取消收藏网址
+    const val UNCOLLECTIONS_WEBSITE = "lg/uncolect"
+    //
+    const val ARTICLE_WEBSITE = "article"
+    //Cookie
+    const val COOKIE_NAME = "Cookie"
+    const val SET_COOKIE_KEY = "set-cookie"
+
+    //Cache
+    const val MAX_CACHE_SIZE: Long = 1024 * 1024 * 50
+
 }

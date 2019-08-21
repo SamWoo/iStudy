@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.samwoo.istudy.BuildConfig
+import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.NetworkChangeEvent
+import com.samwoo.istudy.util.Preference
 import com.samwoo.istudy.view.LoadingDialog
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,10 +31,13 @@ abstract class BaseFragment : Fragment() {
 
     private var contentView: View? = null
 
+    //是否登录
+    protected var isLogin: Boolean by Preference(Constant.LOGIN_KEY, false)
+
     //是否使用EventBus
     open fun useEventBus(): Boolean = true
 
-    //loadingDailog
+    //加载动画Dialog
     protected val loadingDialog: LoadingDialog by lazy {
         LoadingDialog.getInstance(context!!)
     }

@@ -10,8 +10,8 @@
     <dimen name="splash_bottom_margin">24dp</dimen>
     <dimen name="splash_top_margin">100dp</dimen>
     <dimen name="small">16sp</dimen>
-    <dimen name="splash_version_text_size">8sp</dimen>
-    <dimen name="splash_copyright_text_size">8sp</dimen>
+    <dimen name="splash_version_text_size">12sp</dimen>
+    <dimen name="splash_copyright_text_size">12sp</dimen>
     <dimen name="login_image">64dp</dimen>
     <dimen name="margin_top_bottom">16dp</dimen>
     <dimen name="login_radio_group">48dp</dimen>

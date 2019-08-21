@@ -9,6 +9,7 @@ import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.mvp.contract.LoginContract
 import com.samwoo.istudy.mvp.presenter.LoginPresenter
 import com.samwoo.istudy.util.Preference
+import com.samwoo.istudy.util.SLog
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.intentFor
@@ -96,8 +97,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun loginSuccess(data: LoginData) {
         toast("登录成功")
-        username = data.username
-        password = data.password
+        username = et_username.text.toString() //data.username
+        password = et_password.text.toString() //data.password
         isLogin = true
 
         EventBus.getDefault().post(LoginEvent(isLogin))
@@ -111,7 +112,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     override fun showError(errorMsg: String) {
-        toast(errorMsg)
+//        toast(errorMsg)
     }
 
     override fun onDestroy() {

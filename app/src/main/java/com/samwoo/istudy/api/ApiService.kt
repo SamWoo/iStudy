@@ -125,4 +125,65 @@ interface ApiService {
         @Field("password") password: String,
         @Field("repassword") repassword: String
     ): Observable<HttpResult<LoginData>>
+
+    /**
+     * 获取收藏文章列表
+     * http://www.wanandroid.com/lg/collect/list/0/json
+     * @method GET
+     * @param page
+     */
+    @GET("/lg/collect/list/{page}/json")
+    fun getCollectList(
+        @Path("page") page: Int
+    ): Observable<HttpResult<ArticlesListBean>>
+
+    /**
+     * 收藏站内文章
+     * http://www.wanandroid.com/lg/collect/1165/json
+     * @param id
+     * @method POST
+     */
+    @POST("/lg/collect/{id}/json")
+    fun addCollectArticle(
+        @Path("id") id: Int
+    ): Observable<HttpResult<Any>>
+
+    /**
+     * 收藏站外文章
+     * http://www.wanandroid.com/lg/collect/add/json
+     * @param title
+     * @param author
+     * @param link
+     * @method POST
+     */
+    @POST("/lg/collect/add/json")
+    @FormUrlEncoded
+    fun addExtraCollectArticle(
+        @Field("title") title: String,
+        @Field("author") author: String,
+        @Field("link") link: String
+    ): Observable<HttpResult<Any>>
+
+    /**
+     * 文章列表中取消收藏文章
+     * http://www.wanandroid.com/lg/uncollect_originId/2333/json
+     * @param id
+     */
+    @POST("/lg/uncollect_originId/{id}/json")
+    fun cancelCollectArticle(
+        @Path("id") id: Int
+    ): Observable<HttpResult<Any>>
+
+    /**
+     * 收藏列表中取消收藏文章
+     * http://www.wanandroid.com/lg/uncollect/2805/json
+     * @param id
+     * @param originId
+     */
+    @POST("/lg/uncollect/{id}/json")
+    @FormUrlEncoded
+    fun removeCollectArticle(
+        @Path("id") id: Int,
+        @Field("originId") originId: Int = -1
+    ): Observable<HttpResult<Any>>
 }

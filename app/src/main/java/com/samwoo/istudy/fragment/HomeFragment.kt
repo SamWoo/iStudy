@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
+import com.samwoo.istudy.activity.LoginActivity
 import com.samwoo.istudy.adapter.HomeAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
@@ -19,17 +20,20 @@ import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.bean.Banner
 import com.samwoo.istudy.bean.BannerList
 import com.samwoo.istudy.constant.Constant
+import com.samwoo.istudy.mvp.contract.CollectContract
 import com.samwoo.istudy.mvp.contract.HomeContract
+import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.HomePresenter
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.view.LoadingDialog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
+import kotlinx.android.synthetic.main.item_home_list.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
-class HomeFragment : BaseFragment(), HomeContract.View {
+class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     companion object {
         fun instance(): HomeFragment = HomeFragment()
     }
@@ -38,9 +42,14 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private lateinit var banners: MutableList<Banner>
     private var bannerView: View? = null
     private var isRefresh = true
+    private var clickCount = 0
     //LinearLayoutManager
     private val linearLayoutManager = LinearLayoutManager(activity)
 
+    //collect
+    private val collectPresenter: CollectPresenter by lazy {
+        CollectPresenter()
+    }
     //homeAdapter
     private val homeAdapter: HomeAdapter by lazy {
         HomeAdapter(activity, articles)
@@ -110,8 +119,22 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
+    //BannerClickListener
+    private val bannerDelegate = BGABanner.Delegate<ImageView, String> { _, _, _, position ->
+        if (banners.size > 0) {
+            val data = banners[position]
+            val intent = activity!!.intentFor<ContentActivity>(
+                Pair(Constant.CONTENT_URL_KEY, data.url),
+                Pair(Constant.CONTENT_TITLE_KEY, data.title),
+                Pair(Constant.CONTENT_ID_KEY, data.id)
+            )
+            startActivity(intent)
+        }
+    }
+
     //RefreshListener
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        showLoading()
         swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getBanners()
@@ -143,9 +166,19 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     //ItemChildClickListener
     private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, _, position ->
+        clickCount += 1
         if (articles.size != 0) {
-            val data = articles[position]
-            activity?.toast("$data")
+            val id = articles[position].id
+//            activity?.toast("$data")
+            if (isLogin) {
+                when (clickCount % 2) {
+                    1 -> collectPresenter.addCollectArticle(id)
+                    0 -> collectPresenter.cancleCollectArticle(id)
+                }
+            } else {
+                val intent = activity!!.intentFor<LoginActivity>()
+                startActivity(intent)
+            }
         }
     }
 
@@ -217,19 +250,23 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         }
     }
 
-
-    //BannerClickListener
-    private val bannerDelegate = BGABanner.Delegate<ImageView, String> { _, _, _, position ->
-        if (banners.size > 0) {
-            val data = banners[position]
-            val intent = activity!!.intentFor<ContentActivity>(
-                Pair(Constant.CONTENT_URL_KEY, data.url),
-                Pair(Constant.CONTENT_TITLE_KEY, data.title),
-                Pair(Constant.CONTENT_ID_KEY, data.id)
-            )
-            startActivity(intent)
-        }
+    override fun cancleCollectFail() {
+        activity?.toast("取消失败!!")
     }
+
+    override fun cancleCollectSuccess() {
+        iv_like.setImageResource(R.drawable.ic_like_not)
+    }
+
+    override fun collectFail() {
+        activity?.toast("收藏失败!!")
+    }
+
+    override fun collectSuccess() {
+        iv_like.setImageResource(R.drawable.ic_like)
+    }
+
+    override fun showCollectList(data: ArticlesListBean) {}
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -237,4 +274,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         mPresenter = null
         if (BuildConfig.DEBUG) Log.d("Sam", "HomeFragment DestroyView....")
     }
+
+
 }

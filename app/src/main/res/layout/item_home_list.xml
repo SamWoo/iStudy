@@ -44,6 +44,7 @@
             android:drawableLeft="@mipmap/ic_author"
             android:drawablePadding="@dimen/dp_4"
             android:text="@string/app_name"
+            android:gravity="center"
             android:textColor="@color/item_author"
             android:textSize="@dimen/item_tv_author" />
 
@@ -55,6 +56,7 @@
             android:layout_alignParentRight="true"
             android:drawableLeft="@mipmap/ic_time"
             android:drawablePadding="@dimen/dp_4"
+            android:gravity="center"
             android:text="@string/app_name"
             android:textColor="@color/item_time"
             android:textSize="@dimen/item_tv_date" />

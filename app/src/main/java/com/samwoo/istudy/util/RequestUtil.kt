@@ -3,11 +3,12 @@ package com.samwoo.istudy.util
 import com.samwoo.istudy.App
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.api.ApiService
+import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.constant.Constant.BASE_URL
-import okhttp3.CacheControl
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
+import com.samwoo.istudy.util.interceptor.CacheInterceptor
+import com.samwoo.istudy.util.interceptor.HeaderInterceptor
+import com.samwoo.istudy.util.interceptor.SaveCookieInterceptor
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.Buffer
 import retrofit2.Retrofit
@@ -15,6 +16,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.EOFException
+import java.io.File
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
@@ -53,17 +55,21 @@ object RequestUtil {
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
         }
 
-//        val cacheFile= File(App.context.cacheDir,"cache")
-//        val cache= Cache(cacheFile, 1024*1024*50)
+        //设置请求的缓存大小和位置
+        val cacheFile = File(App.context.cacheDir, "cache")
+        val cache = Cache(cacheFile, Constant.MAX_CACHE_SIZE)
+
         builder.run {
             connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(DEFAULT_TIMEOUT_WRITE, TimeUnit.SECONDS)
             readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            retryOnConnectionFailure(true) //错误重连
             //addNetworkInterceptor(networkInterceptor)
             addInterceptor(httpLoggingInterceptor)
-//            addInterceptor(addHttpInterceptor())
-//            addInterceptor(addCacheInterceptor())
-//            cache(cache)
+            addInterceptor(HeaderInterceptor())
+            addInterceptor(SaveCookieInterceptor())
+            addInterceptor(CacheInterceptor())
+            cache(cache) //添加缓存
         }
         return builder.build()
     }
@@ -132,57 +138,6 @@ object RequestUtil {
             } catch (e: EOFException) {
                 return false // Truncated UTF-8 sequence.
             }
-        }
-    }
-
-
-    //add header
-    private fun addHttpInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            val builder = chain.request().newBuilder()
-            val request = builder.addHeader("Content-type", "application/json;charset=utf-8").build()
-            chain.proceed(request)
-        }
-    }
-
-    //add cache
-    private fun addCacheInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            var request = chain.request()
-            if (!NetworkUtil.isNetworkAvailable(App.context)) {
-                request = request.newBuilder()
-                    .cacheControl(CacheControl.FORCE_CACHE)
-                    .build()
-            }
-            val response = chain.proceed(request)
-            if (NetworkUtil.isNetworkAvailable(App.context)) {
-                val maxAge = 0
-                // 有网络时 设置缓存超时时间0个小时 ,意思就是不读取缓存数据,只对get有用,post没有缓冲
-                response.newBuilder()
-                    .header("Cache-Control", "public,max-age=" + maxAge)
-                    .removeHeader("Retrofit") // 清除头信息，因为服务器如果不支持，会返回一些干扰信息，不清除下面无法生效
-                    .build()
-            } else {
-                // 无网络时，设置超时为4周  只对get有用,post没有缓冲
-                val maxStale = 60 * 60 * 24 * 28
-                response.newBuilder()
-                    .header("Cache-Control", "public,only-if-cached,max-stale=" + maxStale)
-                    .removeHeader("nyn")
-                    .build()
-            }
-            response
-        }
-    }
-
-    //add Header
-    private fun addHeaderInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            val originalRequest = chain.request()
-            val requestBuilder = originalRequest.newBuilder()
-//                .header("token", token)
-                .method(originalRequest.method(), originalRequest.body())
-            val request = requestBuilder.build()
-            chain.proceed(request)
         }
     }
 }

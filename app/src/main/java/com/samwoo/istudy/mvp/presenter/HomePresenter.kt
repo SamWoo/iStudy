@@ -30,7 +30,7 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun getArticles(curPage: Int) {
-        mView?.showLoading()
+//        mView?.showLoading()
         homeModel.getArticles(curPage, object : Callback<HttpResult<ArticlesListBean>, String> {
             override fun onSuccess(result: HttpResult<ArticlesListBean>) {
                 if (isViewAttached()) {

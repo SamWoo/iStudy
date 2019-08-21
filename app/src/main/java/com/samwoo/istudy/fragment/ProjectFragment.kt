@@ -69,11 +69,11 @@ class ProjectFragment : BaseFragment(), ProjectTreeContract.View {
     }
 
     override fun showLoading() {
-        loadingDialog.show()
+//        loadingDialog.show()
     }
 
     override fun hideLoading() {
-        loadingDialog.hide()
+//        loadingDialog.hide()
     }
 
     override fun showError(errorMsg: String) {

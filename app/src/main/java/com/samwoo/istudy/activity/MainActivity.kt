@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
     private lateinit var nav_nickname: TextView
     private lateinit var nav_avatar: CircleImageView
 
-//    override fun useEventBus(): Boolean =true
+    //    override fun useEventBus(): Boolean =true
     override fun requestData() {}
 
     override fun getLayoutResId(): Int {
@@ -291,12 +291,13 @@ class MainActivity : BaseActivity() {
         nav_view.menu.findItem(R.id.nav_logout).isVisible = event.isLogin
         when (event.isLogin) {
             true -> {
+                toast("登录成功!!")
                 nav_nickname.text = username
                 nav_avatar.setImageResource(R.mipmap.icon)
-
                 homeFragment?.lazyLoad()
             }
             else -> {
+                toast("退出登录!!")
                 nav_nickname.text = getString(R.string.btn_login)
                 nav_avatar.setImageResource(R.mipmap.ic_launcher)
                 homeFragment?.lazyLoad()
