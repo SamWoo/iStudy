@@ -21,10 +21,10 @@ class ProjectListAdapter(private val context: Context?, datas: MutableList<Artic
             setText(R.id.item_project_list_author_tv, item.author)
             setText(R.id.item_project_list_time_tv, item.niceDate)
             setImageResource(
-                R.id.item_project_list_like_iv,
+                R.id.iv_like,
                 if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
             )
-            addOnClickListener(R.id.item_project_list_like_iv)
+            addOnClickListener(R.id.iv_like)
         }
         context?.let { ImageLoader.load(it, item.envelopePic, helper.getView(R.id.item_project_list_iv)) }
     }

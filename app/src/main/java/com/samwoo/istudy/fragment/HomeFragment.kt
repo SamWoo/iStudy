@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.App
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
@@ -25,6 +26,7 @@ import com.samwoo.istudy.mvp.contract.HomeContract
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.HomePresenter
 import com.samwoo.istudy.util.ImageLoader
+import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.view.LoadingDialog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
@@ -42,7 +44,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     private lateinit var banners: MutableList<Banner>
     private var bannerView: View? = null
     private var isRefresh = true
-    private var clickCount = 0
     //LinearLayoutManager
     private val linearLayoutManager = LinearLayoutManager(activity)
 
@@ -165,22 +166,33 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     }
 
     //ItemChildClickListener
-    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, _, position ->
-        clickCount += 1
-        if (articles.size != 0) {
-            val id = articles[position].id
+    private val onItemChildClickListener =
+        BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
+            if (articles.size != 0) {
+                val data = articles[position]
 //            activity?.toast("$data")
-            if (isLogin) {
-                when (clickCount % 2) {
-                    1 -> collectPresenter.addCollectArticle(id)
-                    0 -> collectPresenter.cancleCollectArticle(id)
+                when (view.id) {
+                    R.id.iv_like -> {
+                        if (isLogin) {
+                            if (!NetworkUtil.isNetworkAvailable(App.context)) {
+                                activity?.toast("网络未连接!!")
+                                return@OnItemChildClickListener
+                            }
+                            val collect = data.collect
+                            data.collect = !collect
+                            homeAdapter.setData(position, data)
+                            when (collect) {
+                                true -> collectPresenter.cancleCollectArticle(data.id)
+                                else -> collectPresenter.addCollectArticle(data.id)
+                            }
+                        } else {
+                            val intent = activity!!.intentFor<LoginActivity>()
+                            startActivity(intent)
+                        }
+                    }
                 }
-            } else {
-                val intent = activity!!.intentFor<LoginActivity>()
-                startActivity(intent)
             }
         }
-    }
 
     override fun scrollToTop() {
         recyclerView.run {
@@ -255,7 +267,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     }
 
     override fun cancleCollectSuccess() {
-        iv_like.setImageResource(R.drawable.ic_like_not)
+        activity?.toast("取消成功!!")
+//        iv_like.setImageResource(R.drawable.ic_like_not)
     }
 
     override fun collectFail() {
@@ -263,7 +276,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     }
 
     override fun collectSuccess() {
-        iv_like.setImageResource(R.drawable.ic_like)
+        activity?.toast("收藏成功!!")
+//        iv_like.setImageResource(R.drawable.ic_like)
     }
 
     override fun showCollectList(data: ArticlesListBean) {}

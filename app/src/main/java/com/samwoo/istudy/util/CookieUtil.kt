@@ -8,7 +8,7 @@ object CookieUtil {
         val set = HashSet<String>()
         cookies
             .map { cookie ->
-                cookie.split(";".toRegex()).dropLastWhile { it.isNotEmpty() }.toTypedArray()
+                cookie.split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             }
             .forEach {
                 it.filterNot { set.contains(it) }.forEach { set.add(it) }

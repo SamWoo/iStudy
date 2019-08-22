@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.App
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
@@ -15,14 +16,17 @@ import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
 import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.constant.Constant
+import com.samwoo.istudy.mvp.contract.CollectContract
 import com.samwoo.istudy.mvp.contract.ProjectListContract
+import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.ProjectListPresenter
+import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
-class ProjectListFragment : BaseFragment(), ProjectListContract.View {
+class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectContract.View {
 
     private var cid: Int = -1
     private var isRefresh = true
@@ -38,6 +42,9 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
     }
 
     private var mPresenter: ProjectListPresenter? = null
+    private val collectPresenter by lazy {
+        CollectPresenter()
+    }
 
     private val datas = mutableListOf<Article>()
 
@@ -116,12 +123,30 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         }
     }
 
-    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, _, position ->
-        if (datas.size != 0) {
-            val data = datas[position]
-            activity?.toast("${data}")
+    private val onItemChildClickListener =
+        BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
+            if (datas.size != 0) {
+                val data = datas[position]
+//                activity?.toast("${data}")
+                when (view.id) {
+                    R.id.iv_like -> {
+                        if (isLogin) {
+                            if (!NetworkUtil.isNetworkAvailable(App.context)) {
+                                activity?.toast("网络不可用!!")
+                                return@OnItemChildClickListener
+                            }
+                            val collect = data.collect
+                            data.collect = !collect
+                            projectListAdapter.setData(position, data)
+                            when (collect) {
+                                true -> collectPresenter.cancleCollectArticle(data.id)
+                                else -> collectPresenter.addCollectArticle(data.id)
+                            }
+                        }
+                    }
+                }
+            }
         }
-    }
 
     override fun lazyLoad() {
         mPresenter?.getProjectList(1, cid)
@@ -180,6 +205,25 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View {
         }
     }
 
+    override fun cancleCollectFail() {
+        activity?.toast("取消失败!!")
+    }
+
+    override fun cancleCollectSuccess() {
+        activity?.toast("取消成功!!")
+//        iv_like.setImageResource(R.drawable.ic_like_not)
+    }
+
+    override fun collectFail() {
+        activity?.toast("收藏失败!!")
+    }
+
+    override fun collectSuccess() {
+        activity?.toast("收藏成功!!")
+//        iv_like.setImageResource(R.drawable.ic_like)
+    }
+
+    override fun showCollectList(data: ArticlesListBean) {}
 
     override fun onDestroyView() {
         super.onDestroyView()

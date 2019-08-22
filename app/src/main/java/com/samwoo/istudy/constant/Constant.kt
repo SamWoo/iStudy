@@ -28,13 +28,13 @@ object Constant {
     const val LAST_NETWORK_STATUS_KEY = "last_network_status"
     //token
     const val TOKEN_KEY = "token"
-    const val SAVE_USER_LOGIN_KEY = "user/login"
-    const val SAVE_USER_REGISTER_KEY = "user/register"
+    const val SAVE_USER_LOGIN_KEY = "/user/login"
+    const val SAVE_USER_REGISTER_KEY = "/user/register"
 
     //收藏网址
-    const val COLLECTIONS_WEBSITE = "lg/collect"
+    const val COLLECTIONS_WEBSITE = "/lg/collect"
     //取消收藏网址
-    const val UNCOLLECTIONS_WEBSITE = "lg/uncolect"
+    const val UNCOLLECTIONS_WEBSITE = "/lg/uncollect"
     //
     const val ARTICLE_WEBSITE = "article"
     //Cookie

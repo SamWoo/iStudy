@@ -2,6 +2,7 @@ package com.samwoo.istudy.util.interceptor
 
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.util.CookieUtil
+import com.samwoo.istudy.util.SLog
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -14,10 +15,11 @@ class SaveCookieInterceptor : Interceptor {
         //登录成功时保存cookie
         if ((requsetUrl.contains(Constant.SAVE_USER_LOGIN_KEY)
                     || requsetUrl.contains(Constant.SAVE_USER_REGISTER_KEY))
-            && !response.header(Constant.SET_COOKIE_KEY).isNotEmpty()
+            && response.headers(Constant.SET_COOKIE_KEY).isNotEmpty()
         ) {
             val cookies = response.headers(Constant.SET_COOKIE_KEY)
             val cookie = CookieUtil.encodeCookie(cookies)
+            SLog.d("cookies--->$cookies\n cookie====>$cookie")
             CookieUtil.saveCookie(requsetUrl, domain, cookie)
         }
         return response
