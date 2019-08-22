@@ -298,6 +298,7 @@ class MainActivity : BaseActivity() {
             }
             else -> {
                 toast("退出登录!!")
+                Preference.clearPreference()
                 nav_nickname.text = getString(R.string.btn_login)
                 nav_avatar.setImageResource(R.mipmap.ic_launcher)
                 homeFragment?.lazyLoad()

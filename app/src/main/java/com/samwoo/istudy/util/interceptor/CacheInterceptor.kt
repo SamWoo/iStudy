@@ -20,7 +20,7 @@ class CacheInterceptor : Interceptor {
         val response = chain.proceed(request)
         if (NetworkUtil.isNetworkAvailable(App.context)) {
             //设置缓存超时时间，有网络时设置超时为0，即不读取缓存数据，只对get有效，post没有缓存
-            val maxAge = 60 * 3
+            val maxAge = 0 * 60
             response.newBuilder()
                 .header("Cache-Control", "public, max-age=$maxAge")
                 .removeHeader("Retrofit")
@@ -29,7 +29,7 @@ class CacheInterceptor : Interceptor {
             //无网络时，设置缓存超时4周，只对get有效，post没有缓存
             val maxAge = 60 * 60 * 24 * 7 * 4
             response.newBuilder()
-                .header("Cache-Control", "public,only-if-cache, max-stale=$maxAge")
+                .header("Cache-Control", "public, only-if-cache, max-stale=$maxAge")
                 .removeHeader("nyn")
                 .build()
         }

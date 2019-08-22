@@ -31,46 +31,20 @@
             android:layout_marginTop="@dimen/dp_4"
             android:layout_weight="5">
 
-            <TextView
-                android:id="@+id/item_project_list_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/app_name"
-                android:textColor="@color/item_title"
-                android:textSize="@dimen/item_tv_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_project_list_content_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/item_project_list_title_tv"
-                android:layout_marginTop="@dimen/dp_12"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:text="@string/app_name"
-                android:textColor="@color/item_desc"
-                android:textSize="@dimen/textSize_content" />
-
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_below="@id/item_project_list_content_tv"
                 android:layout_alignParentBottom="true">
 
-                <TextView
-                    android:id="@+id/item_project_list_author_tv"
+                <ImageView
+                    android:id="@+id/iv_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:drawableLeft="@mipmap/ic_author"
-                    android:drawablePadding="@dimen/dp_4"
-                    android:text="@string/app_name"
-                    android:textColor="@color/item_author"
-                    android:textSize="@dimen/item_tv_author" />
+                    android:layout_marginRight="@dimen/dp_8"
+                    app:srcCompat="@drawable/ic_like_not" />
 
                 <TextView
                     android:id="@+id/item_project_list_time_tv"
@@ -85,15 +59,42 @@
                     android:textColor="@color/item_date"
                     android:textSize="@dimen/item_tv_date" />
 
-                <ImageView
-                    android:id="@+id/iv_like"
+                <TextView
+                    android:id="@+id/item_project_list_author_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    app:srcCompat="@drawable/ic_like_not" />
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:drawableLeft="@mipmap/ic_author"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:text="@string/app_name"
+                    android:textColor="@color/item_author"
+                    android:textSize="@dimen/item_tv_author" />
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/item_project_list_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_project_list_title_tv"
+                android:layout_marginTop="@dimen/dp_12"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="@string/app_name"
+                android:textColor="@color/item_desc"
+                android:textSize="@dimen/textSize_content" />
+
+            <TextView
+                android:id="@+id/item_project_list_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/app_name"
+                android:textColor="@color/item_title"
+                android:textSize="@dimen/item_tv_title"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </LinearLayout>

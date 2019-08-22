@@ -12,9 +12,23 @@ class Preference<T>(val name: String, val default: T) : ReadWriteProperty<Any?, 
     companion object {
         private val fileName = "istudy_file"
         //通过属性代理初始化共享参数对象
-        val prefs: SharedPreferences by lazy { App.context.getSharedPreferences(fileName, Context.MODE_PRIVATE) }
-    }
+        val prefs: SharedPreferences by lazy {
+            App.context.getSharedPreferences(
+                fileName,
+                Context.MODE_PRIVATE
+            )
+        }
 
+        //删除全部配置数据
+        fun clearPreference() {
+            prefs.edit().clear().apply()
+        }
+
+        //根据键值删除属性值
+        fun clearPreference(key: String) {
+            prefs.edit().remove(key).apply()
+        }
+    }
 
     //接管属性值得获取行为
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {

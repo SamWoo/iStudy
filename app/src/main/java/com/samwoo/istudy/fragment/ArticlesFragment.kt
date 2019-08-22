@@ -74,6 +74,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
     override fun initView() {
         mPresenter = ArticlesPresenter()
         mPresenter?.attachView(this)
+        collectPresenter.attachView(this)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: 0
 
         swipeRefreshLayout.run {
@@ -237,6 +238,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        collectPresenter.detachView()
         if (BuildConfig.DEBUG) Log.d("Sam", "ArticlesFragment DestroyView.....")
     }
 }

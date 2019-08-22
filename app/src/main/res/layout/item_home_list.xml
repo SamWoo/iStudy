@@ -18,6 +18,46 @@
         android:paddingRight="@dimen/item_content_padding"
         android:paddingBottom="@dimen/item_content_padding">
 
+        <ImageView
+            android:id="@+id/iv_article_thumbnail"
+            android:layout_width="@dimen/item_img_width"
+            android:layout_height="@dimen/item_img_height"
+            android:layout_below="@id/tv_article_author"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
+            android:contentDescription="article thumbnail"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_8"
+                android:contentDescription="like article"
+                app:srcCompat="@drawable/ic_like_not" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_article_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_article_fresh"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@mipmap/ic_time"
+            android:drawablePadding="@dimen/dp_4"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/item_time"
+            android:textSize="@dimen/item_tv_date" />
+
         <TextView
             android:id="@+id/tv_article_fresh"
             android:layout_width="wrap_content"
@@ -35,43 +75,6 @@
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/tv_article_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/tv_article_fresh"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_toRightOf="@id/tv_article_fresh"
-            android:drawableLeft="@mipmap/ic_author"
-            android:drawablePadding="@dimen/dp_4"
-            android:text="@string/app_name"
-            android:gravity="center"
-            android:textColor="@color/item_author"
-            android:textSize="@dimen/item_tv_author" />
-
-        <TextView
-            android:id="@+id/tv_article_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/tv_article_fresh"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@mipmap/ic_time"
-            android:drawablePadding="@dimen/dp_4"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/item_time"
-            android:textSize="@dimen/item_tv_date" />
-
-        <ImageView
-            android:id="@+id/iv_article_thumbnail"
-            android:layout_width="@dimen/item_img_width"
-            android:layout_height="@dimen/item_img_height"
-            android:layout_below="@id/tv_article_author"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_8"
-            android:contentDescription="article thumbnail"
-            android:scaleType="centerCrop" />
-
-        <TextView
             android:id="@+id/tv_article_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +88,7 @@
             android:maxLines="2"
             android:paddingBottom="@dimen/dp_8"
             android:textColor="@color/item_title"
-            android:textSize="@dimen/item_tv_title"/>
+            android:textSize="@dimen/item_tv_title" />
 
         <TextView
             android:id="@+id/tv_article_chapterName"
@@ -106,21 +109,19 @@
             android:textColor="@color/item_tag"
             android:textSize="@dimen/item_tv_tag" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_article_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="like article"
-                app:srcCompat="@drawable/ic_like_not" />
-
-        </LinearLayout>
+            android:layout_alignBaseline="@id/tv_article_fresh"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/tv_article_fresh"
+            android:drawableLeft="@mipmap/ic_author"
+            android:drawablePadding="@dimen/dp_4"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/item_author"
+            android:textSize="@dimen/item_tv_author" />
 
     </RelativeLayout>
 

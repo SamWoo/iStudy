@@ -66,6 +66,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
     override fun initView() {
         mPresenter = ProjectListPresenter()
         mPresenter?.attachView(this)
+        collectPresenter.attachView(this)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: -1
 
         swipeRefreshLayout.run {
@@ -229,6 +230,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        collectPresenter.detachView()
         if (BuildConfig.DEBUG) Log.d("Sam", "ProjectListFragment DestroyView....")
     }
 }

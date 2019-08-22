@@ -57,32 +57,36 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
     }
 
     override fun addExtraCollectArticle(title: String, author: String, link: String) {
-        model.addExtraCollectArticle(title, author, link, object : Callback<HttpResult<Any>, String> {
-            override fun onSuccess(data: HttpResult<Any>) {
-                if (isViewAttached()) {
-                    mView?.collectSuccess()
+        model.addExtraCollectArticle(
+            title,
+            author,
+            link,
+            object : Callback<HttpResult<Any>, String> {
+                override fun onSuccess(data: HttpResult<Any>) {
+                    if (isViewAttached()) {
+                        doAsync { uiThread { mView?.collectSuccess() } }
+                    }
                 }
-            }
 
-            override fun onFail(msg: String) {
-                if (isViewAttached()) {
-                    mView?.collectFail()
+                override fun onFail(msg: String) {
+                    if (isViewAttached()) {
+                        doAsync { uiThread { mView?.collectFail() } }
+                    }
                 }
-            }
-        })
+            })
     }
 
     override fun cancleCollectArticle(id: Int) {
         model.cancleCollectArticle(id, object : Callback<HttpResult<Any>, String> {
             override fun onSuccess(data: HttpResult<Any>) {
                 if (isViewAttached()) {
-                    mView?.cancleCollectSuccess()
+                    doAsync { uiThread { mView?.cancleCollectSuccess() } }
                 }
             }
 
             override fun onFail(msg: String) {
                 if (isViewAttached()) {
-                    mView?.cancleCollectFail()
+                    doAsync { uiThread { mView?.cancleCollectFail() } }
                 }
             }
         })
@@ -92,13 +96,13 @@ class CollectPresenter : BasePresenter<CollectContract.View>(), CollectContract.
         model.removeCollectArticle(id, originId, object : Callback<HttpResult<Any>, String> {
             override fun onSuccess(data: HttpResult<Any>) {
                 if (isViewAttached()) {
-                    mView?.cancleCollectSuccess()
+                    doAsync { uiThread { mView?.cancleCollectSuccess() } }
                 }
             }
 
             override fun onFail(msg: String) {
                 if (isViewAttached()) {
-                    mView?.cancleCollectFail()
+                    doAsync { uiThread { mView?.cancleCollectFail() } }
                 }
             }
         })

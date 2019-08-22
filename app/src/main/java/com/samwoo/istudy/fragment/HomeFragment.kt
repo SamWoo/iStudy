@@ -83,6 +83,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     override fun initView() {
         mPresenter = HomePresenter()
         mPresenter?.attachView(this)
+        collectPresenter.attachView(this)
 
         swipeRefreshLayout.run {
             //            isRefreshing = true
@@ -286,6 +287,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
+        collectPresenter.detachView()
         if (BuildConfig.DEBUG) Log.d("Sam", "HomeFragment DestroyView....")
     }
 
