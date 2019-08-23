@@ -1,5 +1,6 @@
 package com.samwoo.istudy.activity
 
+import android.os.Handler
 import android.view.View
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
@@ -15,6 +16,7 @@ import org.jetbrains.anko.toast
 class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     private var mPresenter: RegisterPresenter? = null
+    private val handler by lazy { Handler() }
 
     private var username: String by Preference(Constant.USERNAME_KEY, "")
     private var password: String by Preference(Constant.PASSWORD_KEY, "")
@@ -40,11 +42,17 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     private val onClickListener = View.OnClickListener { view ->
         when (view.id) {
-            R.id.btn_register -> register()
+            R.id.btn_register -> {
+                btn_register.startAnim()
+                handler.postDelayed({
+                    register()
+                }, 3000)
+            }
             R.id.btn_to_login -> {
                 val intent = intentFor<LoginActivity>()
                 startActivity(intent)
                 finish()
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }
     }
@@ -57,6 +65,8 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
                 et_password.text.toString(),
                 et_repassword.text.toString()
             )
+        } else {
+            btn_register.reset("注 册")
         }
     }
 
@@ -95,6 +105,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
         val intent = intentFor<LoginActivity>()
         startActivity(intent)
         finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun showLoading() {
@@ -106,6 +117,12 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun showError(errorMsg: String) {
         toast(errorMsg)
+        btn_register.reset("注 册")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        btn_register.stopAnim()
     }
 
     override fun onDestroy() {

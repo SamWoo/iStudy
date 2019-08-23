@@ -109,14 +109,13 @@
     </LinearLayout>
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.samwoo.istudy.view.AnimButton
         android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/dp_24"
-        android:background="@drawable/btn_round_rect_bg"
         android:gravity="center"
         android:text="@string/btn_register"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"

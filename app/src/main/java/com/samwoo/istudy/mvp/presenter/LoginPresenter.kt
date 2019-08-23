@@ -6,6 +6,8 @@ import com.samwoo.istudy.bean.LoginData
 import com.samwoo.istudy.callback.Callback
 import com.samwoo.istudy.mvp.contract.LoginContract
 import com.samwoo.istudy.mvp.model.LoginModel
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
 
@@ -19,7 +21,9 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
             }
 
             override fun onFail(msg: String) {
-                if (isViewAttached()) mView?.showError(msg)
+                if (isViewAttached()) {
+                    doAsync { uiThread { mView?.showError(msg) } }
+                }
             }
         })
         mView?.hideLoading()
