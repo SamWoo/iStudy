@@ -47,10 +47,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     //LinearLayoutManager
     private val linearLayoutManager = LinearLayoutManager(activity)
 
-    //collect
-    private val collectPresenter: CollectPresenter by lazy {
-        CollectPresenter()
-    }
     //homeAdapter
     private val homeAdapter: HomeAdapter by lazy {
         HomeAdapter(activity, articles)
@@ -69,7 +65,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     }
 
     private var mPresenter: HomePresenter? = null
-
+    //collect
+    private var collectPresenter: CollectPresenter? = null
 
     override fun getLayoutResId(): Int {
         return R.layout.fragment_refresh_layout
@@ -83,7 +80,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     override fun initView() {
         mPresenter = HomePresenter()
         mPresenter?.attachView(this)
-        collectPresenter.attachView(this)
+        collectPresenter = CollectPresenter()
+        collectPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
             //            isRefreshing = true
@@ -183,8 +181,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
                             data.collect = !collect
                             homeAdapter.setData(position, data)
                             when (collect) {
-                                true -> collectPresenter.cancleCollectArticle(data.id)
-                                else -> collectPresenter.addCollectArticle(data.id)
+                                true -> collectPresenter?.cancleCollectArticle(data.id)
+                                else -> collectPresenter?.addCollectArticle(data.id)
                             }
                         } else {
                             val intent = activity!!.intentFor<LoginActivity>()
@@ -269,7 +267,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
 
     override fun cancleCollectSuccess() {
         activity?.toast("取消成功!!")
-//        iv_like.setImageResource(R.drawable.ic_like_not)
     }
 
     override fun collectFail() {
@@ -278,7 +275,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
 
     override fun collectSuccess() {
         activity?.toast("收藏成功!!")
-//        iv_like.setImageResource(R.drawable.ic_like)
     }
 
     override fun showCollectList(data: ArticlesListBean) {}
@@ -287,7 +283,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
-        collectPresenter.detachView()
+        collectPresenter?.detachView()
+        collectPresenter = null
         if (BuildConfig.DEBUG) Log.d("Sam", "HomeFragment DestroyView....")
     }
 

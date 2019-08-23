@@ -48,9 +48,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
     private var cid: Int = 0
 
     private var mPresenter: ArticlesPresenter? = null
-    private val collectPresenter: CollectPresenter by lazy {
-        CollectPresenter()
-    }
+    private var collectPresenter: CollectPresenter? = null
 
     private var datas = mutableListOf<Article>()
 
@@ -74,7 +72,8 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
     override fun initView() {
         mPresenter = ArticlesPresenter()
         mPresenter?.attachView(this)
-        collectPresenter.attachView(this)
+        collectPresenter = CollectPresenter()
+        collectPresenter?.attachView(this)
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: 0
 
         swipeRefreshLayout.run {
@@ -138,8 +137,8 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
             if (datas.size != 0) {
                 val data = datas[position]
 //            activity?.toast("${data}")
-                when(view.id){
-                    R.id.iv_like->{
+                when (view.id) {
+                    R.id.iv_like -> {
                         if (isLogin) {
                             if (!NetworkUtil.isNetworkAvailable(App.context)) {
                                 activity?.toast("网络不可用!!")
@@ -149,8 +148,8 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
                             data.collect = !collect
                             articlesAdapter.setData(position, data)
                             when (collect) {
-                                true -> collectPresenter.cancleCollectArticle(data.id)
-                                else -> collectPresenter.addCollectArticle(data.id)
+                                true -> collectPresenter?.cancleCollectArticle(data.id)
+                                else -> collectPresenter?.addCollectArticle(data.id)
                             }
                         }
                     }
@@ -220,7 +219,6 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
 
     override fun cancleCollectSuccess() {
         activity?.toast("取消成功!!")
-//        iv_like.setImageResource(R.drawable.ic_like_not)
     }
 
     override fun collectFail() {
@@ -229,7 +227,6 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
 
     override fun collectSuccess() {
         activity?.toast("收藏成功!!")
-//        iv_like.setImageResource(R.drawable.ic_like)
     }
 
     override fun showCollectList(data: ArticlesListBean) {}
@@ -238,7 +235,8 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
         super.onDestroyView()
         mPresenter?.detachView()
         mPresenter = null
-        collectPresenter.detachView()
+        collectPresenter?.detachView()
+        collectPresenter = null
         if (BuildConfig.DEBUG) Log.d("Sam", "ArticlesFragment DestroyView.....")
     }
 }
