@@ -17,7 +17,7 @@
         android:layout_width="@dimen/dp_96"
         android:layout_height="@dimen/dp_96"
         android:contentDescription="@string/nav_header_desc"
-        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_20"
         android:src="@mipmap/icon"
         app:civ_border_color="@color/white"
         app:civ_border_width="@dimen/dp_2"
@@ -31,6 +31,7 @@
         android:text="@string/nav_header_title"
         android:textSize="@dimen/sp_14"
         android:gravity="center"
+        android:textStyle="bold"
         android:layout_marginTop="@dimen/dp_8"/>
 
 </LinearLayout>

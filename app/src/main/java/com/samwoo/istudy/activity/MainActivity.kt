@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -184,45 +185,51 @@ class MainActivity : BaseActivity() {
 
 
     //BottomNavigation点击事件监听
-    private val onNavigationItemSelectListener = BottomNavigationView.OnNavigationItemSelectedListener {
-        when (it.itemId) {
-            R.id.action_home -> {
-                showFragment(FRAGMENT_HOME)
+    private val onNavigationItemSelectListener =
+        BottomNavigationView.OnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_home -> {
+                    showFragment(FRAGMENT_HOME)
+                }
+                R.id.action_knowledge_system -> {
+                    showFragment(FRAGMENT_KNOWLEDGE_TREE)
+                }
+                R.id.action_wx_account -> {
+                    showFragment(FRAGMENT_WX_ACCOUNT)
+                }
+                R.id.action_navigation -> {
+                    showFragment(FRAGMENT_NAVIGATION)
+                }
+                R.id.action_project -> {
+                    showFragment(FRAGMENT_PROJECT)
+                }
+                else -> {
+                    false
+                }
             }
-            R.id.action_knowledge_system -> {
-                showFragment(FRAGMENT_KNOWLEDGE_TREE)
-            }
-            R.id.action_wx_account -> {
-                showFragment(FRAGMENT_WX_ACCOUNT)
-            }
-            R.id.action_navigation -> {
-                showFragment(FRAGMENT_NAVIGATION)
-            }
-            R.id.action_project -> {
-                showFragment(FRAGMENT_PROJECT)
-            }
-            else -> {
-                false
-            }
+            true
         }
-        true
-    }
 
 
     //左侧抽屉菜单点击事件监听
-    private val onDrawerNavigationItemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-        when (it.itemId) {
-            R.id.nav_home -> {
-                toast("Click home")
+    private val onDrawerNavigationItemSelectedListener =
+        NavigationView.OnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    toast("Click home")
+                }
+                R.id.nav_logout -> logout()
             }
-            R.id.nav_logout -> logout()
+            true
         }
-        true
-    }
 
     //logout
     private fun logout() {
         isLogin = false
+        doAsync {
+            //            Preference.clearPreference()
+            Preference.deleteCookie()
+        }
         EventBus.getDefault().post(LoginEvent(false))
 
 //        val intent = intentFor<LoginActivity>()
@@ -294,14 +301,14 @@ class MainActivity : BaseActivity() {
                 toast("登录成功!!")
                 nav_nickname.text = username
                 nav_avatar.setImageResource(R.mipmap.icon)
-                homeFragment?.lazyLoad()
+//                homeFragment?.lazyLoad()
             }
             else -> {
                 toast("退出登录!!")
-                Preference.clearPreference()
+//                Preference.clearPreference()
                 nav_nickname.text = getString(R.string.btn_login)
                 nav_avatar.setImageResource(R.mipmap.ic_launcher)
-                homeFragment?.lazyLoad()
+//                homeFragment?.lazyLoad()
             }
         }
     }

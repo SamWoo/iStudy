@@ -37,7 +37,12 @@ object Constant {
     const val UNCOLLECTIONS_WEBSITE = "/lg/uncollect"
     //
     const val ARTICLE_WEBSITE = "article"
+    const val PROJECT_WEBSITE = "project"
+
     //Cookie
+    const val LOGIN_URL_KEY = "https://www.wanandroid.com/user/login"
+    const val REGISTER_URL_KEY = "https://www.wanandroid.com/user/register"
+    const val DOMAIN_KEY = "www.wanandroid.com"
     const val COOKIE_NAME = "Cookie"
     const val SET_COOKIE_KEY = "set-cookie"
 

@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
+import com.samwoo.istudy.activity.LoginActivity
 import com.samwoo.istudy.adapter.ArticlesAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
@@ -126,6 +127,9 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
                                 true -> collectPresenter?.cancleCollectArticle(data.id)
                                 else -> collectPresenter?.addCollectArticle(data.id)
                             }
+                        }else{
+                            val intent=activity!!.intentFor<LoginActivity>()
+                            startActivity(intent)
                         }
                     }
                 }

@@ -121,6 +121,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
         EventBus.getDefault().post(LoginEvent(isLogin))
         finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
 //        val xc = (btn_login.left + btn_login.right) / 2
 //        val yc = (btn_login.top + btn_login.bottom) / 2
 //        animator = ViewAnimationUtils.createCircularReveal(cl_login, xc, yc, 0f, 1111f)

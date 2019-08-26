@@ -6,8 +6,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:icon="@drawable/ic_like_not"
+            android:title="@string/action_like" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
@@ -18,7 +18,7 @@
             android:title="@string/menu_slideshow" />
         <item
             android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_settings"
             android:title="@string/menu_tools" />
     </group>
 
@@ -34,7 +34,7 @@
                 android:title="@string/menu_send" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@mipmap/ic_logout"
+                android:icon="@drawable/ic_logout"
                 android:title="@string/menu_logout" />
         </menu>
     </item>

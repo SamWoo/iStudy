@@ -3,6 +3,7 @@ package com.samwoo.istudy.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.samwoo.istudy.App
+import com.samwoo.istudy.constant.Constant
 import java.lang.IllegalArgumentException
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -27,6 +28,13 @@ class Preference<T>(val name: String, val default: T) : ReadWriteProperty<Any?, 
         //根据键值删除属性值
         fun clearPreference(key: String) {
             prefs.edit().remove(key).apply()
+        }
+
+        //删除cookie
+        fun deleteCookie() {
+            clearPreference(Constant.LOGIN_URL_KEY)
+            clearPreference(Constant.REGISTER_URL_KEY)
+            clearPreference(Constant.DOMAIN_KEY)
         }
     }
 

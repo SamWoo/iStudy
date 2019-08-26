@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.constant.Constant
+import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.event.NetworkChangeEvent
 import com.samwoo.istudy.util.Preference
 import com.samwoo.istudy.view.LoadingDialog
@@ -48,7 +49,11 @@ abstract class BaseFragment : Fragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (BuildConfig.DEBUG) Log.d("Sam", "Fragment createView......")
         /**
          * 以下代码主要解决viewpager中有多个fragment时预加载导致OOM leaked问题
@@ -112,5 +117,11 @@ abstract class BaseFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNetWorkChangeEvent(event: NetworkChangeEvent) {
         if (event.isConnected) doReConnect()
+    }
+
+    //登录情况改变重新加载内容
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLoginEvent(event: LoginEvent) {
+        doReConnect()
     }
 }
