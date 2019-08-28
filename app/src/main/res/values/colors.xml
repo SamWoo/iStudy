@@ -7,6 +7,9 @@
 
     <color name="textColorPrimary">#616161</color>
     <color name="viewBackground">@android:color/white</color>
+    <color name="windowBackground">@color/Grey100</color>
+    <color name="line_divider">@color/Grey300</color>
+    <color name="list_divider">@color/Grey400</color>
     <color name="tabTextColor">#CDCDCD</color>
 
     <color name="lightskyblue">#14a2d4</color>

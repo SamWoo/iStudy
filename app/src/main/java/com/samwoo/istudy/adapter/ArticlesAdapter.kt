@@ -27,8 +27,8 @@ class ArticlesAdapter(private val context: Context?, datas: MutableList<Article>
         }
 
         val chapterName = when {
-            item.superChapterName.isNotEmpty() and item.chapterName.isNotEmpty() -> "${item.superChapterName} / ${item.chapterName}"
-            item.superChapterName.isNotEmpty() -> item.superChapterName
+//            item.superChapterName.isNotEmpty() and item.chapterName.isNotEmpty() -> "${item.superChapterName} / ${item.chapterName}"
+//            item.superChapterName.isNotEmpty() -> item.superChapterName
             item.chapterName.isNotEmpty() -> item.chapterName
             else -> ""
         }

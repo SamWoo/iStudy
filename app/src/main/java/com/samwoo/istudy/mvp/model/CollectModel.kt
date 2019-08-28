@@ -86,6 +86,7 @@ class CollectModel {
 
     fun cancleCollectArticle(id: Int, callback: Callback<HttpResult<Any>, String>) {
         RequestUtil.service.cancelCollectArticle(id)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object : Subscriber<HttpResult<Any>>() {
                 override fun onNext(t: HttpResult<Any>?) {
@@ -106,10 +107,14 @@ class CollectModel {
             })
     }
 
-    fun removeCollectArticle(id: Int, originId: Int, callback: Callback<HttpResult<Any>, String>) {
+    fun removeCollectArticle(
+        id: Int,
+        originId: Int = -1,
+        callback: Callback<HttpResult<Any>, String>
+    ) {
         RequestUtil.service.removeCollectArticle(id, originId)
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .observeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .subscribe(object : Subscriber<HttpResult<Any>>() {
                 override fun onNext(t: HttpResult<Any>?) {
                     SLog.d("result--->$t")

@@ -111,8 +111,8 @@ class AnimButton : Button {
 
     fun stopAnim() {
         isRunning = false
-        arcValueAnimator.cancel()
-        this.visibility = View.GONE
+//        arcValueAnimator?.cancel()
+//        this.visibility = View.GONE
     }
 
     fun reset(msg: String?) {

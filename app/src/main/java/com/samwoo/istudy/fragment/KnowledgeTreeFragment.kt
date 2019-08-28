@@ -117,12 +117,12 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
 
     override fun showLoading() {
 //        swipeRefreshLayout.isRefreshing = true
-        loadingDialog.show()
+        loadingDialog?.show()
     }
 
     override fun hideLoading() {
 //        swipeRefreshLayout.isRefreshing = false
-        loadingDialog.hide()
+        loadingDialog?.hide()
         knowledgeTreeAdapter.loadMoreComplete()
     }
 

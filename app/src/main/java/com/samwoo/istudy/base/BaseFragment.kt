@@ -39,9 +39,8 @@ abstract class BaseFragment : Fragment() {
     open fun useEventBus(): Boolean = true
 
     //加载动画Dialog
-    protected val loadingDialog: LoadingDialog by lazy {
-        LoadingDialog.getInstance(context!!)
-    }
+    protected var loadingDialog: LoadingDialog? = null
+
 
     //无网络-->有网络，重新请求数据
     open fun doReConnect() {
@@ -72,7 +71,7 @@ abstract class BaseFragment : Fragment() {
         if (useEventBus()) {
             if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
         }
-
+        loadingDialog = LoadingDialog.getInstance(context!!)
         isViewInitiated = true
         initView()
         prepareFetchData()
@@ -102,6 +101,7 @@ abstract class BaseFragment : Fragment() {
         if (useEventBus()) {
             if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this)
         }
+        loadingDialog = null
     }
 
     //获取fragment布局文件

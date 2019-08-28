@@ -2,66 +2,59 @@ package com.samwoo.istudy.fragment
 
 import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
-import com.samwoo.istudy.activity.LoginActivity
 import com.samwoo.istudy.adapter.ArticlesAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
 import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.CollectContract
-import com.samwoo.istudy.mvp.contract.SearchResultContract
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
-import com.samwoo.istudy.mvp.presenter.SearchResultPresenter
 import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.util.SLog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
-class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectContract.View {
+class CollectionFragment : BaseFragment(), CollectContract.View {
     companion object {
-        fun instance(args: Bundle?): SearchResultFragment {
-            val fragment = SearchResultFragment()
+        fun instance(args: Bundle?): CollectionFragment {
+            val fragment = CollectionFragment()
             fragment.arguments = args
             return fragment
         }
     }
 
-    private var mPresenter: SearchResultPresenter? = null
-    private var collectPresenter: CollectPresenter? = null
+    private var datas = mutableListOf<Article>()
+    private var isRefresh = true
 
-    private var isRefresh = true //是否可刷新
+    private var mPresenter: CollectPresenter? = null
 
-    private var searchKey: String? = null
-    private val datas = mutableListOf<Article>()
-
-    private val searchResultAdapter: ArticlesAdapter by lazy {
-        ArticlesAdapter(activity, datas)
+    private val linearLayoutManager by lazy {
+        LinearLayoutManager(activity)
     }
 
     private val itemDecoration by lazy {
         activity?.let { SpaceItemDecoration(it) }
     }
 
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(activity)
+    private val collectAdapter by lazy {
+        ArticlesAdapter(activity, datas)
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_refresh_layout
 
     override fun initView() {
-        mPresenter = SearchResultPresenter()
+        mPresenter = CollectPresenter()
         mPresenter?.attachView(this)
-        collectPresenter = CollectPresenter()
-        collectPresenter?.attachView(this)
-
-        searchKey = arguments?.getString(Constant.SEARCH_KEY, "")
 
         swipeRefreshLayout.apply {
             //            isRefreshing = true
@@ -75,8 +68,9 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
             }
             setOnRefreshListener {
                 isRefreshing = false
+                showLoading()
                 isRefresh = true
-                mPresenter?.getSearchResult(0, searchKey!!)
+                mPresenter?.getCollectList(0)
             }
         }
 
@@ -84,17 +78,17 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
             layoutManager = linearLayoutManager
             addItemDecoration(itemDecoration!!)
             itemAnimator = DefaultItemAnimator()
-            adapter = searchResultAdapter
+            adapter = collectAdapter
         }
 
-        searchResultAdapter.run {
+        collectAdapter.run {
             bindToRecyclerView(recyclerView)
             openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM)
-            onItemClickListener = this@SearchResultFragment.onItemClickListener
-            onItemChildClickListener = this@SearchResultFragment.onItemChildClickListener
+            onItemClickListener = this@CollectionFragment.onItemClickListener
+            onItemChildClickListener = this@CollectionFragment.onItemChildClickListener
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
+            setEmptyView(R.layout.layout_empty)
         }
-
     }
 
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
@@ -113,22 +107,27 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
                 val data = datas[position]
                 when (view.id) {
                     R.id.iv_like -> {
-                        if (isLogin) {
-                            if (!NetworkUtil.isNetworkAvailable(App.context)) {
-                                activity?.toast("网络不可用!!")
-                                return@OnItemChildClickListener
-                            }
-                            val collect = data.collect
-                            data.collect = !collect
-                            searchResultAdapter.setData(position, data)
-                            when (collect) {
-                                true -> collectPresenter?.cancleCollectArticle(data.id)
-                                else -> collectPresenter?.addCollectArticle(data.id)
-                            }
-                        } else {
-                            val intent = activity!!.intentFor<LoginActivity>()
-                            startActivity(intent)
+                        if (!NetworkUtil.isNetworkAvailable(App.context)) {
+                            activity?.toast("网络不可用!!")
+                            return@OnItemChildClickListener
                         }
+//                        mPresenter?.removeCollectArticle(data.id, data.originId)
+//                        collectAdapter.remove(position)
+
+                        val dailog = AlertDialog.Builder(activity!!).run {
+                            setTitle(R.string.cancle_collect_title)
+                            setMessage(R.string.cancle_collect_msg)
+                            setIcon(R.mipmap.icon)
+                            setPositiveButton(R.string.confirm) { dailog, which ->
+                                mPresenter?.removeCollectArticle(data.id, data.originId)
+                                collectAdapter.remove(position)
+                            }
+                            setNegativeButton(R.string.cancel) { dailog, which ->
+                                dailog.dismiss()
+                            }
+                            create()
+                        }
+                        dailog.show()
                     }
                 }
             }
@@ -138,16 +137,21 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
         val page = datas.size / 20
-        mPresenter?.getSearchResult(page, searchKey!!)
+        mPresenter?.getCollectList(page)
     }
+
 
     override fun lazyLoad() {
-        mPresenter?.getSearchResult(0, searchKey!!)
+        mPresenter?.getCollectList(0)
     }
 
-    override fun showSearchResult(data: ArticlesListBean) {
+    override fun collectSuccess() {}
+
+    override fun collectFail() {}
+
+    override fun showCollectList(data: ArticlesListBean) {
         data.datas.let {
-            searchResultAdapter.run {
+            collectAdapter.run {
                 when (isRefresh) {
                     true -> replaceData(it)
                     else -> addData(it)
@@ -163,32 +167,25 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
         }
     }
 
-    override fun scrollToTop() {
-        recyclerView.run {
-            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 20) {
-                scrollToPosition(0)
-            } else {
-                smoothScrollToPosition(0)
-            }
-        }
+    override fun cancleCollectSuccess() {
+        activity?.toast("取消成功!!")
+    }
+
+    override fun cancleCollectFail() {
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
 //        loadingDialog.show()
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.isRefreshing = false
 //        loadingDialog.hide()
-        if (isRefresh) {
-            searchResultAdapter.setEnableLoadMore(true)
-        }
+        if (isRefresh) collectAdapter.setEnableLoadMore(true)
     }
 
     override fun showError(errorMsg: String) {
-        activity?.toast("$errorMsg")
-        searchResultAdapter.run {
+        activity?.toast(errorMsg)
+        collectAdapter.run {
             when (isRefresh) {
                 true -> setEnableLoadMore(true)
                 else -> loadMoreFail()
@@ -196,32 +193,10 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
         }
     }
 
-    override fun cancleCollectFail() {
-        activity?.toast("取消失败!!")
-    }
-
-    override fun cancleCollectSuccess() {
-        activity?.toast("取消成功!!")
-    }
-
-    override fun collectFail() {
-        activity?.toast("收藏失败!!")
-    }
-
-    override fun collectSuccess() {
-        activity?.toast("收藏成功!!")
-    }
-
-    override fun showCollectList(data: ArticlesListBean) {}
-
     override fun onDestroyView() {
         super.onDestroyView()
-        if (mPresenter != null) {
-            mPresenter?.detachView()
-            mPresenter = null
-            collectPresenter?.detachView()
-            collectPresenter = null
-        }
+        mPresenter?.detachView()
+        mPresenter = null
     }
 
 }

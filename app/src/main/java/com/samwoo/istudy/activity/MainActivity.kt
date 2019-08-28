@@ -1,20 +1,26 @@
 package com.samwoo.istudy.activity
 
+import android.content.Intent
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.fragment.*
 import com.samwoo.istudy.util.Preference
+import com.samwoo.istudy.util.SettingUtil
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -27,7 +33,7 @@ import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
 
-    private val username: String by Preference(Constant.USERNAME_KEY, "")
+    private var username: String by Preference(Constant.USERNAME_KEY, "")
 
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
@@ -106,6 +112,16 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+
+        nav_view.menu.findItem(R.id.nav_day_night).apply {
+            icon = ContextCompat.getDrawable(
+                context,
+                if (SettingUtil.getIsNightMode()) R.drawable.ic_night else R.drawable.ic_day
+            )
+            title =
+                getString(if (SettingUtil.getIsNightMode()) R.string.menu_night_mode else R.string.menu_day_mode)
+        }
+
 
         //circleImage点击事件监听
         nav_avatar.run {
@@ -203,9 +219,6 @@ class MainActivity : BaseActivity() {
                 R.id.action_project -> {
                     showFragment(FRAGMENT_PROJECT)
                 }
-                else -> {
-                    false
-                }
             }
             true
         }
@@ -215,25 +228,84 @@ class MainActivity : BaseActivity() {
     private val onDrawerNavigationItemSelectedListener =
         NavigationView.OnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_home -> {
-                    toast("Click home")
+                R.id.nav_like -> {
+                    if (isLogin) {//收藏列表,需登录
+                        val intent = intentFor<GeneralActivity>(
+                            Pair(Constant.TYPE_KEY, Constant.TYPE.COLLECT_TYPE_KEY)
+                        )
+                        startActivity(intent)
+                    } else {
+                        val intent = intentFor<LoginActivity>()
+                        startActivity(intent)
+                    }
+                }
+                R.id.nav_day_night -> {//日/夜j间模式切换
+                    if (SettingUtil.getIsNightMode()) {
+                        nav_view.menu.findItem(R.id.nav_day_night).apply {
+                            icon = ContextCompat.getDrawable(context, R.drawable.ic_day)
+                            title = getString(R.string.menu_day_mode)
+                        }
+                        SettingUtil.setIsNightMode(false)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    } else {
+                        nav_view.menu.findItem(R.id.nav_day_night).apply {
+                            icon = ContextCompat.getDrawable(context, R.drawable.ic_night)
+                            title = getString(R.string.menu_night_mode)
+                        }
+                        SettingUtil.setIsNightMode(true)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+//                    window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
+//                    recreate()
+                    reStartActivity()
                 }
                 R.id.nav_logout -> logout()
             }
             true
         }
 
+    //重新加载
+    override fun recreate() {
+        try {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            if (homeFragment != null) fragmentTransaction.remove(homeFragment!!)
+            if (knowledgeTreeFragment != null) fragmentTransaction.remove(knowledgeTreeFragment!!)
+            if (wxAccountFragment != null) fragmentTransaction.remove(wxAccountFragment!!)
+            if (navigationFragment != null) fragmentTransaction.remove(navigationFragment!!)
+            if (projectFragment != null) fragmentTransaction.remove(projectFragment!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.recreate()
+    }
+
+    //restart activity
+    private fun reStartActivity() {
+        startActivity(intentFor<MainActivity>())
+        finish()
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+    }
+
     //logout
     private fun logout() {
-        isLogin = false
-        doAsync {
-            //            Preference.clearPreference()
-            Preference.deleteCookie()
+        val dialog = AlertDialog.Builder(this).run {
+            setTitle(R.string.logout_title)
+            setMessage(R.string.logout_msg)
+            setIcon(R.mipmap.icon)
+            setPositiveButton(R.string.confirm) { _, _ ->
+                isLogin = false
+                doAsync {
+                    //            Preference.clearPreference()
+                    Preference.deleteCookie()
+                }
+                EventBus.getDefault().post(LoginEvent(false))
+            }
+            setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            create()
         }
-        EventBus.getDefault().post(LoginEvent(false))
-
-//        val intent = intentFor<LoginActivity>()
-//        startActivity(intent)
+        dialog.show()
     }
 
     //浮点按钮事件监听
@@ -311,5 +383,14 @@ class MainActivity : BaseActivity() {
 //                homeFragment?.lazyLoad()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        homeFragment = null
+        knowledgeTreeFragment = null
+        wxAccountFragment = null
+        navigationFragment = null
+        projectFragment = null
     }
 }

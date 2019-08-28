@@ -39,9 +39,7 @@
             android:name=".activity.LoginActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity
-            android:name=".activity.MainActivity"
-            android:launchMode="singleTask" />
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ContentActivity" />
         <activity android:name=".activity.KnowledgeActivity" />
         <activity android:name=".activity.SearchActivity" />

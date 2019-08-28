@@ -51,7 +51,7 @@ fun randomColor(): Int {
     val COLOR_VALUE: Int = 240
     var red = random.nextInt(COLOR_VALUE)
     var green = random.nextInt(COLOR_VALUE)
-    var blue = random.nextInt(COLOR_VALUE)
+    var blue = random.nextInt(COLOR_VALUE / 2)
 
     return Color.rgb(red, green, blue)
 }

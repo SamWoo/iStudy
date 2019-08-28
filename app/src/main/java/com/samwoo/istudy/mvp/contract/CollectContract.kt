@@ -17,6 +17,6 @@ interface CollectContract {
         fun addCollectArticle(id: Int)
         fun addExtraCollectArticle(title: String, author: String, link: String)
         fun cancleCollectArticle(id: Int)
-        fun removeCollectArticle(id: Int, originId: Int)
+        fun removeCollectArticle(id: Int, originId: Int=-1)
     }
 }

@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.samwoo.istudy.R
@@ -27,7 +28,7 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
         helper ?: return
         helper.setText(R.id.nav_title, item.name)
         val articles: List<Article> = item.articles
-        val tagLayout = helper.getView<TagFlowLayout>(R.id.nav_flow_layout)
+        val tagLayout = helper.getView<TagFlowLayout>(R.id.nav_flow_layout) as TagFlowLayout
         tagLayout.run {
             adapter = object : TagAdapter<Article>(articles) {
                 override fun getView(parent: FlowLayout?, position: Int, t: Article?): View {
@@ -38,7 +39,7 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
                     ) as TextView
                     tv.apply {
                         text = articles[position].title
-                        setTextColor(resources.getColor(R.color.white))
+                        setTextColor(ContextCompat.getColor(context, R.color.white))
                         background = getBackGround()
 //                        setBackgroundColor(randomColor())
                     }
@@ -68,7 +69,7 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
     private fun getBackGround(): Drawable {
         val drawable = GradientDrawable()
         drawable.apply {
-//            cornerRadius = 8f
+            //            cornerRadius = 8f
             setColor(randomColor())
         }
         return drawable

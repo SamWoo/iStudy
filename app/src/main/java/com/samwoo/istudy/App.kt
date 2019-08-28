@@ -2,6 +2,8 @@ package com.samwoo.istudy
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
+import com.samwoo.istudy.util.SettingUtil
 import org.litepal.LitePal
 import kotlin.properties.Delegates
 
@@ -19,5 +21,13 @@ class App : Application() {
         context = applicationContext
         // LitePal
         LitePal.initialize(this)
+        //
+        initTheme()
+    }
+
+    private fun initTheme() {
+        AppCompatDelegate.setDefaultNightMode(
+            if (SettingUtil.getIsNightMode()) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO)
     }
 }

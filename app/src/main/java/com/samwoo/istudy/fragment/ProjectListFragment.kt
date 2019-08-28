@@ -187,12 +187,12 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
 
     override fun showLoading() {
 //        swipeRefreshLayout.isRefreshing = isRefresh
-        loadingDialog.show()
+        loadingDialog?.show()
     }
 
     override fun hideLoading() {
 //        swipeRefreshLayout.isRefreshing = false
-        loadingDialog.hide()
+        loadingDialog?.hide()
         if (isRefresh) {
             projectListAdapter.run {
                 setEnableLoadMore(true)

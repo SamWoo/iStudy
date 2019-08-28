@@ -9,8 +9,9 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
+    <string name="menu_night_mode">夜间模式</string>
+    <string name="menu_day_mode">日间模式</string>
+    <string name="menu_settings">设置</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="menu_logout">退出</string>
@@ -60,4 +61,13 @@
 
     <string name="fragment_empty">暂无数据!!</string>
     <string name="loading_data">数据加载中...</string>
+
+    <!-- collection -->
+    <string name="my_collected">我的收藏</string>
+    <string name="cancle_collect_msg">是否确定取消该收藏文章？</string>
+    <string name="cancle_collect_title">取消收藏</string>
+
+    <!-- logout-->
+    <string name="logout_title">退出登录？</string>
+    <string name="logout_msg">是否确定退出当前用户？</string>
 </resources>
