@@ -31,7 +31,7 @@ class AnimButton : Button {
     private var paint: Paint = Paint()
     private var startAngle: Int = 0
     private lateinit var arcValueAnimator: ValueAnimator
-    private var isRunning: Boolean = false
+    private var isRunning: Boolean = false //控制动画标志位
 
     init {
         backDrawable.apply {

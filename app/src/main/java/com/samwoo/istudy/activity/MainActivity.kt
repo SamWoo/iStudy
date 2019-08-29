@@ -259,12 +259,16 @@ class MainActivity : BaseActivity() {
 //                    recreate()
                     reStartActivity()
                 }
+                R.id.nav_settings -> {//设置界面
+                    val intent = intentFor<SettingsActivity>()
+                    startActivity(intent)
+                }
                 R.id.nav_logout -> logout()
             }
             true
         }
 
-    //重新加载
+    //重新加载, 会导致闪屏问题，不建议使用
     override fun recreate() {
         try {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -283,7 +287,7 @@ class MainActivity : BaseActivity() {
     private fun reStartActivity() {
         startActivity(intentFor<MainActivity>())
         finish()
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     //logout

@@ -21,6 +21,7 @@ object Constant {
     object TYPE {
         const val SEARCH_TYPE_KEY = "search_type_key"
         const val COLLECT_TYPE_KEY = "collect_type_key"
+        const val SETTINGS_TYPE_KEY="setting_type_key"
     }
 
     //网络变化action

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_4"
-    android:background="@color/Grey200"
+    android:background="@color/transparent"
     android:orientation="vertical">
 
     <TextView
@@ -27,6 +27,5 @@
         android:layout_marginTop="@dimen/dp_6"
         android:background="@drawable/nav_item_bg"
         app:max_select="-1" />
-
 
 </RelativeLayout>
