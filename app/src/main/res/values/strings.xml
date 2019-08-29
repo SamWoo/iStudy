@@ -80,6 +80,7 @@
     <string name="switch_no_picture_mode">开启后在非WiFi环境下不加载图片</string>
     <string name="set_language_style">语言</string>
     <string name="clear_cache">清除缓存</string>
+    <string name="clear_cache_msg">是否确定要清除缓存文件？</string>
     <string name="version">版本</string>
     <string name="source_code">源代码</string>
     <string name="source_code_url">https://github.com/SamWoo/iStudy</string>

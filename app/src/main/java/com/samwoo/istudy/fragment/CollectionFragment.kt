@@ -111,9 +111,6 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
                             activity?.toast("网络不可用!!")
                             return@OnItemChildClickListener
                         }
-//                        mPresenter?.removeCollectArticle(data.id, data.originId)
-//                        collectAdapter.remove(position)
-
                         val dailog = AlertDialog.Builder(activity!!).run {
                             setTitle(R.string.cancle_collect_title)
                             setMessage(R.string.cancle_collect_msg)

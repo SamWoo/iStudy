@@ -8,6 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import com.samwoo.istudy.R
 import com.samwoo.istudy.util.CacheUtil
 import org.jetbrains.anko.browse
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -23,15 +25,31 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.pref_settings)
         setHasOptionsMenu(true)
+
         //初始化信息
         showDefaultInfo()
+
         //清缓存
         findPreference("clearCache").onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                CacheUtil.clearAllCache(activity!!)
-                showDefaultInfo()
+                AlertDialog.Builder(activity!!).run {
+                    setIcon(R.mipmap.icon)
+                    setTitle(R.string.clear_cache)
+                    setMessage(R.string.clear_cache_msg)
+                    setPositiveButton(R.string.confirm) { dialog, which ->
+                        doAsync {
+                            CacheUtil.clearAllCache(activity!!)
+                            uiThread { showDefaultInfo() }
+                        }
+                    }
+                    setNegativeButton(R.string.cancel) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    create().show()
+                }
                 false
             }
+
         //version
         try {
             val version = "当前版本 " + activity.packageManager.getPackageInfo(
@@ -50,7 +68,7 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
         }
 
         //copyright
-        findPreference("copyright").onPreferenceClickListener =
+        findPreference("copyRight").onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
                 AlertDialog.Builder(activity!!).run {
                     setTitle(R.string.copyright)
