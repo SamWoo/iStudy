@@ -20,7 +20,7 @@ interface ApiService {
      * 首页Banner
      */
     @GET("/banner/json")
-    fun getBanners(): Observable<BannerList>
+    fun getBanners(): Observable<HttpResult<List<Banner>>>
 
     /**
      * 获取知识体系

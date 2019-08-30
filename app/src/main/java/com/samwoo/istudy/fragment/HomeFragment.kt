@@ -203,8 +203,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         }
     }
 
-    override fun setBanner(bannerData: BannerList) {
-        banners = bannerData.data
+    override fun setBanner(banners: List<Banner>) {
         val bannerFeedList = ArrayList<String>()
         val bannerTitleList = ArrayList<String>()
         for (item in banners) {

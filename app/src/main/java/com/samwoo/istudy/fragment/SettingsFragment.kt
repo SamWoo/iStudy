@@ -36,13 +36,13 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
                     setIcon(R.mipmap.icon)
                     setTitle(R.string.clear_cache)
                     setMessage(R.string.clear_cache_msg)
-                    setPositiveButton(R.string.confirm) { dialog, which ->
+                    setPositiveButton(R.string.confirm) { _, _ ->
                         doAsync {
                             CacheUtil.clearAllCache(activity!!)
                             uiThread { showDefaultInfo() }
                         }
                     }
-                    setNegativeButton(R.string.cancel) { dialog, which ->
+                    setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
                     }
                     create().show()

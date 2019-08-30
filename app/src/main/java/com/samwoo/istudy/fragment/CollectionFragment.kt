@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.ContentActivity
-import com.samwoo.istudy.adapter.ArticlesAdapter
+import com.samwoo.istudy.adapter.CollectionAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
 import com.samwoo.istudy.bean.ArticlesListBean
@@ -17,10 +17,8 @@ import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.CollectContract
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.util.NetworkUtil
-import com.samwoo.istudy.util.SLog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -47,7 +45,7 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
     }
 
     private val collectAdapter by lazy {
-        ArticlesAdapter(activity, datas)
+        CollectionAdapter(activity, datas)
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_refresh_layout
@@ -111,20 +109,19 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
                             activity?.toast("网络不可用!!")
                             return@OnItemChildClickListener
                         }
-                        val dailog = AlertDialog.Builder(activity!!).run {
+                        AlertDialog.Builder(activity!!).run {
                             setTitle(R.string.cancle_collect_title)
                             setMessage(R.string.cancle_collect_msg)
                             setIcon(R.mipmap.icon)
-                            setPositiveButton(R.string.confirm) { dailog, which ->
+                            setPositiveButton(R.string.confirm) { _, _ ->
                                 mPresenter?.removeCollectArticle(data.id, data.originId)
                                 collectAdapter.remove(position)
                             }
-                            setNegativeButton(R.string.cancel) { dailog, which ->
-                                dailog.dismiss()
+                            setNegativeButton(R.string.cancel) { dialog, _ ->
+                                dialog.dismiss()
                             }
-                            create()
+                            create().show()
                         }
-                        dailog.show()
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.samwoo.istudy.mvp.presenter
 
 import com.samwoo.istudy.base.BasePresenter
 import com.samwoo.istudy.bean.ArticlesListBean
+import com.samwoo.istudy.bean.Banner
 import com.samwoo.istudy.bean.BannerList
 import com.samwoo.istudy.bean.HttpResult
 import com.samwoo.istudy.callback.Callback
@@ -18,9 +19,9 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun getBanners() {
-        homeModel.getBanners(object : Callback<BannerList, String> {
-            override fun onSuccess(data: BannerList) {
-                if (isViewAttached()) mView?.setBanner(data)
+        homeModel.getBanners(object : Callback<HttpResult<List<Banner>>, String> {
+            override fun onSuccess(result: HttpResult<List<Banner>>) {
+                if (isViewAttached()) mView?.setBanner(result.data)
             }
 
             override fun onFail(data: String) {

@@ -22,21 +22,22 @@ class ArticlesAdapter(private val context: Context?, datas: MutableList<Article>
             setText(R.id.tv_article_title, Html.fromHtml(item.title))
             setText(R.id.tv_article_author, item.author)
             setText(R.id.tv_article_date, item.niceDate)
-            setImageResource(R.id.iv_like, if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not)
+            setImageResource(
+                R.id.iv_like,
+                if (item.collect) R.drawable.ic_like else R.drawable.ic_like_not
+            )
             addOnClickListener(R.id.iv_like)
         }
 
-        val chapterName = when {
-//            item.superChapterName.isNotEmpty() and item.chapterName.isNotEmpty() -> "${item.superChapterName} / ${item.chapterName}"
-//            item.superChapterName.isNotEmpty() -> item.superChapterName
-            item.chapterName.isNotEmpty() -> item.chapterName
-            else -> ""
-        }
-//        helper.setText(R.id.tv_article_chapterName, chapterName)
-
         if (item.envelopePic.isNotEmpty()) {
             helper.getView<ImageView>(R.id.iv_article_thumbnail).visibility = View.VISIBLE
-            context?.let { ImageLoader.load(context, item.envelopePic, helper.getView(R.id.iv_article_thumbnail)) }
+            context?.let {
+                ImageLoader.load(
+                    context,
+                    item.envelopePic,
+                    helper.getView(R.id.iv_article_thumbnail)
+                )
+            }
         } else {
             helper.getView<ImageView>(R.id.iv_article_thumbnail).visibility = View.GONE
         }
