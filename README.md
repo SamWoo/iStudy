@@ -23,7 +23,6 @@
  - **涉及到开源库包括:**  
     - **[RxJava](https://github.com/ReactiveX/RxJava)**
     - **[RxAndroid](https://github.com/ReactiveX/RxAndroid)**
-    - **[RxKotlin](https://github.com/ReactiveX/RxKotlin)**
     - **[Retrofit](https://github.com/square/retrofit)**
     - **[okhttp](https://github.com/square/okhttp)**
     - **[Glide](https://github.com/bumptech/glide)**
