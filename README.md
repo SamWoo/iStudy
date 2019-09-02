@@ -6,7 +6,8 @@
 
 ### 项目简介 
 - 本项目采用`MVP` + `RxJava` + `Retrofit` + `Glide` + `EventBus` 等架构设计的项目  
-- `API`来源：[https://github.com/hongyangAndroid/wanandroid](https://github.com/hongyangAndroid/wanandroid)
+- `API`来源：[玩Android](https://github.com/hongyangAndroid/wanandroid)
+- `妹子图API`来源：[妹子图](http://gank.io/api/data/福利/20/1)
 - **主要实现了如下功能：**   
   - **首页**：轮播图、首页列表文章
   - **知识体系**：涉及`Android`开发使用到的各方面知识点，如:开发环境、四大组件等等
@@ -18,9 +19,10 @@
   - **文章内容**：包含分享、收藏、浏览器打开功能
   - **搜索**：热门搜索、历史搜索
   - **日/夜间模式切换**
+  - **妹子图**：基于Gank.io开放的api实现的瀑布流式妹子图册，支持大图缩放、拖拽功能
   - **清除缓存**
  
- - **涉及到开源库包括:**  
+ - **涉及到第三方开源库包括:**  
     - **[RxJava](https://github.com/ReactiveX/RxJava)**
     - **[RxAndroid](https://github.com/ReactiveX/RxAndroid)**
     - **[Retrofit](https://github.com/square/retrofit)**
