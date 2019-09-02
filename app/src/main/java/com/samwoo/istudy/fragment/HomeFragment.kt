@@ -19,7 +19,6 @@ import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Article
 import com.samwoo.istudy.bean.ArticlesListBean
 import com.samwoo.istudy.bean.Banner
-import com.samwoo.istudy.bean.BannerList
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.CollectContract
 import com.samwoo.istudy.mvp.contract.HomeContract
@@ -27,11 +26,9 @@ import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.HomePresenter
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.util.NetworkUtil
-import com.samwoo.istudy.view.LoadingDialog
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
-import kotlinx.android.synthetic.main.item_home_list.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -41,7 +38,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     }
 
     private val articles = mutableListOf<Article>()
-    private lateinit var banners: MutableList<Banner>
+    private var banners = listOf<Banner>()
     private var bannerView: View? = null
     private var isRefresh = true
     //LinearLayoutManager
@@ -68,9 +65,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     //collect
     private var collectPresenter: CollectPresenter? = null
 
-    override fun getLayoutResId(): Int {
-        return R.layout.fragment_refresh_layout
-    }
+    override fun getLayoutResId(): Int = R.layout.fragment_refresh_layout
 
     override fun lazyLoad() {
         mPresenter?.getBanners()
@@ -203,7 +198,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         }
     }
 
-    override fun setBanner(banners: List<Banner>) {
+    override fun setBanner(data: List<Banner>) {
+        this.banners = data
         val bannerFeedList = ArrayList<String>()
         val bannerTitleList = ArrayList<String>()
         for (item in banners) {
@@ -227,7 +223,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
                 }
                 val size = it.size
                 if (size < result.size) {
-                    loadMoreEnd(isRefresh)
+                    loadMoreEnd(false)
                 } else {
                     loadMoreComplete()
                 }

@@ -40,6 +40,14 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <!--Dialog loading-->
+    <style name="ShowDialog">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+<!--        <item name="android:windowAnimationStyle">@style/WindowAnimationFadeInOut</item>-->
+    </style>
+
     <!--window-->
     <style name="WindowAnimationFadeInOut">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>

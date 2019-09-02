@@ -36,10 +36,10 @@ class GeneralActivity : BaseActivity() {
                 toolbar.title = getString(R.string.my_collected)
                 CollectionFragment.instance(extras)
             }
-//            Constant.TYPE.SETTINGS_TYPE_KEY->{
-//                toolbar.title=getString(R.string.settings)
-//                SettingsFragment.instance(extras)
-//            }
+            Constant.TYPE.GANK_GIRL_PHOTOS->{
+                toolbar.title=getString(R.string.menu_gallery)
+                GirlFragment.instance(extras)
+            }
             else -> {
                 null
             }

@@ -186,7 +186,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
 
                 val size = it.size
                 if (size < list.size) {
-                    loadMoreEnd(true)
+                    loadMoreEnd(false)
                 } else {
                     loadMoreComplete()
                 }

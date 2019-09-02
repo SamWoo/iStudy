@@ -162,3 +162,21 @@ data class LoginData(
     val type: Int,
     val collectIds: List<Any>
 )
+
+//Gank妹子图
+data class GankBody(
+    val error: Boolean,
+    var results: MutableList<Girl>
+)
+
+data class Girl(
+    val _id:String,
+    val createdAt:String,
+    val desc:String,
+    val publishedAt:String,
+    val source:String,
+    val type:String,
+    val url:String,
+    val used:Boolean,
+    val who:String
+)

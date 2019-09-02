@@ -239,7 +239,14 @@ class MainActivity : BaseActivity() {
                         startActivity(intent)
                     }
                 }
-                R.id.nav_day_night -> {//日/夜j间模式切换
+                R.id.nav_gallery -> {
+                    val intent = intentFor<GeneralActivity>(
+                        Pair(Constant.TYPE_KEY, Constant.TYPE.GANK_GIRL_PHOTOS)
+                    )
+                    startActivity(intent)
+
+                }
+                R.id.nav_day_night -> {//日/夜间模式切换
                     if (SettingUtil.getIsNightMode()) {
                         nav_view.menu.findItem(R.id.nav_day_night).apply {
                             icon = ContextCompat.getDrawable(context, R.drawable.ic_day)

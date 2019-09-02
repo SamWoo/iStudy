@@ -3,7 +3,8 @@ package com.samwoo.istudy.mvp.model
 import com.samwoo.istudy.bean.HttpResult
 import com.samwoo.istudy.bean.LoginData
 import com.samwoo.istudy.callback.Callback
-import com.samwoo.istudy.util.RequestUtil
+import com.samwoo.istudy.constant.HostType
+import com.samwoo.istudy.util.RetrofitManager
 import com.samwoo.istudy.util.handle
 
 class LoginModel {
@@ -12,6 +13,6 @@ class LoginModel {
         password: String,
         callback: Callback<HttpResult<LoginData>, String>
     ) {
-        RequestUtil.service.login(username, password).handle(callback)
+        RetrofitManager.getService(HostType.WAN_ANDROID).login(username, password).handle(callback)
     }
 }

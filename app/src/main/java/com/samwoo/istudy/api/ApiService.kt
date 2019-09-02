@@ -186,4 +186,14 @@ interface ApiService {
         @Path("id") id: Int,
         @Field("originId") originId: Int = -1
     ): Observable<HttpResult<Any>>
+
+    /**
+     * Gank妹子图
+     * http://gank.io/api/data/福利/20/1
+     * @param page
+     */
+    @GET("data/福利/20/{page}")
+    fun getGirlPhoto(
+        @Path("page") page: Int
+    ): Observable<GankBody>
 }
