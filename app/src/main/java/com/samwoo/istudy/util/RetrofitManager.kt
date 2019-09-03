@@ -20,55 +20,28 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-class RetrofitManager {
+object RetrofitManager {
     private val DEFAULT_TIMEOUT: Long = 60
     private val DEFAULT_TIMEOUT_WRITE: Long = 60
     private var retrofit: Retrofit? = null
-
     private var okHttpClient: OkHttpClient? = null
-
 
 //    val service: ApiService by lazy { getRetrofit()!!.create(ApiService::class.java) }
 
-    constructor(@HostType.HostTypeChecker hostType: Int) {
-        val mRetrofit = Retrofit.Builder()
-            .baseUrl(Constant.getHost(hostType))
-            .client(getOKHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
-        service = mRetrofit.create(ApiService::class.java)
-        serviceArray.put(hostType, service)
+    private var service: ApiService? = null
+    private var serviceArray = SparseArray<ApiService>(HostType.TYPE_COUNT)
+
+    fun getService(hostType: Int): ApiService {
+        service = serviceArray.get(hostType)
+        if (service == null) {
+            val mRetrofit = getRetrofit(hostType)
+            service = mRetrofit?.create(ApiService::class.java)
+            serviceArray.put(hostType, service)
+        }
+        return service as ApiService
     }
 
-    companion object {
-        private var service: ApiService? = null
-        private var managerArray = SparseArray<RetrofitManager>(HostType.TYPE_COUNT)
-        private var serviceArray = SparseArray<ApiService>(HostType.TYPE_COUNT)
-
-        fun getInstance(hostType: Int): RetrofitManager {
-            var manager: RetrofitManager? = managerArray.get(hostType)
-            if (manager == null) {
-                manager = RetrofitManager(hostType)
-                managerArray.put(hostType, manager)
-            }
-            return manager
-        }
-
-        fun getService(hostType: Int): ApiService {
-            service = serviceArray.get(hostType)
-            if (service == null) {
-                val manager = RetrofitManager(hostType)
-            }
-            return service as ApiService
-        }
-    }
-
-    //token
-//    private var token:String by Preference("token","")
-
-    //单玩安卓url请求处理方式
+    //单host url请求处理方式
     private fun getRetrofit(): Retrofit? {
         if (retrofit == null) {
             synchronized(RetrofitManager::class.java) {
@@ -84,6 +57,17 @@ class RetrofitManager {
             }
         }
         return retrofit
+    }
+
+    //多host url动态请求处理方式
+    private fun getRetrofit(hostType: Int): Retrofit? {
+        return Retrofit.Builder()
+            .baseUrl(Constant.getHost(hostType))
+            .client(getOKHttpClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
     }
 
     private fun getOKHttpClient(): OkHttpClient? {

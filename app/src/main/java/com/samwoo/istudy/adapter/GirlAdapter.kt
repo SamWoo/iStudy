@@ -3,10 +3,13 @@ package com.samwoo.istudy.adapter
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.samwoo.istudy.R
 import com.samwoo.istudy.bean.Girl
+import com.samwoo.istudy.util.DisplayManager.dip2px
 import com.samwoo.istudy.util.ImageLoader
 
 class GirlAdapter(val context: Context?, data: MutableList<Girl>) :
@@ -26,6 +29,11 @@ class GirlAdapter(val context: Context?, data: MutableList<Girl>) :
             helper.setText(R.id.title, desc)
         } else {
             helper.getView<LinearLayout>(R.id.meizhi_card).visibility = View.GONE
+            val cardView = helper.getView<CardView>(R.id.cardView_girl)
+//            cardView.visibility=View.GONE
+            val layoutParams = cardView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+            layoutParams.setMargins(6,0, 6, 0)
+            cardView.layoutParams = layoutParams
         }
 
     }
