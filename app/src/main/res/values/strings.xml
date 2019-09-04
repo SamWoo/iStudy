@@ -87,4 +87,8 @@
     <string name="copyright">版权</string>
     <string name="copyright_summary">@string/splash_copyright</string>
 
+    <!-- download photo -->
+    <string name="tip_msg">温馨提示</string>
+    <string name="download_photo">是否确定要下载该图片？</string>
+
 </resources>

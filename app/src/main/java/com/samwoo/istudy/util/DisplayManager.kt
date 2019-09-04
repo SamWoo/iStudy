@@ -2,11 +2,10 @@ package com.samwoo.istudy.util
 
 import android.content.Context
 import android.util.DisplayMetrics
+import android.util.TypedValue
+
 
 object DisplayManager {
-    init {
-
-    }
 
     private var displayMetrics: DisplayMetrics? = null
 
@@ -92,12 +91,47 @@ object DisplayManager {
     }
 
     /**
-     * dip转px
+     * dp转px
      * @param dipValue
      * @return int
      */
-    fun dip2px(dipValue: Float): Int? {
-        val scale = displayMetrics?.density
-        return (dipValue * scale!! + 0.5f).toInt()
+    fun dip2px(dipValue: Float): Int {
+        return (dipValue * displayMetrics!!.density + 0.5f).toInt()
+    }
+
+    fun px2dip(pxValue: Float): Int {
+        return (pxValue / displayMetrics!!.density + 0.5f).toInt()
+    }
+
+    fun dp2px(dp: Int): Int {
+        return (0.5f+dp.toFloat()*displayMetrics!!.density).toInt()
+    }
+
+    fun px2dp(pxValue: Float): Int {
+        return (pxValue / displayMetrics!!.density + 0.5f).toInt()
+    }
+
+    fun px2sp(pxValue: Float): Int {
+        return (pxValue / displayMetrics!!.scaledDensity + 0.5f).toInt()
+    }
+
+    fun px2sp(size: Int): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_PX,
+            size.toFloat(),
+            displayMetrics
+        )
+    }
+
+    fun sp2px(spValue: Float): Int {
+        return (spValue * displayMetrics!!.scaledDensity + 0.5f).toInt()
+    }
+
+    fun sp2px(size: Int): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            size.toFloat(),
+            displayMetrics
+        )
     }
 }

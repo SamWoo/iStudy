@@ -99,6 +99,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     }
 
     override fun registerSuccess(data: LoginData) {
+        btn_register.stopAnim()
         username = data.username
         password = data.password
 

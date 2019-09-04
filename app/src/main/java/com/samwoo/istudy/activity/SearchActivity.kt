@@ -56,7 +56,6 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     override fun requestData() {
         // 获取搜索热词
         mPresenter.getHotKey()
-        mPresenter.queryHistory()
     }
 
     override fun getLayoutResId(): Int {
@@ -106,13 +105,14 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                     dismiss()
                 }
             }.show()
-
         }
-
-        // 获取搜索热词
-//        mPresenter.getHotKey()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 获取搜索历史
+        mPresenter.queryHistory()
+    }
     /**
      * 监听点击item事件
      */

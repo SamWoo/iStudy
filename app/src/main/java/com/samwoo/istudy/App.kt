@@ -3,6 +3,7 @@ package com.samwoo.istudy
 import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
+import com.samwoo.istudy.util.DisplayManager
 import com.samwoo.istudy.util.SettingUtil
 import org.litepal.LitePal
 import kotlin.properties.Delegates
@@ -23,6 +24,7 @@ class App : Application() {
         LitePal.initialize(this)
         //
         initTheme()
+        DisplayManager.init(this)
     }
 
     private fun initTheme() {

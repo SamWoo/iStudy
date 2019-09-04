@@ -30,7 +30,7 @@ class AnimButton : Button {
     private var colorDrawable: Int = ContextCompat.getColor(context, R.color.colorAccent)
     private var paint: Paint = Paint()
     private var startAngle: Int = 0
-    private lateinit var arcValueAnimator: ValueAnimator
+    private var arcValueAnimator: ValueAnimator? = null
     private var isRunning: Boolean = false //控制动画标志位
 
     init {
@@ -97,11 +97,11 @@ class AnimButton : Button {
 
     private fun showArc() {
         arcValueAnimator = ValueAnimator.ofInt(0, 1080)
-        arcValueAnimator.addUpdateListener { animation ->
+        arcValueAnimator?.addUpdateListener { animation ->
             startAngle = animation.animatedValue as Int
             invalidate()
         }
-        arcValueAnimator.run {
+        arcValueAnimator?.run {
             interpolator = LinearInterpolator()
             repeatCount = ValueAnimator.INFINITE
             duration = 3 * 1000
@@ -111,14 +111,12 @@ class AnimButton : Button {
 
     fun stopAnim() {
         isRunning = false
-//        arcValueAnimator?.cancel()
+        if (arcValueAnimator != null) arcValueAnimator?.cancel()
 //        this.visibility = View.GONE
     }
 
     fun reset(msg: String?) {
-//        stopAnim()
-        isRunning = false
-        arcValueAnimator.cancel()
+        stopAnim()
         this.visibility = View.VISIBLE
         backDrawable.apply {
             setBounds(0, 0, width, height)

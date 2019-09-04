@@ -1,30 +1,26 @@
 package com.samwoo.istudy.fragment
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.samwoo.istudy.R
-import com.samwoo.istudy.activity.ContentActivity
 import com.samwoo.istudy.adapter.GirlAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Girl
-import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.GirlContract
 import com.samwoo.istudy.mvp.presenter.GirlPresenter
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.widget.listener.MultiPointTouchListener
-import kotlinx.android.synthetic.main.dialog_show_girl.*
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
-import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import java.io.File
 
@@ -115,9 +111,17 @@ class GirlFragment : BaseFragment(), GirlContract.View {
 
             imageView.apply {
                 setOnClickListener {
-//                    dialog.dismiss()
+                    //                    dialog.dismiss()
                 }
                 setOnLongClickListener {
+                    activity!!.alert(R.string.download_photo, R.string.tip_msg) {
+                        positiveButton(R.string.confirm) {
+                            activity!!.toast("下载中...")
+                        }
+                        negativeButton(R.string.cancel) {
+                            dismiss()
+                        }
+                    }.show()
                     true
                 }
                 setOnTouchListener(MultiPointTouchListener())
@@ -129,7 +133,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     }
 
     //长按保存图片
-    private fun saveImage(bitmap: Bitmap) {
+    private fun savePhoto(bitmap: Bitmap) {
         val file: File = File("/sdcard/myFolder")
         if (!file.exists()) file.mkdirs()
     }

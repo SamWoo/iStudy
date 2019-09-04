@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         R.mipmap.splash0, R.mipmap.splash1, R.mipmap.splash2,
         R.mipmap.splash3, R.mipmap.splash4, R.mipmap.splash5,
         R.mipmap.splash6, R.mipmap.splash7, R.mipmap.splash8,
-        R.mipmap.splash9, R.mipmap.splash10
+        R.mipmap.splash10
     )
     private lateinit var random: Random
     private lateinit var animatorX: ObjectAnimator

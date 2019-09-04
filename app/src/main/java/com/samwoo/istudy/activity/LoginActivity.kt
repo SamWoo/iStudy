@@ -115,6 +115,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     @SuppressLint("NewApi")
     override fun loginSuccess(data: LoginData) {
+        btn_login.stopAnim()
         username = et_username.text.toString() //data.username
         password = et_password.text.toString() //data.password
         isLogin = true
