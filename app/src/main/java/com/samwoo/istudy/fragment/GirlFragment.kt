@@ -1,8 +1,10 @@
 package com.samwoo.istudy.fragment
 
-import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,11 +20,19 @@ import com.samwoo.istudy.bean.Girl
 import com.samwoo.istudy.mvp.contract.GirlContract
 import com.samwoo.istudy.mvp.presenter.GirlPresenter
 import com.samwoo.istudy.util.ImageLoader
+import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.util.PermissionUtil
 import com.samwoo.istudy.widget.listener.MultiPointTouchListener
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.lang.Exception
+import java.net.URL
 
 class GirlFragment : BaseFragment(), GirlContract.View {
 
@@ -37,6 +47,11 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     private var mPresenter: GirlPresenter? = null
     private val photos = mutableListOf<Girl>()
     private var isRefresh: Boolean = true
+    //读写SD的权限
+    private val permissions: Array<String> = arrayOf(
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_EXTERNAL_STORAGE"
+    )
 
     private val staggeredGridLayoutManager: StaggeredGridLayoutManager by lazy {
         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -65,6 +80,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
             setOnRefreshListener(onRefreshListener)
         }
 
+        staggeredGridLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         recyclerView.run {
             layoutManager = staggeredGridLayoutManager
             adapter = girlAdapter
@@ -106,38 +122,43 @@ class GirlFragment : BaseFragment(), GirlContract.View {
                 setCancelable(true)
             }
 
+            //show photo
             val imageView = view.findViewById<ImageView>(R.id.image_girl)
             ImageLoader.load(activity, data.url, imageView)
-
             imageView.apply {
+                setOnTouchListener(MultiPointTouchListener())
+            }
+
+            //download photo
+            val btn_download = view.findViewById<ImageView>(R.id.photo_download)
+            btn_download.run {
                 setOnClickListener {
-                    //                    dialog.dismiss()
-                }
-                setOnLongClickListener {
+                    if (!NetworkUtil.isNetworkAvailable(activity!!)) {
+                        activity!!.toast("当前网络不可用!!请检查网络设置!!")
+                        return@setOnClickListener
+                    }
                     activity!!.alert(R.string.download_photo, R.string.tip_msg) {
                         positiveButton(R.string.confirm) {
-                            activity!!.toast("下载中...")
+                            val ret =
+                                PermissionUtil.checkMultiPermission(activity!!, permissions, 0)
+                            if (ret) {
+                                activity!!.toast("正在下载中...")
+                                mPresenter?.savePhoto(activity!!, data.url, data.desc, this@run)
+                            } else {
+                                activity!!.toast("请授权读写SD卡权限!!")
+                            }
                         }
                         negativeButton(R.string.cancel) {
                             dismiss()
                         }
                     }.show()
-                    true
                 }
-                setOnTouchListener(MultiPointTouchListener())
             }
 
             //show the dialog
             dialog.show()
         }
     }
-
-    //长按保存图片
-    private fun savePhoto(bitmap: Bitmap) {
-        val file: File = File("/sdcard/myFolder")
-        if (!file.exists()) file.mkdirs()
-    }
-
 
     override fun lazyLoad() {
         mPresenter?.getGirlPhoto(1)
@@ -181,5 +202,4 @@ class GirlFragment : BaseFragment(), GirlContract.View {
         mPresenter?.detachView()
         mPresenter = null
     }
-
 }
