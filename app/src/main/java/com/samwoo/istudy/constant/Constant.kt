@@ -3,27 +3,29 @@ package com.samwoo.istudy.constant
 object Constant {
     const val BASE_URL = "https://www.wanandroid.com"
     const val GANK_GIRL_URL = "http://gank.io/api/"
-
+    //权限
+    const val WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE"
+    const val READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE"
+    //login&register
     const val LOGIN_KEY = "login"
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
     const val REMEMBER_PASSWORD_KEY = "is_remember"
-
+    //content
     const val CONTENT_URL_KEY = "url"
     const val CONTENT_TITLE_KEY = "title"
     const val CONTENT_ID_KEY = "id"
     const val CONTENT_CID_KEY = "cid"
     const val CONTENT_DATA_KEY = "data"
     const val CONTENT_SHARE_TYPE = "text/plain"
-
+    //search
     const val SEARCH_KEY = "search_key"
     const val TYPE_KEY = "type"
 
     object TYPE {
         const val SEARCH_TYPE_KEY = "search_type_key"
         const val COLLECT_TYPE_KEY = "collect_type_key"
-        const val SETTINGS_TYPE_KEY = "setting_type_key"
-        const val GANK_GIRL_PHOTOS="gank_girl_photos"
+        const val GANK_GIRL_PHOTOS = "gank_girl_photos"
     }
 
     //网络变化action
@@ -53,6 +55,7 @@ object Constant {
     //Cache
     const val MAX_CACHE_SIZE: Long = 1024 * 1024 * 50
 
+    //动态改变host url
     fun getHost(hostType: Int): String? {
         var host: String? = null
         when (hostType) {

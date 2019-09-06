@@ -23,22 +23,24 @@ class GirlAdapter(val context: Context?, data: MutableList<Girl>) :
         item ?: return
         helper ?: return
 
-//        helper.setIsRecyclable(false) //禁止复用，不推荐使用
+//        helper.setIsRecyclable(false) //禁止复用，不推荐使用,易导致OOM
         if (item.url.isNotEmpty()) {
-            if (item.url.contains("7xi8d6") || item.url.contains("img.gank.io")) {
-                helper.getView<LinearLayout>(R.id.meizhi_card).visibility = View.GONE
-            val cardView = helper.getView<CardView>(R.id.cardView_girl)
-            val layoutParams = cardView.layoutParams as StaggeredGridLayoutManager.LayoutParams
-            layoutParams.setMargins(dp2px(4), 0, dp2px(4), 0)
-            cardView.layoutParams = layoutParams
-            } else {
-            helper.getView<LinearLayout>(R.id.meizhi_card).visibility = View.VISIBLE
+//            if (item.url.contains("7xi8d6") || item.url.contains("img.gank.io")) {
+//                helper.getView<LinearLayout>(R.id.meizhi_card).visibility = View.GONE
+//                val cardView = helper.getView<CardView>(R.id.cardView_girl)
+//                val layoutParams = cardView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+//                layoutParams.setMargins(dp2px(4), 0, dp2px(4), 0)
+//                cardView.layoutParams = layoutParams
+//            } else {
+                helper.getView<LinearLayout>(R.id.meizhi_card).visibility = View.VISIBLE
                 context?.let {
                     ImageLoader.load(context, item.url, helper.getView(R.id.meizhi))
                 }
                 val desc = item.createdAt.split("T")[0]
                 helper.setText(R.id.title, desc)
-            }
+//            }
+        }else{
+            return
         }
     }
 

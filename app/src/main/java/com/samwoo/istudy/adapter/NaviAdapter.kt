@@ -43,7 +43,6 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
                         background = getBackGround()
 //                        setBackgroundColor(randomColor())
                     }
-
                     return tv
                 }
             }
@@ -64,13 +63,16 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
     }
 
     /**
-     * 随机获取标签背景颜色
+     * 随机获取标签背景渐变颜色
      */
     private fun getBackGround(): Drawable {
-        val drawable = GradientDrawable()
+        val colors = intArrayOf(randomColor(), randomColor())
+        var drawable = GradientDrawable()
         drawable.apply {
-            //            cornerRadius = 8f
-            setColor(randomColor())
+            orientation = GradientDrawable.Orientation.LEFT_RIGHT
+            cornerRadius = 8f
+            gradientType = GradientDrawable.LINEAR_GRADIENT
+            setColors(colors)
         }
         return drawable
     }

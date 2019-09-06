@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -17,6 +18,7 @@ import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.GirlAdapter
 import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.Girl
+import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.GirlContract
 import com.samwoo.istudy.mvp.presenter.GirlPresenter
 import com.samwoo.istudy.util.ImageLoader
@@ -47,10 +49,11 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     private var mPresenter: GirlPresenter? = null
     private val photos = mutableListOf<Girl>()
     private var isRefresh: Boolean = true
+
     //读写SD的权限
     private val permissions: Array<String> = arrayOf(
-        "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.READ_EXTERNAL_STORAGE"
+        Constant.WRITE_EXTERNAL_STORAGE,
+        Constant.READ_EXTERNAL_STORAGE
     )
 
     private val staggeredGridLayoutManager: StaggeredGridLayoutManager by lazy {
@@ -80,11 +83,13 @@ class GirlFragment : BaseFragment(), GirlContract.View {
             setOnRefreshListener(onRefreshListener)
         }
 
-        staggeredGridLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        staggeredGridLayoutManager.gapStrategy =
+            StaggeredGridLayoutManager.GAP_HANDLING_NONE //可防止Item切换
         recyclerView.run {
             layoutManager = staggeredGridLayoutManager
             adapter = girlAdapter
             itemAnimator = DefaultItemAnimator()
+//            addOnScrollListener(onScrollListener)
         }
 
         girlAdapter.run {
@@ -101,6 +106,19 @@ class GirlFragment : BaseFragment(), GirlContract.View {
         isRefresh = true
         mPresenter?.getGirlPhoto(1)
 
+    }
+
+    //ScrollListener 曾经删除过Item，则滑到顶部的时候刷新布局，避免错乱
+    private val onScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager
+            var firstVisibleItem: IntArray? = null
+            firstVisibleItem = layoutManager.findFirstVisibleItemPositions(firstVisibleItem)
+            if (firstVisibleItem.isNotEmpty() && firstVisibleItem[0] == 0) {
+                if (girlAdapter != null) girlAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     //RequestMoreListener
@@ -139,9 +157,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
                     }
                     activity!!.alert(R.string.download_photo, R.string.tip_msg) {
                         positiveButton(R.string.confirm) {
-                            val ret =
-                                PermissionUtil.checkMultiPermission(activity!!, permissions, 0)
-                            if (ret) {
+                            if (PermissionUtil.checkMultiPermission(activity!!, permissions, 0)) {
                                 activity!!.toast("正在下载中...")
                                 mPresenter?.savePhoto(activity!!, data.url, data.desc, this@run)
                             } else {
@@ -162,6 +178,11 @@ class GirlFragment : BaseFragment(), GirlContract.View {
 
     override fun lazyLoad() {
         mPresenter?.getGirlPhoto(1)
+    }
+
+    //获取数据成功
+    override fun onSuccess(data: List<Girl>) {
+
     }
 
     override fun showGirlPhoto(data: List<Girl>) {

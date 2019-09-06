@@ -12,6 +12,7 @@ import com.samwoo.istudy.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 /**
  * 扩展String属性
  */
@@ -55,3 +56,4 @@ fun randomColor(): Int {
 
     return Color.rgb(red, green, blue)
 }
+

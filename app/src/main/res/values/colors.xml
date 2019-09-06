@@ -11,7 +11,7 @@
     <color name="line_divider">@color/Grey300</color>
     <color name="list_divider">@color/Grey400</color>
     <color name="tabTextColor">#CDCDCD</color>
-    <color name="nav_item_bg">@color/Grey200</color>
+    <color name="nav_item_bg">@color/Grey300</color>
 
     <color name="lightskyblue">#14a2d4</color>
     <color name="lightgray">#11000000</color>
@@ -132,7 +132,7 @@
     <color name="Deep_Purple">#673ab7</color>
     <color name="Indigo">#3f51b5</color>
     <color name="Blue">#2196f3</color>
-    <color name="Light_Blue">#03a9f4</color>
+    <color name="Light_Blue">#70d6f7</color>
     <color name="Cyan">#00bcd4</color>
     <color name="Teal">#009688</color>
     <color name="Green">#4caf50</color>
@@ -156,4 +156,8 @@
     <color name="Grey700">#616161</color>
     <color name="Grey800">#424242</color>
     <color name="Grey900">#212121</color>
+
+    <!-- gradient color -->
+    <color name="gradient1">#FC466B</color>
+    <color name="gradient2">#3F5EFB</color>
 </resources>

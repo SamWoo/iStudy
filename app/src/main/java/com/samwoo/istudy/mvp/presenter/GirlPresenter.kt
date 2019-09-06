@@ -102,5 +102,4 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
             }
         }
     }
-
 }
