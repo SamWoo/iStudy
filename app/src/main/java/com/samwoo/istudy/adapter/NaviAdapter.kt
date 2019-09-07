@@ -1,6 +1,7 @@
 package com.samwoo.istudy.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import kotlinx.android.synthetic.main.item_navigation_list.view.*
 import org.jetbrains.anko.intentFor
+import java.util.*
 
 class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>) :
     BaseQuickAdapter<NavigationBean, BaseViewHolder>(R.layout.item_navigation_list, datas) {
@@ -67,11 +69,17 @@ class NaviAdapter(val context: Context?, val datas: MutableList<NavigationBean>)
      */
     private fun getBackGround(): Drawable {
         val colors = intArrayOf(randomColor(), randomColor())
+//        val colors=listOf(
+//            intArrayOf(Color.parseColor("#373B44"),Color.parseColor("#4286f4")),
+//            intArrayOf(Color.parseColor("#b92b27"),Color.parseColor("#1565C0")),
+//            intArrayOf(Color.parseColor("#bdc3c7"),Color.parseColor("#2c3e50"))
+//        )
         var drawable = GradientDrawable()
         drawable.apply {
             orientation = GradientDrawable.Orientation.LEFT_RIGHT
             cornerRadius = 8f
             gradientType = GradientDrawable.LINEAR_GRADIENT
+//            setColors(colors[Random().nextInt(colors.size-1)])
             setColors(colors)
         }
         return drawable

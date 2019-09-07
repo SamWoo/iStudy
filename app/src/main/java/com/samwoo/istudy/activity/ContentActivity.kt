@@ -55,6 +55,7 @@ class ContentActivity : BaseActivity() {
         tb_title.apply {
             isSelected = true
         }
+        mWebView.setBackgroundColor(0)
     }
 
     override fun initData() {
@@ -87,7 +88,10 @@ class ContentActivity : BaseActivity() {
     }
 
     private val mWebViewClient = object : WebViewClient() {
-        override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
+        override fun shouldInterceptRequest(
+            view: WebView?,
+            request: WebResourceRequest?
+        ): WebResourceResponse? {
             return super.shouldInterceptRequest(view, request)
         }
 
@@ -106,7 +110,10 @@ class ContentActivity : BaseActivity() {
         when (item?.itemId) {
             R.id.action_share -> {
 //                toast("Share it!!")
-                share(getString(R.string.share_text, getString(R.string.app_name), title, url), title)
+                share(
+                    getString(R.string.share_text, getString(R.string.app_name), title, url),
+                    title
+                )
 //                Intent().run {
 //                    this.action = Intent.ACTION_SEND
 //                    putExtra(
@@ -144,7 +151,10 @@ class ContentActivity : BaseActivity() {
             if (menu::class.java.simpleName == "MenuBuilder") {
                 try {
                     val method =
-                        menu::class.java.getDeclaredMethod("setOptionalIconsVisible", java.lang.Boolean.TYPE)
+                        menu::class.java.getDeclaredMethod(
+                            "setOptionalIconsVisible",
+                            java.lang.Boolean.TYPE
+                        )
                     method.run {
                         isAccessible = true
                         invoke(menu, true)
@@ -166,7 +176,10 @@ class ContentActivity : BaseActivity() {
             if (menu.javaClass.simpleName == "MenuBuilder") {
                 try {
                     val method =
-                        menu.javaClass.getDeclaredMethod("setOptionalIconsVisible", java.lang.Boolean.TYPE)
+                        menu.javaClass.getDeclaredMethod(
+                            "setOptionalIconsVisible",
+                            java.lang.Boolean.TYPE
+                        )
                     method.run {
                         isAccessible = true
                         invoke(menu, true)
@@ -203,6 +216,9 @@ class ContentActivity : BaseActivity() {
 
     //按键处理
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        return if (agentWeb?.handleKeyEvent(keyCode, event)) true else super.onKeyDown(keyCode, event)
+        return if (agentWeb?.handleKeyEvent(keyCode, event)) true else super.onKeyDown(
+            keyCode,
+            event
+        )
     }
 }

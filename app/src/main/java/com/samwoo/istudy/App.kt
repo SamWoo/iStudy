@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.samwoo.istudy.util.DisplayManager
+import com.samwoo.istudy.util.SLog
 import com.samwoo.istudy.util.SettingUtil
 import org.litepal.LitePal
 import kotlin.properties.Delegates
@@ -25,6 +26,7 @@ class App : Application() {
         //
         initTheme()
         DisplayManager.init(this)
+//        SLog.d("screen.w-->${DisplayManager.getScreenWidth()} / screen.h-->${DisplayManager.getScreenHeight()}")
     }
 
     private fun initTheme() {

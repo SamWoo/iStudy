@@ -7,7 +7,7 @@ import com.samwoo.istudy.bean.Girl
 
 interface GirlContract {
     interface View : IView {
-        fun showGirlPhoto(data: List<Girl>)
+//        fun showGirlPhoto(data: List<Girl>)
         fun onSuccess(data: List<Girl>)
     }
 

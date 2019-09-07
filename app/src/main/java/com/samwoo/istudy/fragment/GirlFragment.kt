@@ -1,10 +1,6 @@
 package com.samwoo.istudy.fragment
 
 import android.app.Dialog
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,20 +17,16 @@ import com.samwoo.istudy.bean.Girl
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.GirlContract
 import com.samwoo.istudy.mvp.presenter.GirlPresenter
+import com.samwoo.istudy.service.ImageService
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.util.PermissionUtil
 import com.samwoo.istudy.widget.listener.MultiPointTouchListener
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.lang.Exception
-import java.net.URL
 
 class GirlFragment : BaseFragment(), GirlContract.View {
 
@@ -89,7 +81,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
             layoutManager = staggeredGridLayoutManager
             adapter = girlAdapter
             itemAnimator = DefaultItemAnimator()
-//            addOnScrollListener(onScrollListener)
+            addOnScrollListener(onScrollListener)
         }
 
         girlAdapter.run {
@@ -102,22 +94,17 @@ class GirlFragment : BaseFragment(), GirlContract.View {
 
     //RefreshListener
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getGirlPhoto(1)
-
     }
 
     //ScrollListener 曾经删除过Item，则滑到顶部的时候刷新布局，避免错乱
     private val onScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            val layoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager
-            var firstVisibleItem: IntArray? = null
-            firstVisibleItem = layoutManager.findFirstVisibleItemPositions(firstVisibleItem)
-            if (firstVisibleItem.isNotEmpty() && firstVisibleItem[0] == 0) {
-                if (girlAdapter != null) girlAdapter.notifyDataSetChanged()
-            }
+//            val layoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager
+            staggeredGridLayoutManager.invalidateSpanAssignments() //防止第一行到顶部有空白
         }
     }
 
@@ -180,12 +167,23 @@ class GirlFragment : BaseFragment(), GirlContract.View {
         mPresenter?.getGirlPhoto(1)
     }
 
-    //获取数据成功
+    /**
+     * 加载成功时先在后台获取图片的width和height，
+     * 这样就可以不出现加载时重绘导致的闪屏了,
+     * 但是这样会导致进入的时候呈现一片空白界面。
+     * 最理想的解决方式就是“让后台下发数据是带上width和height”
+     */
     override fun onSuccess(data: List<Girl>) {
-
+        ImageService.startService(activity!!, data)
     }
 
-    override fun showGirlPhoto(data: List<Girl>) {
+    //后台处理完通知前台显示数据
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun dataEvent(data: List<Girl>) {
+        showGirlPhoto(data)
+    }
+
+    private fun showGirlPhoto(data: List<Girl>) {
         data.let {
             girlAdapter.run {
                 when (isRefresh) {

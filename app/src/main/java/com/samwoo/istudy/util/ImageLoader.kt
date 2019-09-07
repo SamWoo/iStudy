@@ -10,6 +10,7 @@ import com.samwoo.istudy.R
 import android.graphics.Bitmap
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import java.lang.Exception
 
 
 object ImageLoader {
@@ -69,22 +70,19 @@ object ImageLoader {
      * @param url
      * @return
      */
-//    fun load(context: Context, url: String,iv:ImageView): Bitmap? {
-//        val options = RequestOptions()
-//            .diskCacheStrategy(DiskCacheStrategy.ALL)
-//            .override(FutureTarget.SIZE_ORIGINAL, FutureTarget.SIZE_ORIGINAL)
-//
-//        try {
-//            return Glide.with(context)
-//                .asBitmap()
-//                .load(url)
-//                .apply(options)
-//                .into(iv)
-//                .get()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//        return null
-//    }
+    fun load(context: Context, url: String): Bitmap? {
+        val options = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+        var bitmap: Bitmap? = null
+        val bmp = Glide.with(context)
+            .asBitmap()
+            .load(url)
+            .submit()
+        try {
+            bitmap = bmp.get()
+        } catch (e: Exception) {
+            print(e.printStackTrace())
+        }
+        return bitmap
+    }
 }

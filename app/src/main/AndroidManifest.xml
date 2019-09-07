@@ -45,6 +45,7 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.GeneralActivity" />
         <activity android:name=".activity.SettingsActivity"/>
+        <service android:name=".service.ImageService"/>
     </application>
 
 </manifest>

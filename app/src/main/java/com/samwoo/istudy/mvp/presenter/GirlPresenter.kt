@@ -7,23 +7,19 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
-import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BasePresenter
 import com.samwoo.istudy.bean.GankBody
 import com.samwoo.istudy.callback.Callback
 import com.samwoo.istudy.mvp.contract.GirlContract
 import com.samwoo.istudy.mvp.model.GirlModel
-import com.samwoo.istudy.util.PermissionUtil
 import com.samwoo.istudy.util.SLog
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.io.InputStream
-import java.lang.Exception
 import java.net.URL
 
 class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter {
@@ -33,7 +29,8 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
         model.getGirlPhoto(page, object : Callback<GankBody, String> {
             override fun onSuccess(data: GankBody) {
                 if (isViewAttached()) {
-                    mView?.showGirlPhoto(data.results)
+//                    mView?.showGirlPhoto(data.results)
+                    mView?.onSuccess(data.results)
                 }
             }
 
@@ -54,9 +51,8 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
         imageView: ImageView
     ) {
         val pathName = Environment.getExternalStorageDirectory().path + "/myFolder/"
-//        val pathName = "/sdcard/myFolder/"
         val file = File(pathName)
-        if (!file.exists())file.mkdir()
+        if (!file.exists()) file.mkdir()
 
         val fileName = File(pathName, "${desc}.jpg")
         if (fileName.exists()) {
