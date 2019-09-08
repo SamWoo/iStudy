@@ -2,7 +2,6 @@ package com.samwoo.istudy.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,7 @@ import com.samwoo.istudy.mvp.contract.CollectContract
 import com.samwoo.istudy.mvp.presenter.ArticlesPresenter
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.util.NetworkUtil
-import com.samwoo.istudy.view.LoadingDialog
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
@@ -78,7 +77,6 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
         cid = arguments!!.getInt(Constant.CONTENT_CID_KEY) ?: 0
 
         swipeRefreshLayout.run {
-            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -103,13 +101,12 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ArticlesFragment.onItemClickListener
             onItemChildClickListener = this@ArticlesFragment.onItemChildClickListener
-            setEmptyView(R.layout.layout_empty)
         }
-
+        //show loading view or empty view
+        MsgView.showLoadView(context!!, articlesAdapter)
     }
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getArticleList(0, cid)
     }
@@ -152,8 +149,8 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
                                 true -> collectPresenter?.cancleCollectArticle(data.id)
                                 else -> collectPresenter?.addCollectArticle(data.id)
                             }
-                        }else{
-                            val intent=activity!!.intentFor<LoginActivity>()
+                        } else {
+                            val intent = activity!!.intentFor<LoginActivity>()
                             startActivity(intent)
                         }
                     }
@@ -196,12 +193,10 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
 
     override fun showLoading() {
 //        swipeRefreshLayout.isRefreshing = isRefresh
-        loadingDialog?.show()
     }
 
     override fun hideLoading() {
-//        swipeRefreshLayout.isRefreshing = false
-        loadingDialog?.hide()
+        swipeRefreshLayout.isRefreshing = false
         if (isRefresh) {
             articlesAdapter.setEnableLoadMore(true)
         }
@@ -211,6 +206,7 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
         articlesAdapter.run {
             if (isRefresh) {
                 setEnableLoadMore(true)
+                MsgView.showErrorView(activity!!, articlesAdapter,"加载失败...o(╥﹏╥)o")
             } else {
                 loadMoreFail()
             }

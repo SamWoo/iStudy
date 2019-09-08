@@ -26,6 +26,7 @@ import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.HomePresenter
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import kotlinx.android.synthetic.main.item_home_banner.view.*
@@ -79,7 +80,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         collectPresenter?.attachView(this)
 
         swipeRefreshLayout.run {
-            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -109,9 +109,9 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@HomeFragment.onItemClickListener
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
-            setEmptyView(R.layout.layout_empty)
             addHeaderView(bannerView)
         }
+        MsgView.showLoadView(context!!, homeAdapter)
     }
 
     //BannerClickListener
@@ -129,8 +129,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
 
     //RefreshListener
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        showLoading()
-        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getBanners()
         mPresenter?.getArticles(0)
@@ -164,7 +162,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
             if (articles.size != 0) {
                 val data = articles[position]
-//            activity?.toast("$data")
                 when (view.id) {
                     R.id.iv_like -> {
                         if (isLogin) {
@@ -233,12 +230,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
 
     override fun showLoading() {
 //        swipeRefreshLayout.isRefreshing = isRefresh
-        loadingDialog?.show()
     }
 
     override fun hideLoading() {
-//        swipeRefreshLayout?.isRefreshing = false
-        loadingDialog?.hide()
+        swipeRefreshLayout?.isRefreshing = false
         if (isRefresh) {
             homeAdapter.run {
                 setEnableLoadMore(true)
@@ -250,6 +245,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
         homeAdapter.run {
             if (isRefresh) {
                 setEnableLoadMore(true)
+                MsgView.showErrorView(context!!, homeAdapter, "加载失败...o(╥﹏╥)o")
             } else {
                 loadMoreFail()
             }

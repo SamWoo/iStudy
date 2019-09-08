@@ -14,6 +14,8 @@ import com.samwoo.istudy.bean.KnowledgeTreeBody
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.KnowledgeTreeContract
 import com.samwoo.istudy.mvp.presenter.KnowledgeTreePresenter
+import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
@@ -88,10 +90,8 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
                     startActivity(intent)
                 }
             }
-            setEmptyView(R.layout.layout_empty)
         }
-
-
+        MsgView.showLoadView(context!!, knowledgeTreeAdapter)
     }
 
     override fun lazyLoad() {
@@ -115,19 +115,18 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
         Log.d("Sam", "datas======>${datas}")
     }
 
-    override fun showLoading() {
-//        swipeRefreshLayout.isRefreshing = true
-        loadingDialog?.show()
-    }
+    override fun showLoading() {}
 
     override fun hideLoading() {
-//        swipeRefreshLayout.isRefreshing = false
-        loadingDialog?.hide()
+        swipeRefreshLayout.isRefreshing = false
         knowledgeTreeAdapter.loadMoreComplete()
     }
 
     override fun showError(errorMsg: String) {
-        knowledgeTreeAdapter.run { loadMoreFail() }
+        knowledgeTreeAdapter.run {
+            loadMoreFail()
+            MsgView.showErrorView(context!!, knowledgeTreeAdapter, "加载失败...o(╥﹏╥)o")
+        }
         activity?.toast(errorMsg)
     }
 

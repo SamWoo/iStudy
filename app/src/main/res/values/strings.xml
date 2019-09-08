@@ -90,5 +90,6 @@
     <!-- download photo -->
     <string name="tip_msg">温馨提示</string>
     <string name="download_photo">是否确定要下载该图片？</string>
+    <string name="load_failed">"加载失败...o(╥﹏╥)o"</string>
 
 </resources>

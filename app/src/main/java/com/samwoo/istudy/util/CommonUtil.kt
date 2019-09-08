@@ -2,6 +2,8 @@ package com.samwoo.istudy.util
 
 import android.app.Activity
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.view.ViewGroup
 import android.webkit.WebView
 import com.just.agentweb.AgentWeb
@@ -55,5 +57,26 @@ fun randomColor(): Int {
     var blue = random.nextInt(COLOR_VALUE / 2)
 
     return Color.rgb(red, green, blue)
+}
+
+/**
+ * 随机获取标签背景渐变颜色
+ */
+fun getBackGround(): Drawable {
+    val colors = intArrayOf(randomColor(), randomColor())
+//        val colors=listOf(
+//            intArrayOf(Color.parseColor("#373B44"),Color.parseColor("#4286f4")),
+//            intArrayOf(Color.parseColor("#b92b27"),Color.parseColor("#1565C0")),
+//            intArrayOf(Color.parseColor("#bdc3c7"),Color.parseColor("#2c3e50"))
+//        )
+    var drawable = GradientDrawable()
+    drawable.apply {
+        orientation = GradientDrawable.Orientation.LEFT_RIGHT
+        cornerRadius = 8f
+        gradientType = GradientDrawable.LINEAR_GRADIENT
+//            setColors(colors[Random().nextInt(colors.size-1)])
+        setColors(colors)
+    }
+    return drawable
 }
 

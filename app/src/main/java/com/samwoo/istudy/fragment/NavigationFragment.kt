@@ -11,6 +11,8 @@ import com.samwoo.istudy.base.BaseFragment
 import com.samwoo.istudy.bean.NavigationBean
 import com.samwoo.istudy.mvp.contract.NavigationContract
 import com.samwoo.istudy.mvp.presenter.NavigationPresenter
+import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.view.MsgView
 import kotlinx.android.synthetic.main.fragment_nav.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.widget.TabView
@@ -64,6 +66,7 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
             bindToRecyclerView(recyclerView)
             openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM)
         }
+        MsgView.showLoadView(context!!, naviAdapter)
     }
 
     //vertical_tab栏和RecyclerView联动
@@ -97,7 +100,9 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
 
     override fun scrollToTop() {
         recyclerView.run {
-            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 10) scrollToPosition(0)
+            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 10) scrollToPosition(
+                0
+            )
             else smoothScrollToPosition(0)
         }
         nav_tab.run {
@@ -105,17 +110,12 @@ class NavigationFragment : BaseFragment(), NavigationContract.View {
         }
     }
 
-    override fun showLoading() {
-        loadingDialog?.show()
-    }
+    override fun showLoading() {}
 
-    override fun hideLoading() {
-        loadingDialog?.hide()
-
-    }
+    override fun hideLoading() {}
 
     override fun showError(errorMsg: String) {
-
+        MsgView.showErrorView(context!!, naviAdapter, "加载失败...o(╥﹏╥)o")
     }
 
     override fun onDestroyView() {

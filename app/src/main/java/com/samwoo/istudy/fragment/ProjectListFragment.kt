@@ -22,6 +22,7 @@ import com.samwoo.istudy.mvp.contract.ProjectListContract
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.ProjectListPresenter
 import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
@@ -96,12 +97,11 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@ProjectListFragment.onItemClickListener
             onItemChildClickListener = this@ProjectListFragment.onItemChildClickListener
-            setEmptyView(R.layout.layout_empty)
         }
+        MsgView.showLoadView(context!!, projectListAdapter)
     }
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        swipeRefreshLayout.isRefreshing = false
         isRefresh = true
         mPresenter?.getProjectList(1, cid)
     }
@@ -129,7 +129,6 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
         BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
             if (datas.size != 0) {
                 val data = datas[position]
-//                activity?.toast("${data}")
                 when (view.id) {
                     R.id.iv_like -> {
                         if (isLogin) {
@@ -187,12 +186,10 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
 
     override fun showLoading() {
 //        swipeRefreshLayout.isRefreshing = isRefresh
-        loadingDialog?.show()
     }
 
     override fun hideLoading() {
-//        swipeRefreshLayout.isRefreshing = false
-        loadingDialog?.hide()
+        swipeRefreshLayout.isRefreshing = false
         if (isRefresh) {
             projectListAdapter.run {
                 setEnableLoadMore(true)
@@ -204,6 +201,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
         projectListAdapter.run {
             if (isRefresh) {
                 setEnableLoadMore(true)
+                MsgView.showErrorView(context!!, projectListAdapter, "加载失败...o(╥﹏╥)o")
             } else {
                 loadMoreFail()
             }

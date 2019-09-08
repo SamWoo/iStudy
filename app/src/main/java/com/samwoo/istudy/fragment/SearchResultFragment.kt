@@ -19,6 +19,7 @@ import com.samwoo.istudy.mvp.contract.SearchResultContract
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.mvp.presenter.SearchResultPresenter
 import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
@@ -64,7 +65,6 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
         searchKey = arguments?.getString(Constant.SEARCH_KEY, "")
 
         swipeRefreshLayout.apply {
-            //            isRefreshing = true
             if (Build.VERSION.SDK_INT >= 23) {
                 setColorSchemeColors(
                     resources.getColor(R.color.Pink),
@@ -74,7 +74,6 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
                 setProgressBackgroundColorSchemeColor(resources.getColor(R.color.white))
             }
             setOnRefreshListener {
-                isRefreshing = false
                 isRefresh = true
                 mPresenter?.getSearchResult(0, searchKey!!)
             }
@@ -94,7 +93,7 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
             onItemChildClickListener = this@SearchResultFragment.onItemChildClickListener
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
         }
-
+        MsgView.showLoadView(context!!, searchResultAdapter)
     }
 
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
@@ -174,13 +173,11 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.isRefreshing = isRefresh
-//        loadingDialog.show()
+//        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
         swipeRefreshLayout.isRefreshing = false
-//        loadingDialog.hide()
         if (isRefresh) {
             searchResultAdapter.setEnableLoadMore(true)
         }
@@ -190,7 +187,10 @@ class SearchResultFragment : BaseFragment(), SearchResultContract.View, CollectC
         activity?.toast("$errorMsg")
         searchResultAdapter.run {
             when (isRefresh) {
-                true -> setEnableLoadMore(true)
+                true -> {
+                    setEnableLoadMore(true)
+                    MsgView.showErrorView(context!!, searchResultAdapter, "加载失败...o(╥﹏╥)o")
+                }
                 else -> loadMoreFail()
             }
         }

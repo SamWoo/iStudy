@@ -21,6 +21,7 @@ import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.fragment.*
 import com.samwoo.istudy.util.Preference
 import com.samwoo.istudy.util.SettingUtil
+import com.samwoo.istudy.util.getBackGround
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -92,6 +93,7 @@ class MainActivity : BaseActivity() {
             nav_avatar = getHeaderView(0).findViewById(R.id.profile_image)
             menu.findItem(R.id.nav_logout).isVisible = isLogin
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
+//            getHeaderView(0).background = getBackGround()
         }
 
         //floatButton事件监听

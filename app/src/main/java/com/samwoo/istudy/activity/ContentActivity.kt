@@ -2,6 +2,7 @@ package com.samwoo.istudy.activity
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.util.Log
 import android.view.*
 import android.webkit.WebResourceRequest
@@ -12,10 +13,7 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isNotEmpty
 import com.google.android.material.appbar.AppBarLayout
-import com.just.agentweb.AgentWeb
-import com.just.agentweb.NestedScrollAgentWebView
-import com.just.agentweb.WebChromeClient
-import com.just.agentweb.WebViewClient
+import com.just.agentweb.*
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
@@ -55,7 +53,7 @@ class ContentActivity : BaseActivity() {
         tb_title.apply {
             isSelected = true
         }
-        mWebView.setBackgroundColor(0)
+        mWebView.setBackgroundColor(Color.TRANSPARENT)
     }
 
     override fun initData() {
@@ -77,6 +75,8 @@ class ContentActivity : BaseActivity() {
             webChromeClient = mWebChromeClient,
             webViewClient = mWebViewClient
         )
+        //设置背景色透明，适配日/夜间模式切换
+        agentWeb.webCreator.webParentLayout.setBackgroundColor(Color.TRANSPARENT)
     }
 
     private val mWebChromeClient = object : WebChromeClient() {
@@ -204,6 +204,7 @@ class ContentActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        AgentWebConfig.clearDiskCache(this.applicationContext) //清空缓存
         agentWeb.webLifeCycle.onDestroy()
     }
 

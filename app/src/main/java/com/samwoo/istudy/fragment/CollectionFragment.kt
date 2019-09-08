@@ -17,6 +17,7 @@ import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.CollectContract
 import com.samwoo.istudy.mvp.presenter.CollectPresenter
 import com.samwoo.istudy.util.NetworkUtil
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.jetbrains.anko.intentFor
@@ -65,8 +66,6 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
                 setProgressBackgroundColorSchemeColor(resources.getColor(R.color.white))
             }
             setOnRefreshListener {
-                isRefreshing = false
-                showLoading()
                 isRefresh = true
                 mPresenter?.getCollectList(0)
             }
@@ -85,8 +84,8 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
             onItemClickListener = this@CollectionFragment.onItemClickListener
             onItemChildClickListener = this@CollectionFragment.onItemChildClickListener
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
-            setEmptyView(R.layout.layout_empty)
         }
+        MsgView.showLoadView(context!!, collectAdapter)
     }
 
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
@@ -165,15 +164,14 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
         activity?.toast("取消成功!!")
     }
 
-    override fun cancleCollectFail() {
-    }
+    override fun cancleCollectFail() {}
 
     override fun showLoading() {
-//        loadingDialog.show()
+//        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
-//        loadingDialog.hide()
+        swipeRefreshLayout.isRefreshing = false
         if (isRefresh) collectAdapter.setEnableLoadMore(true)
     }
 
@@ -181,7 +179,10 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
         activity?.toast(errorMsg)
         collectAdapter.run {
             when (isRefresh) {
-                true -> setEnableLoadMore(true)
+                true -> {
+                    setEnableLoadMore(true)
+                    MsgView.showErrorView(context!!, collectAdapter, "加载失败...o(╥﹏╥)o")
+                }
                 else -> loadMoreFail()
             }
         }

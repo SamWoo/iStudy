@@ -21,6 +21,7 @@ import com.samwoo.istudy.service.ImageService
 import com.samwoo.istudy.util.ImageLoader
 import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.util.PermissionUtil
+import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.listener.MultiPointTouchListener
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
 import org.greenrobot.eventbus.Subscribe
@@ -90,6 +91,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
             setOnLoadMoreListener(onRequestLoadMoreListener, recyclerView)
             onItemClickListener = this@GirlFragment.onItemClickListener
         }
+        MsgView.showLoadView(context!!, girlAdapter)
     }
 
     //RefreshListener
@@ -114,7 +116,6 @@ class GirlFragment : BaseFragment(), GirlContract.View {
         swipeRefreshLayout.isRefreshing = false
         val page = girlAdapter.data.size / 20 + 1
         mPresenter?.getGirlPhoto(page)
-
     }
 
     //ItemClickListener
@@ -157,9 +158,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
                     }.show()
                 }
             }
-
-            //show the dialog
-            dialog.show()
+            dialog.show() //show the dialog
         }
     }
 
@@ -201,15 +200,18 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     }
 
     override fun showLoading() {
+//        swipeRefreshLayout.isRefreshing = isRefresh
     }
 
     override fun hideLoading() {
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showError(errorMsg: String) {
         girlAdapter.run {
             if (isRefresh) {
                 setEnableLoadMore(true)
+                MsgView.showErrorView(context!!, girlAdapter, "加载失败...o(╥﹏╥)o")
             } else {
                 loadMoreFail()
             }
