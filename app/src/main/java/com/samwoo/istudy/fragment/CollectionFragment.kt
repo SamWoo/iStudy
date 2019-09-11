@@ -105,7 +105,7 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
                 when (view.id) {
                     R.id.iv_like -> {
                         if (!NetworkUtil.isNetworkAvailable(App.context)) {
-                            activity?.toast("网络不可用!!")
+                            App.context.toast("网络不可用!!")
                             return@OnItemChildClickListener
                         }
                         AlertDialog.Builder(activity!!).run {
@@ -161,7 +161,7 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
     }
 
     override fun cancleCollectSuccess() {
-        activity?.toast("取消成功!!")
+        App.context.toast("取消成功!!")
     }
 
     override fun cancleCollectFail() {}
@@ -176,7 +176,7 @@ class CollectionFragment : BaseFragment(), CollectContract.View {
     }
 
     override fun showError(errorMsg: String) {
-        activity?.toast(errorMsg)
+        App.context.toast(errorMsg)
         collectAdapter.run {
             when (isRefresh) {
                 true -> {

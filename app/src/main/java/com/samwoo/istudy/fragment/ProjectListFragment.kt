@@ -133,7 +133,7 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
                     R.id.iv_like -> {
                         if (isLogin) {
                             if (!NetworkUtil.isNetworkAvailable(App.context)) {
-                                activity?.toast("网络不可用!!")
+                                App.context.toast("网络不可用!!")
                                 return@OnItemChildClickListener
                             }
                             val collect = data.collect
@@ -209,20 +209,20 @@ class ProjectListFragment : BaseFragment(), ProjectListContract.View, CollectCon
     }
 
     override fun cancleCollectFail() {
-        activity?.toast("取消失败!!")
+        App.context.toast("取消失败!!")
     }
 
     override fun cancleCollectSuccess() {
-        activity?.toast("取消成功!!")
+        App.context.toast("取消成功!!")
 //        iv_like.setImageResource(R.drawable.ic_like_not)
     }
 
     override fun collectFail() {
-        activity?.toast("收藏失败!!")
+        App.context.toast("收藏失败!!")
     }
 
     override fun collectSuccess() {
-        activity?.toast("收藏成功!!")
+        App.context.toast("收藏成功!!")
 //        iv_like.setImageResource(R.drawable.ic_like)
     }
 

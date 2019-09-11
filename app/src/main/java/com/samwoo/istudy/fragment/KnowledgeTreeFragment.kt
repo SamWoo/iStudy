@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.App
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.activity.KnowledgeActivity
@@ -14,7 +15,6 @@ import com.samwoo.istudy.bean.KnowledgeTreeBody
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.KnowledgeTreeContract
 import com.samwoo.istudy.mvp.presenter.KnowledgeTreePresenter
-import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.view.MsgView
 import com.samwoo.istudy.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_refresh_layout.*
@@ -127,7 +127,7 @@ class KnowledgeTreeFragment : BaseFragment(), KnowledgeTreeContract.View {
             loadMoreFail()
             MsgView.showErrorView(context!!, knowledgeTreeAdapter, "加载失败...o(╥﹏╥)o")
         }
-        activity?.toast(errorMsg)
+        App.context.toast(errorMsg)
     }
 
     override fun onDestroyView() {

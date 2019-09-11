@@ -2,6 +2,7 @@ package com.samwoo.istudy.fragment
 
 import android.util.Log
 import com.google.android.material.tabs.TabLayout
+import com.samwoo.istudy.App
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.WxAccountPagerAdapter
@@ -75,7 +76,7 @@ class WxAccountFragment : BaseFragment(), WxAccountContract.View {
     }
 
     override fun showError(errorMsg: String) {
-        activity?.toast(errorMsg)
+        App.context.toast(errorMsg)
     }
 
     override fun onDestroyView() {

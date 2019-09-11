@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.adapter.GirlAdapter
 import com.samwoo.istudy.base.BaseFragment
@@ -139,17 +140,17 @@ class GirlFragment : BaseFragment(), GirlContract.View {
             val btn_download = view.findViewById<ImageView>(R.id.photo_download)
             btn_download.run {
                 setOnClickListener {
-                    if (!NetworkUtil.isNetworkAvailable(activity!!)) {
-                        activity!!.toast("当前网络不可用!!请检查网络设置!!")
+                    if (!NetworkUtil.isNetworkAvailable(App.context)) {
+                        App.context.toast("当前网络不可用!!请检查网络设置!!")
                         return@setOnClickListener
                     }
                     activity!!.alert(R.string.download_photo, R.string.tip_msg) {
                         positiveButton(R.string.confirm) {
                             if (PermissionUtil.checkMultiPermission(activity!!, permissions, 0)) {
-                                activity!!.toast("正在下载中...")
-                                mPresenter?.savePhoto(activity!!, data.url, data.desc, this@run)
+                                App.context.toast("正在下载中...")
+                                mPresenter?.savePhoto(App.context, data.url, data.desc, this@run)
                             } else {
-                                activity!!.toast("请授权读写SD卡权限!!")
+                                App.context.toast("请授权读写SD卡权限!!")
                             }
                         }
                         negativeButton(R.string.cancel) {

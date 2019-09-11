@@ -253,19 +253,19 @@ class HomeFragment : BaseFragment(), HomeContract.View, CollectContract.View {
     }
 
     override fun cancleCollectFail() {
-        activity?.toast("取消失败!!")
+        App.context.toast("取消失败!!")
     }
 
     override fun cancleCollectSuccess() {
-        activity?.toast("取消成功!!")
+        App.context.toast("取消成功!!")
     }
 
     override fun collectFail() {
-        activity?.toast("收藏失败!!")
+        App.context.toast("收藏失败!!")
     }
 
     override fun collectSuccess() {
-        activity?.toast("收藏成功!!")
+        App.context.toast("收藏成功!!")
     }
 
     override fun showCollectList(data: ArticlesListBean) {}

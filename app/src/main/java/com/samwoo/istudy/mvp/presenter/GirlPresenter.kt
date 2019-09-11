@@ -56,7 +56,7 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
 
         val fileName = File(pathName, "${desc}.jpg")
         if (fileName.exists()) {
-            context!!.toast("该图片已存在!!")
+            context.toast("该图片已存在!!")
             return
 //                fileName.delete()
         }
@@ -72,7 +72,7 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
                 var bitmap = BitmapFactory.decodeStream(ins)
                 fos = FileOutputStream(fileName)
                 bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                fos?.flush()
+                fos.flush()
             } catch (e: Exception) {
                 successed = false
                 SLog.d("${e.printStackTrace()}")
@@ -84,14 +84,14 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
                 when (successed) {
                     true -> {
                         imageView.setImageResource(R.drawable.ic_photo_downloaded)
-                        context!!.toast("${fileName}下载成功!!")
+                        context.toast("${fileName}下载成功!!")
                         //发广播告诉相册有图片需要更新，这样可以在图册下看到保存的图片了
                         val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
                         intent.data = Uri.fromFile(fileName)
-                        context!!.sendBroadcast(intent)
+                        context.sendBroadcast(intent)
                     }
                     else -> {
-                        context!!.toast("${fileName}下载失败!!")
+                        context.toast("${fileName}下载失败!!")
                         return@uiThread
                     }
                 }

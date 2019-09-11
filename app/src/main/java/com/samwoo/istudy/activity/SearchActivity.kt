@@ -236,7 +236,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     }
 
     fun queryByKey(key: String) {
-        toast("关键词--->$key")
+//        toast("关键词--->$key")
         mPresenter.saveSearchKey(key)
         val intent = intentFor<GeneralActivity>(
             Pair(Constant.TYPE_KEY, Constant.TYPE.SEARCH_TYPE_KEY),

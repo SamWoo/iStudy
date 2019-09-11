@@ -134,12 +134,11 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
         BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
             if (datas.size != 0) {
                 val data = datas[position]
-//            activity?.toast("${data}")
                 when (view.id) {
                     R.id.iv_like -> {
                         if (isLogin) {
                             if (!NetworkUtil.isNetworkAvailable(App.context)) {
-                                activity?.toast("网络不可用!!")
+                                App.context.toast("网络不可用!!")
                                 return@OnItemChildClickListener
                             }
                             val collect = data.collect
@@ -214,19 +213,19 @@ class ArticlesFragment : BaseFragment(), ArticlesContract.View, CollectContract.
     }
 
     override fun cancleCollectFail() {
-        activity?.toast("取消失败!!")
+        App.context.toast("取消失败!!")
     }
 
     override fun cancleCollectSuccess() {
-        activity?.toast("取消成功!!")
+        App.context.toast("取消成功!!")
     }
 
     override fun collectFail() {
-        activity?.toast("收藏失败!!")
+        App.context.toast("收藏失败!!")
     }
 
     override fun collectSuccess() {
-        activity?.toast("收藏成功!!")
+        App.context.toast("收藏成功!!")
     }
 
     override fun showCollectList(data: ArticlesListBean) {}

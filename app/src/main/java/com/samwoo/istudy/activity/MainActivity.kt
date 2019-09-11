@@ -351,7 +351,7 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_search -> {
-                toast("搜索")
+//                toast("搜索")
                 val intent = intentFor<SearchActivity>()
                 startActivity(intent)
                 true

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import androidx.appcompat.app.AlertDialog
+import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.util.CacheUtil
 import org.jetbrains.anko.browse
@@ -38,7 +39,7 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
                     setMessage(R.string.clear_cache_msg)
                     setPositiveButton(R.string.confirm) { _, _ ->
                         doAsync {
-                            CacheUtil.clearAllCache(activity!!)
+                            CacheUtil.clearAllCache(App.context)
                             uiThread { showDefaultInfo() }
                         }
                     }
