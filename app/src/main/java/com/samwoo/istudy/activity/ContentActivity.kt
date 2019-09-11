@@ -3,6 +3,7 @@ package com.samwoo.istudy.activity
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.*
 import android.webkit.WebResourceRequest
@@ -11,6 +12,7 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isNotEmpty
 import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.*
@@ -38,9 +40,8 @@ class ContentActivity : BaseActivity() {
         initAgentWeb()
     }
 
-    override fun getLayoutResId(): Int {
-        return R.layout.activity_content
-    }
+    override fun getLayoutResId(): Int = R.layout.activity_content
+
 
     override fun initView() {
         toolbar.run {
@@ -53,7 +54,7 @@ class ContentActivity : BaseActivity() {
         tb_title.apply {
             isSelected = true
         }
-        mWebView.setBackgroundColor(Color.TRANSPARENT)
+        mWebView.setBackgroundColor(Color.parseColor("#00000000"))
     }
 
     override fun initData() {
@@ -217,9 +218,10 @@ class ContentActivity : BaseActivity() {
 
     //按键处理
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        return if (agentWeb?.handleKeyEvent(keyCode, event)) true else super.onKeyDown(
-            keyCode,
-            event
-        )
+        return if (agentWeb?.handleKeyEvent(keyCode, event)) {
+            true
+        } else {
+            super.onKeyDown(keyCode, event)
+        }
     }
 }

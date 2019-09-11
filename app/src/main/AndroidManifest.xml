@@ -2,19 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.samwoo.istudy">
 
-    <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 访问网络 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- SD 卡读写权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!--
-        android9.0系统默认禁止http协议，即禁止明文传输，必须使用https来通讯；
-        而app中所使用的图片和某些地方用的正好是http协议的方式。
-        在Manifest的application中加入以下语句即可
-        android:usesCleartextTraffic="true"
-    -->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -44,8 +31,23 @@
         <activity android:name=".activity.KnowledgeActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.GeneralActivity" />
-        <activity android:name=".activity.SettingsActivity"/>
-        <service android:name=".service.ImageService"/>
+        <activity android:name=".activity.SettingsActivity" />
+
+        <service android:name=".service.ImageService" />
     </application>
+
+    <!-- 访问网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- SD 卡读写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--
+        android9.0系统默认禁止http协议，即禁止明文传输，必须使用https来通讯；
+        而app中所使用的图片和某些地方用的正好是http协议的方式。
+        在Manifest的application中加入以下语句即可
+        android:usesCleartextTraffic="true"
+    -->
+    <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

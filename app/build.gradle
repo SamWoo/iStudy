@@ -6,55 +6,80 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
     defaultConfig {
         applicationId "com.samwoo.istudy"
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         //enable multidex
 //        multiDexEnable=true
     }
-	
-	//lint
-	lintOptions{
+
+    //lint
+    lintOptions {
 //		abortOnErroe false
-		checkReleaseBuilds false
-		disable 'CheckResult'
-	}
-	
+        checkReleaseBuilds false
+        disable 'CheckResult'
+    }
+
+    signingConfigs {
+        releaseConfig {
+            storeFile file("../istudy.jks")
+            storePassword project.hasProperty("KEYSTORE_PASSWORD") ? KEYSTORE_PASSWORD : System.getenv("KEYSTORE_PASSWORD")
+            keyAlias project.hasProperty("ALIAS_NAME") ? ALIAS_NAME : System.getenv("ALIAS_NAME")
+            keyPassword project.hasProperty("ALIAS_PASSWORD") ? ALIAS_PASSWORD : System.getenv("ALIAS_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+//            buildConfigField("boolean", "DEBUG", "false")
+            //关闭debug模式
+            debuggable false
+            //开启混淆
             minifyEnabled false
             //自动清理无用资源
 //            shrinkResources true
+            //混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-			//编译出的apk重命名
-			android.applicationVariants.all{ variant ->
-				variant.outputs.all{ output ->
-					def outputFile=output.outputFile
-					if(outputFile!=null && outputFile.name.endsWith('.apk')){
-						outputFile="iStudy.apk"
-					}
-				}
-			}
+
+            //根据在signingConfigs.releaseConfig里的签名配置进行签名
+            signingConfig signingConfigs.releaseConfig
+
+            //编译出的apk重命名
+            //这也是groovy的代码，这里的代码作用是重命名最后打包出来的apk
+            //根据 def fileName 设置的格式来命名，${}表示的是某个变量的引用
+            android.applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "iStudy_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        //低版本gradle
+//                        output.outputFile = new File(outputFile.parent,fileName)
+                        //高版本gradle
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
     }
-	
+
     //@Parcelize
     androidExtensions {
         experimental = true
     }
-	
-	dexOptions{
-		dexInProcess true
+
+    dexOptions {
+        dexInProcess true
         preDexLibraries true
         javaMaxHeapSize "4g"//越大越好
 //        incremental true
-	}
+    }
 }
 
 static def releaseTime() {
@@ -78,12 +103,14 @@ dependencies {
     implementation "org.jetbrains.anko:anko-common:$anko_version"
     //leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
-    //add
-    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //retrofit
+//    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+//    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+//    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 //    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+//    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    implementation rootProject.ext.retrofitLibs
+    //rx
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.2.1'
     implementation('com.squareup.retrofit2:adapter-rxjava:2.1.0') {
