@@ -18,6 +18,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
+import java.io.File.separator
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.net.URL
@@ -50,7 +51,7 @@ class GirlPresenter : BasePresenter<GirlContract.View>(), GirlContract.Presenter
         desc: String,
         imageView: ImageView
     ) {
-        val pathName = Environment.getExternalStorageDirectory().path + "/myFolder/"
+        val pathName = Environment.getExternalStorageDirectory().path + separator + "myFolder"
         val file = File(pathName)
         if (!file.exists()) file.mkdir()
 

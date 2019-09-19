@@ -95,7 +95,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         }
 
         search_history_clear.setOnClickListener {
-            alert(R.string.clear_all_history, R.string.clear_history) {
+            alert(R.string.clear_all_history, R.string.tip_msg) {
                 positiveButton(getString(R.string.confirm)) {
                     searchHistory.clear()
                     searchHistoryAdapter.replaceData(searchHistory)
@@ -105,6 +105,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
                     dismiss()
                 }
             }.show()
+
         }
     }
 

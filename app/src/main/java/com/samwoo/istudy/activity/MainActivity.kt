@@ -1,6 +1,9 @@
 package com.samwoo.istudy.activity
 
-import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.provider.MediaStore
+import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -13,24 +16,24 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
 import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
+import com.samwoo.istudy.bean.VersionCheck
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.fragment.*
-import com.samwoo.istudy.util.Preference
-import com.samwoo.istudy.util.SettingUtil
-import com.samwoo.istudy.util.getBackGround
+import com.samwoo.istudy.service.UpdateService
+import com.samwoo.istudy.util.*
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
+import java.net.URL
 
 class MainActivity : BaseActivity() {
 
@@ -61,7 +64,10 @@ class MainActivity : BaseActivity() {
         return R.layout.activity_main
     }
 
+    //检查自动升级功能
     override fun initData() {
+        //检查版本是否需要更新升级
+//        UpdateAppUtil.bind(this).checkUpdate()
     }
 
     override fun initView() {
@@ -302,7 +308,7 @@ class MainActivity : BaseActivity() {
     //logout
     private fun logout() {
         val dialog = AlertDialog.Builder(this).run {
-            setTitle(R.string.logout_title)
+            setTitle(R.string.tip_msg)
             setMessage(R.string.logout_msg)
             setIcon(R.mipmap.icon)
             setPositiveButton(R.string.confirm) { _, _ ->
@@ -319,6 +325,7 @@ class MainActivity : BaseActivity() {
             create()
         }
         dialog.show()
+        dialog.window.setWindowAnimations(R.style.DialogInOutStyle)
     }
 
     //浮点按钮事件监听

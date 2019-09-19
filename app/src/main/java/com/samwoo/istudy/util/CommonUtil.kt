@@ -4,6 +4,9 @@ import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.CharacterStyle
 import android.view.ViewGroup
 import android.webkit.WebView
 import com.just.agentweb.AgentWeb
@@ -37,6 +40,20 @@ fun String.getAgentWeb(
     .createAgentWeb()
     .ready()
     .go(this)
+
+/**
+ * 高亮特点字符串
+ */
+fun String.highlight(
+    key: String,
+    style: CharacterStyle
+): SpannableString {
+    val spanText = SpannableString(this)
+    val beginPos = this.indexOf(key)
+    val endPos = beginPos + key.length
+    spanText.setSpan(style, beginPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return spanText
+}
 
 /**
  * 格式化当前日期
