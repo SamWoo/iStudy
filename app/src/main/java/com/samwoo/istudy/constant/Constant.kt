@@ -2,6 +2,7 @@ package com.samwoo.istudy.constant
 
 object Constant {
     const val BASE_URL = "https://www.wanandroid.com"
+    const val USERINFO_URL="https://www.wanandroid.com/lg/coin/userinfo/json"
     const val GANK_GIRL_URL = "http://gank.io/api/"
     //权限
     const val WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE"
@@ -11,6 +12,10 @@ object Constant {
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
     const val REMEMBER_PASSWORD_KEY = "is_remember"
+    //userinfo
+    const val LEVEL_KEY="level"
+    const val RANK_KEY="rank"
+    const val COIN_KEY="coin_count"
     //content
     const val CONTENT_URL_KEY = "url"
     const val CONTENT_TITLE_KEY = "title"
@@ -44,6 +49,7 @@ object Constant {
     //
     const val ARTICLE_WEBSITE = "article"
     const val PROJECT_WEBSITE = "project"
+    const val USERINFO_WEBSITE = "lg/coin"
 
     //Cookie
     const val LOGIN_URL_KEY = "https://www.wanandroid.com/user/login"

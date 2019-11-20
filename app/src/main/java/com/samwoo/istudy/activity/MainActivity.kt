@@ -1,9 +1,5 @@
 package com.samwoo.istudy.activity
 
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.provider.MediaStore
-import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -16,28 +12,30 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
 import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
-import com.samwoo.istudy.bean.VersionCheck
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.fragment.*
-import com.samwoo.istudy.service.UpdateService
-import com.samwoo.istudy.util.*
+import com.samwoo.istudy.util.Preference
+import com.samwoo.istudy.util.SettingUtil
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.*
-import java.net.URL
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
 
     private var username: String by Preference(Constant.USERNAME_KEY, "")
+    private var level: Int by Preference(Constant.LEVEL_KEY, 1)
+    private var rank: Int by Preference(Constant.RANK_KEY, 1)
+    private var coinCount: Int by Preference(Constant.COIN_KEY, 1)
 
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
@@ -55,6 +53,9 @@ class MainActivity : BaseActivity() {
     private var projectFragment: ProjectFragment? = null
 
     private lateinit var nav_nickname: TextView
+    private lateinit var nav_rank: TextView
+    private lateinit var nav_level: TextView
+    private lateinit var nav_coin: TextView
     private lateinit var nav_avatar: CircleImageView
 
     //    override fun useEventBus(): Boolean =true
@@ -96,6 +97,14 @@ class MainActivity : BaseActivity() {
         //抽屉item事件监听
         nav_view.run {
             nav_nickname = getHeaderView(0).findViewById(R.id.tv_nick)
+            nav_rank = getHeaderView(0).findViewById(R.id.tv_rank)
+            nav_level = getHeaderView(0).findViewById(R.id.tv_level)
+            nav_coin = getHeaderView(0).findViewById(R.id.tv_coin)
+            if (isLogin){
+                nav_coin.text = coinCount.toString()
+                nav_level.text = level.toString()
+                nav_rank.text = rank.toString()
+            }
             nav_avatar = getHeaderView(0).findViewById(R.id.profile_image)
             menu.findItem(R.id.nav_logout).isVisible = isLogin
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
@@ -143,6 +152,11 @@ class MainActivity : BaseActivity() {
             }
         }
         showFragment(mIndex)
+    }
+
+    //获取积分信息
+    private fun getUserInfo() {
+
     }
 
     private fun showFragment(index: Int) {
@@ -326,6 +340,26 @@ class MainActivity : BaseActivity() {
         }
         dialog.show()
         dialog.window.setWindowAnimations(R.style.DialogInOutStyle)
+
+//        val view = LayoutInflater.from(this).inflate(R.layout.dialog_msg, null)
+//        val dialog = TipDialog(this, view, R.style.TipDialogTheme)
+//        dialog.setTitle("提示")
+//        dialog.setMessage("是否退出？")
+//        dialog.setCancleBtnText("我再想想！")
+//        dialog.setConfirmBtnText("马上升级")
+//        dialog.setConfirmBtnClickListener(View.OnClickListener {
+//            dialog.dismiss()
+//            isLogin = false
+//                doAsync {
+//                    //            Preference.clearPreference()
+//                    Preference.deleteCookie()
+//                }
+//                EventBus.getDefault().post(LoginEvent(false))
+//        })
+//        dialog.setCancleBtnClickListener(View.OnClickListener {
+//            dialog.dismiss()
+//        })
+//        dialog.show()
     }
 
     //浮点按钮事件监听
@@ -393,6 +427,9 @@ class MainActivity : BaseActivity() {
                 toast("登录成功!!")
                 nav_nickname.text = username
                 nav_avatar.setImageResource(R.mipmap.icon)
+                nav_coin.text = coinCount.toString()
+                nav_level.text = level.toString()
+                nav_rank.text = rank.toString()
 //                homeFragment?.lazyLoad()
             }
             else -> {
@@ -400,6 +437,9 @@ class MainActivity : BaseActivity() {
 //                Preference.clearPreference()
                 nav_nickname.text = getString(R.string.btn_login)
                 nav_avatar.setImageResource(R.mipmap.ic_launcher)
+                nav_coin.text = resources.getString(R.string.coin_count)
+                nav_rank.text = resources.getString(R.string.rank)
+                nav_level.text = resources.getString(R.string.level)
 //                homeFragment?.lazyLoad()
             }
         }

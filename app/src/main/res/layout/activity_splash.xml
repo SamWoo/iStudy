@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:contentDescription=""
         android:scaleType="fitXY"
-        android:src="@mipmap/splash8"
+        android:src="@mipmap/splash0"
         tools:ignore="ContentDescription" />
 
     <View

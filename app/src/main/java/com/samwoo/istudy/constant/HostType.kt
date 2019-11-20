@@ -9,7 +9,7 @@ object HostType {
     const val TYPE_COUNT = 2
 
     /**
-     * 网易新闻视频的host
+     * WanAndroid的host
      */
     const val WAN_ANDROID = 1
 

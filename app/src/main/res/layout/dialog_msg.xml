@@ -1,13 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_fresh"
-    android:layout_marginLeft="@dimen/dp_24"
-    android:layout_marginRight="@dimen/dp_24">
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00FFFFFF"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-/>
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@drawable/bg_dialog_msg">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/dp_8"
+            android:text="温馨提示"
+            android:textColor="#FFD306"
+            android:textSize="20dp" />
+        <View
+            android:id="@+id/div"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@id/tv_title"
+            android:background="@color/Grey400"
+            android:layout_marginTop="@dimen/dp_4"/>
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/div"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:text="余额不足，请先充值"
+            android:textSize="@dimen/sp_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/ll_btn"
+            android:layout_marginTop="20dp"
+            android:background="#c0c0c0" />
+
+        <LinearLayout
+            android:id="@+id/ll_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textColor="@color/black"
+                android:text="取消"
+                android:textSize="17dp" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#c0c0c0" />
+
+            <TextView
+                android:id="@+id/btn_confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="确定"
+                android:textColor="#FFD306"
+                android:textSize="17dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

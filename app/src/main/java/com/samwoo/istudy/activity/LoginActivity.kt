@@ -9,21 +9,30 @@ import androidx.core.animation.addListener
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.bean.LoginData
+import com.samwoo.istudy.bean.UserInfo
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.mvp.contract.LoginContract
 import com.samwoo.istudy.mvp.presenter.LoginPresenter
 import com.samwoo.istudy.util.Preference
+import com.samwoo.istudy.util.SLog
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
+import retrofit2.http.Url
+import java.net.URL
 
 class LoginActivity : BaseActivity(), LoginContract.View {
 
     private var username: String by Preference(Constant.USERNAME_KEY, "")
     private var password: String by Preference(Constant.PASSWORD_KEY, "")
     private var isRemember: Boolean by Preference(Constant.REMEMBER_PASSWORD_KEY, true)
+    //userinfo
+    private var level: Int by Preference(Constant.LEVEL_KEY, 1)
+    private var rank: Int by Preference(Constant.RANK_KEY, 1)
+    private var coinCount: Int by Preference(Constant.COIN_KEY, 1)
 
     private var mPresenter: LoginPresenter? = null
 
@@ -119,26 +128,20 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         username = et_username.text.toString() //data.username
         password = et_password.text.toString() //data.password
         isLogin = true
+        //获取userinfo
+        mPresenter?.getUserInfo()
+    }
 
-        EventBus.getDefault().post(LoginEvent(isLogin))
-        finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-//        val xc = (btn_login.left + btn_login.right) / 2
-//        val yc = (btn_login.top + btn_login.bottom) / 2
-//        animator = ViewAnimationUtils.createCircularReveal(cl_login, xc, yc, 0f, 1111f)
-//        animator.run {
-//            duration = 300
-//            addListener {
-//                handler.postDelayed({
-//                    val intent = intentFor<MainActivity>()
-//                    startActivity(intent)
-//                    finish()
-//                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-//                }, 200)
-//            }
-//            start()
-//        }
-//        cl_login.background.alpha = 255
+    override fun getUserInfoSuccess(data: UserInfo) {
+        if (isLogin) {
+            level = data.level
+            rank = data.rank
+            coinCount = data.coinCount
+            //notify update ui
+            EventBus.getDefault().post(LoginEvent(isLogin))
+            finish()
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }
     }
 
     override fun showLoading() {

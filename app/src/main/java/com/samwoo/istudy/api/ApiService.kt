@@ -111,6 +111,14 @@ interface ApiService {
     ): Observable<HttpResult<LoginData>>
 
     /**
+     * 获取登录用户积分信息
+     * https://www.wanandroid.com/lg/coin/userinfo/json
+     * @method GET
+     */
+    @GET("/lg/coin/userinfo/json")
+    fun getUserInfo(): Observable<HttpResult<UserInfo>>
+
+    /**
      * 注册
      * https://www.wanandroid.com/user/register
      * @method POST

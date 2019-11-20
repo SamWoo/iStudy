@@ -163,6 +163,15 @@ data class LoginData(
     val collectIds: List<Any>
 )
 
+//积分
+data class UserInfo(
+    val coinCount: Int,
+    val level: Int,
+    val rank: Int,
+    val userId: Int,
+    val username: String
+)
+
 //Gank妹子图
 data class GankBody(
     val error: Boolean,
