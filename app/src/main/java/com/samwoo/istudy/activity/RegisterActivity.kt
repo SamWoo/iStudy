@@ -2,12 +2,14 @@ package com.samwoo.istudy.activity
 
 import android.os.Handler
 import android.view.View
+import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.bean.LoginData
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.mvp.contract.RegisterContract
 import com.samwoo.istudy.mvp.presenter.RegisterPresenter
+import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.util.Preference
 import kotlinx.android.synthetic.main.activity_register.*
 import org.jetbrains.anko.intentFor
@@ -43,6 +45,10 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
     private val onClickListener = View.OnClickListener { view ->
         when (view.id) {
             R.id.btn_register -> {
+                if (!NetworkUtil.isNetworkAvailable(App.context)) {
+                    toast("网络未连接!!")
+                    return@OnClickListener
+                }
                 btn_register.startAnim()
                 handler.postDelayed({
                     register()

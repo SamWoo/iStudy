@@ -4,35 +4,26 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.view.View
-import android.view.ViewAnimationUtils
-import androidx.core.animation.addListener
+import com.samwoo.istudy.App
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.bean.LoginData
-import com.samwoo.istudy.bean.UserInfo
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.mvp.contract.LoginContract
 import com.samwoo.istudy.mvp.presenter.LoginPresenter
+import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.util.Preference
-import com.samwoo.istudy.util.SLog
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
-import retrofit2.http.Url
-import java.net.URL
 
 class LoginActivity : BaseActivity(), LoginContract.View {
 
     private var username: String by Preference(Constant.USERNAME_KEY, "")
     private var password: String by Preference(Constant.PASSWORD_KEY, "")
     private var isRemember: Boolean by Preference(Constant.REMEMBER_PASSWORD_KEY, true)
-    //userinfo
-    private var level: Int by Preference(Constant.LEVEL_KEY, 1)
-    private var rank: Int by Preference(Constant.RANK_KEY, 1)
-    private var coinCount: Int by Preference(Constant.COIN_KEY, 1)
 
     private var mPresenter: LoginPresenter? = null
 
@@ -40,7 +31,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     private lateinit var animator: Animator
 
-    override fun useEventBus(): Boolean = false
+    override fun useEventBus(): Boolean = true
 
     override fun requestData() {}
 
@@ -65,7 +56,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
             }
         }
         cb_remember_password.isChecked = isRemember
-
         btn_login.setOnClickListener(onClickListener)
         btn_to_register.setOnClickListener(onClickListener)
         //remeber password
@@ -75,6 +65,10 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     private val onClickListener = View.OnClickListener { view ->
         when (view.id) {
             R.id.btn_login -> {
+                if (!NetworkUtil.isNetworkAvailable(App.context)) {
+                    toast("网络未连接!!")
+                    return@OnClickListener
+                }
                 btn_login.startAnim()
                 handler.postDelayed({
                     login()
@@ -128,20 +122,10 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         username = et_username.text.toString() //data.username
         password = et_password.text.toString() //data.password
         isLogin = true
-        //获取userinfo
-        mPresenter?.getUserInfo()
-    }
-
-    override fun getUserInfoSuccess(data: UserInfo) {
-        if (isLogin) {
-            level = data.level
-            rank = data.rank
-            coinCount = data.coinCount
-            //notify update ui
-            EventBus.getDefault().post(LoginEvent(isLogin))
-            finish()
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
+        //notify update ui
+        EventBus.getDefault().post(LoginEvent(isLogin))
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun showLoading() {

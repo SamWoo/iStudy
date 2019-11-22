@@ -12,13 +12,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.samwoo.istudy.App
 import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.event.LoginEvent
 import com.samwoo.istudy.fragment.*
+import com.samwoo.istudy.mvp.contract.MainContract
+import com.samwoo.istudy.mvp.presenter.MainPresenter
+import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.util.Preference
+import com.samwoo.istudy.util.SLog
 import com.samwoo.istudy.util.SettingUtil
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,12 +35,14 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), MainContract.View {
 
     private var username: String by Preference(Constant.USERNAME_KEY, "")
     private var level: Int by Preference(Constant.LEVEL_KEY, 1)
     private var rank: Int by Preference(Constant.RANK_KEY, 1)
     private var coinCount: Int by Preference(Constant.COIN_KEY, 1)
+
+    private var mPresenter: MainPresenter? = null
 
     private val FRAGMENT_HOME = 0x01
     private val FRAGMENT_KNOWLEDGE_TREE = 0x02
@@ -72,6 +79,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        mPresenter = MainPresenter()
+        mPresenter?.attachView(this)
+
         toolbar.run {
             title = getString(R.string.app_name)
             setSupportActionBar(this)
@@ -100,10 +110,11 @@ class MainActivity : BaseActivity() {
             nav_rank = getHeaderView(0).findViewById(R.id.tv_rank)
             nav_level = getHeaderView(0).findViewById(R.id.tv_level)
             nav_coin = getHeaderView(0).findViewById(R.id.tv_coin)
-            if (isLogin){
-                nav_coin.text = coinCount.toString()
-                nav_level.text = level.toString()
-                nav_rank.text = rank.toString()
+            if (isLogin && NetworkUtil.isNetworkConnected(App.context)) {
+                mPresenter?.getUserInfo()
+//                nav_coin.text = coinCount.toString()
+//                nav_level.text = level.toString()
+//                nav_rank.text = rank.toString()
             }
             nav_avatar = getHeaderView(0).findViewById(R.id.profile_image)
             menu.findItem(R.id.nav_logout).isVisible = isLogin
@@ -152,11 +163,6 @@ class MainActivity : BaseActivity() {
             }
         }
         showFragment(mIndex)
-    }
-
-    //获取积分信息
-    private fun getUserInfo() {
-
     }
 
     private fun showFragment(index: Int) {
@@ -425,11 +431,9 @@ class MainActivity : BaseActivity() {
         when (event.isLogin) {
             true -> {
                 toast("登录成功!!")
+                mPresenter?.getUserInfo()
                 nav_nickname.text = username
                 nav_avatar.setImageResource(R.mipmap.icon)
-                nav_coin.text = coinCount.toString()
-                nav_level.text = level.toString()
-                nav_rank.text = rank.toString()
 //                homeFragment?.lazyLoad()
             }
             else -> {
@@ -445,6 +449,21 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun getUserInfoSuccess() {
+        nav_coin.text = coinCount.toString()
+        nav_level.text = level.toString()
+        nav_rank.text = rank.toString()
+        SLog.d("Sam", "积分：${nav_coin.text}\n" +
+                "等级：${nav_level.text}\n" +
+                "排名：${nav_rank.text}")
+    }
+
+    override fun showLoading() {}
+
+    override fun hideLoading() {}
+
+    override fun showError(errorMsg: String) {}
+
     override fun onDestroy() {
         super.onDestroy()
         homeFragment = null
@@ -452,5 +471,10 @@ class MainActivity : BaseActivity() {
         wxAccountFragment = null
         navigationFragment = null
         projectFragment = null
+
+        if (mPresenter != null) {
+            mPresenter?.detachView()
+            mPresenter = null
+        }
     }
 }
