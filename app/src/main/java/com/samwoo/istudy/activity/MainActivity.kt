@@ -1,5 +1,6 @@
 package com.samwoo.istudy.activity
 
+import android.graphics.drawable.Drawable
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.samwoo.istudy.App
 import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
@@ -34,6 +37,8 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
+import java.net.URL
 
 class MainActivity : BaseActivity(), MainContract.View {
 
@@ -110,16 +115,10 @@ class MainActivity : BaseActivity(), MainContract.View {
             nav_rank = getHeaderView(0).findViewById(R.id.tv_rank)
             nav_level = getHeaderView(0).findViewById(R.id.tv_level)
             nav_coin = getHeaderView(0).findViewById(R.id.tv_coin)
-            if (isLogin && NetworkUtil.isNetworkConnected(App.context)) {
-                mPresenter?.getUserInfo()
-//                nav_coin.text = coinCount.toString()
-//                nav_level.text = level.toString()
-//                nav_rank.text = rank.toString()
-            }
+            if (isLogin && NetworkUtil.isNetworkConnected(App.context)) mPresenter?.getUserInfo()
             nav_avatar = getHeaderView(0).findViewById(R.id.profile_image)
             menu.findItem(R.id.nav_logout).isVisible = isLogin
             setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener)
-//            getHeaderView(0).background = getBackGround()
         }
 
         //floatButton事件监听
@@ -163,6 +162,25 @@ class MainActivity : BaseActivity(), MainContract.View {
             }
         }
         showFragment(mIndex)
+        //获取Bing每日一图
+        if (NetworkUtil.isNetworkConnected(context)) getBingPic(Constant.BING_PIC_URL)
+    }
+
+    private fun getBingPic(url: String) {
+        var pic: Drawable? = null
+        doAsync {
+            val picUrl = URL(url).readText()
+            pic = Drawable.createFromStream(URL(picUrl).openStream(), "bing_pic.jpg")
+            SLog.d("Sam", "$pic")
+            uiThread {
+                if (pic == null) {
+                    pic = ContextCompat.getDrawable(context, R.drawable.side_nav_bar)
+                }
+                pic!!.alpha = 200
+                nav_view.getHeaderView(0).background = pic
+            }
+        }
+
     }
 
     private fun showFragment(index: Int) {
@@ -453,9 +471,11 @@ class MainActivity : BaseActivity(), MainContract.View {
         nav_coin.text = coinCount.toString()
         nav_level.text = level.toString()
         nav_rank.text = rank.toString()
-        SLog.d("Sam", "积分：${nav_coin.text}\n" +
-                "等级：${nav_level.text}\n" +
-                "排名：${nav_rank.text}")
+        SLog.d(
+            "Sam", "积分：${nav_coin.text}\n" +
+                    "等级：${nav_level.text}\n" +
+                    "排名：${nav_rank.text}"
+        )
     }
 
     override fun showLoading() {}

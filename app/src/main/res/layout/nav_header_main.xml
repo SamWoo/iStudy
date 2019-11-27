@@ -31,7 +31,6 @@
         android:gravity="center"
         android:padding="@dimen/dp_4"
         android:text="@string/nav_header_title"
-        android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold" />
 
@@ -50,8 +49,7 @@
             android:drawableLeft="@mipmap/ic_icon"
             android:drawablePadding="@dimen/dp_2"
             android:gravity="center"
-            android:text="@string/coin_count"
-            android:textColor="@color/black" />
+            android:text="@string/coin_count" />
 
         <TextView
             android:id="@+id/tv_rank"
@@ -61,8 +59,7 @@
             android:drawableLeft="@mipmap/ic_rank"
             android:drawablePadding="@dimen/dp_2"
             android:gravity="center"
-            android:text="@string/rank"
-            android:textColor="@color/black" />
+            android:text="@string/rank" />
 
         <TextView
             android:id="@+id/tv_level"
@@ -72,8 +69,7 @@
             android:drawableLeft="@mipmap/ic_level"
             android:drawablePadding="@dimen/dp_2"
             android:gravity="center"
-            android:text="@string/level"
-            android:textColor="@color/black" />
+            android:text="@string/level" />
 
     </LinearLayout>
 

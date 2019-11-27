@@ -1,9 +1,12 @@
 package com.samwoo.istudy.base
 
 import android.content.IntentFilter
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.constant.Constant
@@ -37,6 +40,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //状态栏透明
+        if (Build.VERSION.SDK_INT >= 21 && javaClass.simpleName.equals("MainActivity")) {
+            val decordView: View = window.decorView
+            decordView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN and View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            window.statusBarColor = Color.TRANSPARENT
+        }
         setContentView(getLayoutResId())
         //先加载数据，否则adapter获取不到数据
         initData()
