@@ -20,7 +20,7 @@ class ArticlesAdapter(private val context: Context?, datas: MutableList<Article>
         helper ?: return
         helper.apply {
             setText(R.id.tv_article_title, Html.fromHtml(item.title))
-            setText(R.id.tv_article_author, item.author)
+            setText(R.id.tv_article_author, if(item.author.isNotEmpty()) item.author else "Anonymous")
             setText(R.id.tv_article_date, item.niceDate)
             setImageResource(
                 R.id.iv_like,

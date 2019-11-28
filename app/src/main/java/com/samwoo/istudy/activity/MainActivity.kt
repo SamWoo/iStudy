@@ -1,5 +1,8 @@
 package com.samwoo.istudy.activity
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.KeyEvent
 import android.view.Menu
@@ -38,6 +41,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import java.io.IOException
 import java.net.URL
 
 class MainActivity : BaseActivity(), MainContract.View {
@@ -169,14 +173,20 @@ class MainActivity : BaseActivity(), MainContract.View {
     private fun getBingPic(url: String) {
         var pic: Drawable? = null
         doAsync {
-            val picUrl = URL(url).readText()
-            pic = Drawable.createFromStream(URL(picUrl).openStream(), "bing_pic.jpg")
-            SLog.d("Sam", "$pic")
-            uiThread {
+            try {
+                //            val picUrl = URL(url).readText()
+//            pic = Drawable.createFromStream(URL(url).openStream(), "bing_pic.jpg")
+                val b = BitmapFactory.decodeStream(URL(url).openStream())
+                val bm = Bitmap.createScaledBitmap(b, 320, 180, false)
+                pic = BitmapDrawable(resources, bm)
+                SLog.d("Sam", "$pic")
+            }catch (exception:IOException){
                 if (pic == null) {
                     pic = ContextCompat.getDrawable(context, R.drawable.side_nav_bar)
                 }
-                pic!!.alpha = 200
+            }
+            uiThread {
+                pic!!.alpha = 240
                 nav_view.getHeaderView(0).background = pic
             }
         }
