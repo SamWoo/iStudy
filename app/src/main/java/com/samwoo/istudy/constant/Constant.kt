@@ -4,9 +4,12 @@ object Constant {
     const val BASE_URL = "https://www.wanandroid.com"
     const val GANK_GIRL_URL = "http://gank.io/api/"
     const val BING_PIC_URL = "https://api.ooopn.com/image/bing/api.php"
+    const val SPLASH_PIC_URL="http://guolin.tech/api/bing_pic"
     //权限
     const val WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE"
     const val READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE"
+    //splash pic.
+    const val PIC_URL=""
     //login&register
     const val LOGIN_KEY = "login"
     const val USERNAME_KEY = "username"

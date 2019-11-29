@@ -1,6 +1,5 @@
 package com.samwoo.istudy.activity
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -16,8 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.samwoo.istudy.App
 import com.samwoo.istudy.App.Companion.context
 import com.samwoo.istudy.R
@@ -177,8 +174,8 @@ class MainActivity : BaseActivity(), MainContract.View {
                 //            val picUrl = URL(url).readText()
 //            pic = Drawable.createFromStream(URL(url).openStream(), "bing_pic.jpg")
                 val b = BitmapFactory.decodeStream(URL(url).openStream())
-                val bm = Bitmap.createScaledBitmap(b, 320, 180, false)
-                pic = BitmapDrawable(resources, bm)
+//                val bm = Bitmap.createScaledBitmap(b, 320, 180, false)
+                pic = BitmapDrawable(resources, b)
                 SLog.d("Sam", "$pic")
             }catch (exception:IOException){
                 if (pic == null) {

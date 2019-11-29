@@ -40,7 +40,7 @@ object ImageLoader {
                 .load(url)
                 .apply(options)
                 .transition(DrawableTransitionOptions().crossFade())
-                .into(imageView)
+                .into(it)
         }
     }
 
