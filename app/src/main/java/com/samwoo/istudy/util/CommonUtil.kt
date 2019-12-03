@@ -56,10 +56,10 @@ fun String.highlight(
 }
 
 /**
- * 格式化当前日期
+ * 格式化当前日期时间
  */
 fun formatCurrentDate(): String {
-    val formatter = SimpleDateFormat("yyyy-MM-dd")
+    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     return formatter.format(Date())
 }
 

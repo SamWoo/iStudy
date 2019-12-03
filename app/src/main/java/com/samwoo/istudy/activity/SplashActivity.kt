@@ -3,6 +3,7 @@ package com.samwoo.istudy.activity
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
@@ -23,25 +24,26 @@ class SplashActivity : AppCompatActivity() {
     private val SCALE_END: Float = 1.13f
     private val ANIMATION_DURATION: Long = 3 * 1000
     private val SPLASH_IMAGES = listOf(
-        R.mipmap.splash0, R.mipmap.splash1,
-        R.mipmap.splash4, R.mipmap.splash5
+        R.mipmap.splash0, R.mipmap.splash1, R.mipmap.splash2, R.mipmap.splash3,
+        R.mipmap.splash4, R.mipmap.splash5, R.mipmap.splash6, R.mipmap.splash7,
+        R.mipmap.splash8, R.mipmap.splash9
     )
     private lateinit var random: Random
     private lateinit var animatorX: ObjectAnimator
     private lateinit var animatorY: ObjectAnimator
 
-    private var picUrl: String by Preference(Constant.PIC_URL, "")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        if (picUrl.isNotEmpty() && NetworkUtil.isNetworkConnected(context)) {
-            Glide.with(context!!)
-                .load(picUrl)
+        if (NetworkUtil.isNetworkConnected(context)) {
+            Glide.with(context)
+                .load(Constant.SPLASH_PIC_URL)
                 .apply(
                     RequestOptions().centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .placeholder(R.mipmap.splash0)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                 )
                 .transition(DrawableTransitionOptions().crossFade())
                 .into(iv_splash)
@@ -49,6 +51,9 @@ class SplashActivity : AppCompatActivity() {
             random = Random(SystemClock.elapsedRealtime())
             iv_splash.setImageResource(SPLASH_IMAGES[random.nextInt(SPLASH_IMAGES.size)])
         }
+
+//        random = Random(SystemClock.elapsedRealtime())
+//        iv_splash.setImageResource(SPLASH_IMAGES[random.nextInt(SPLASH_IMAGES.size)])
         animateImage()
     }
 

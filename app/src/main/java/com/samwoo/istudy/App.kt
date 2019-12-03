@@ -12,7 +12,6 @@ import java.net.URL
 import kotlin.properties.Delegates
 
 class App : Application() {
-    private var picUrl: String by Preference(Constant.PIC_URL, "")
 
     companion object {
         lateinit var instance: Application
@@ -25,18 +24,14 @@ class App : Application() {
         super.onCreate()
         instance = this
         context = applicationContext
-        //获取splash背景图片url
-        if (NetworkUtil.isNetworkConnected(context)) {
-            doAsync {
-                val imgUrl = URL(Constant.SPLASH_PIC_URL).readText()
-                if (imgUrl.isNotEmpty() && !imgUrl.equals(picUrl)) picUrl = imgUrl
-            }
-        }
         // LitePal
         LitePal.initialize(this)
         //
         initTheme()
         DisplayManager.init(this)
+        //未捕获异常信息抓取
+        CrashHandler.getInstance()!!.init(this)
+
 //        SLog.d("screen.w-->${DisplayManager.getScreenWidth()} / screen.h-->${DisplayManager.getScreenHeight()}")
     }
 
