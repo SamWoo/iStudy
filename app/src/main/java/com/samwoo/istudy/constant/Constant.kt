@@ -6,6 +6,7 @@ object Constant {
     const val BING_PIC_URL = "https://api.ooopn.com/image/bing/api.php"
 //    const val SPLASH_PIC_URL="https://api.ooopn.com/image/beauty/api.php?type=jump"
     const val SPLASH_PIC_URL="https://api.ooopn.com/image/infinity/api.php?type=jump"
+    const val SPLASH_SLOGAN="https://api.ooopn.com/yan/api.php?type=text"
     //权限
     const val WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE"
     const val READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE"

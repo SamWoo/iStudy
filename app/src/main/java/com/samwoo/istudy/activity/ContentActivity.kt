@@ -20,6 +20,7 @@ import com.samwoo.istudy.BuildConfig
 import com.samwoo.istudy.R
 import com.samwoo.istudy.base.BaseActivity
 import com.samwoo.istudy.constant.Constant
+import com.samwoo.istudy.util.SLog
 import com.samwoo.istudy.util.getAgentWeb
 import kotlinx.android.synthetic.main.activity_content.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -96,10 +97,116 @@ class ContentActivity : BaseActivity() {
             return super.shouldInterceptRequest(view, request)
         }
 
+        override fun onLoadResource(view: WebView?, url: String?) {
+            super.onLoadResource(view, url)
+            injectJS()
+        }
+
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             // TODO something
         }
+    }
+
+    //inject JsScript
+    private fun injectJS() {
+        //修改body背景色为透明
+        val bgcolor =
+            "javascript:(function(){var obj=document.getElementsByTagName('body');obj[obj.length-1].style.cssText = \"background-color:#ffffff;\";})()"
+        //简书header
+        val jsheader =
+            "javascript:(function(){var obj = document.getElementsByClassName('header-wrap');obj[obj.length-1].remove();})()"
+        //简书reward-panel
+        val jsreward =
+            "javascript:(function(){var obj=document.getElementById('free-reward-panel').remove();})()"
+        //简书广告
+        val jsad =
+            "javascript:(function(){var obj=document.getElementsByClassName('note-comment-above-ad-wrap');obj[obj.length-1].remove();})()"
+        //简书推荐
+        val jsrecomm =
+            "javascript:(function(){var obj=document.getElementById('recommended-notes').remove();})()"
+        //简书footer
+        val jsfooter =
+            "javascript:(function(){var obj=document.getElementById('footer').remove();})()"
+        //简书浮标
+        val jsfubiao =
+            "javascript:(function(){var obj=document.getElementsByClassName('fubiao-dialog');obj[obj.length-1].remove();})()"
+        //简书评论
+        val jscomment =
+            "javascript:(function(){var obj=document.getElementById('comment-main').remove();})()"
+        //简书点赞
+        val jsgrace =
+            "javascript:(function(){var obj=document.getElementsByClassName('note-graceful-button');obj[obj.length-1].remove();})()"
+        //简书openbtn
+        val jsopen =
+            "javascript:(function(){var obj=document.getElementsByClassName('open-app-btn');obj[obj.length-1].remove();})()"
+
+        //掘金适配
+        val jjheader =
+            "javascript:(function(){var obj=document.getElementsByClassName('main-header-box');obj[obj.length-1].remove();})()"
+        //bannner
+        val jjbanner =
+            "javascript:(function(){var obj=document.getElementsByClassName('article-banner');obj[obj.length-1].remove();})()"
+        //footer-author
+        val jjauthor =
+            "javascript:(function(){var obj=document.getElementsByClassName('footer-author-block');obj[obj.length-1].remove();})()"
+        //tag-list
+        val jjtag =
+            "javascript:(function(){var obj=document.getElementsByClassName('tag-list-box');obj[obj.length-1].remove();})()"
+        //comment-box
+        val jjcomment =
+            "javascript:(function(){document.getElementById('comment-box').remove();})()"
+        //books
+        val jjbooks =
+            "javascript:(function(){var obj=document.getElementsByClassName('books-recommend');obj[obj.length-1].remove();})()"
+        //button
+        val jjbtn =
+            "javascript:(function(){var obj=document.getElementsByClassName('open-in-app');obj[obj.length-1].remove();})()"
+        //action-bar
+        val jjaction =
+            "javascript:(function(){var obj=document.getElementsByClassName('action-bar');obj[obj.length-1].remove();})()"
+
+        //csdn适配
+        val csheader =
+            "javascript:(function(){$('#csdn-toolbar').remove();})()"
+        //mask
+        val csmask =
+            "javascript:(function(){var obj=$('.mask-lock-box');obj[obj.length-1].remove();})()"
+        //comment
+        val cscomment = "javascript:(function(){$('#comment').remove();})()"
+        //operate
+        val csoperate = "javascript:(function(){$('#operate').remove();})()"
+        //remove ad
+        val csad =
+            "javascript:(function(){var obj=$('.overhidden');for(var i=0;i<obj.length;i++){obj[i].remove();}})()"
+
+
+        mWebView.loadUrl(bgcolor)
+        //简书适配
+        mWebView.loadUrl(jsheader)
+        mWebView.loadUrl(jsreward)
+        mWebView.loadUrl(jsad)
+        mWebView.loadUrl(jsrecomm)
+        mWebView.loadUrl(jsfooter)
+        mWebView.loadUrl(jsfubiao)
+        mWebView.loadUrl(jscomment)
+        mWebView.loadUrl(jsgrace)
+        mWebView.loadUrl(jsopen)
+        //掘金适配
+        mWebView.loadUrl(jjheader)
+        mWebView.loadUrl(jjbanner)
+        mWebView.loadUrl(jjauthor)
+        mWebView.loadUrl(jjtag)
+        mWebView.loadUrl(jjbooks)
+        mWebView.loadUrl(jjcomment)
+        mWebView.loadUrl(jjbtn)
+        mWebView.loadUrl(jjaction)
+        //csdn适配
+        mWebView.loadUrl(csheader)
+        mWebView.loadUrl(csmask)
+        mWebView.loadUrl(cscomment)
+        mWebView.loadUrl(csoperate)
+        mWebView.loadUrl(csad)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -186,7 +293,7 @@ class ContentActivity : BaseActivity() {
                         invoke(menu, true)
                     }
                 } catch (e: Exception) {
-                    if (BuildConfig.DEBUG) Log.d("Sam", "onPrepareOptionsPanel--->$e")
+                    SLog.d("Sam", "onPrepareOptionsPanel--->$e")
                 }
             }
         }

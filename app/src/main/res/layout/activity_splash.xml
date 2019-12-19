@@ -39,9 +39,11 @@
         android:layout_below="@id/splash_app_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/splash_middle_top_margin"
+        android:gravity="center"
+        android:padding="@dimen/dp_8"
         android:text="@string/splash_slogan"
         android:textColor="@color/alpha_90_white"
-        android:textSize="@dimen/small" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

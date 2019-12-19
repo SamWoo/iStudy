@@ -16,8 +16,12 @@ import com.samwoo.istudy.R
 import com.samwoo.istudy.constant.Constant
 import com.samwoo.istudy.util.NetworkUtil
 import com.samwoo.istudy.util.Preference
+import com.samwoo.istudy.util.randomColor
 import kotlinx.android.synthetic.main.activity_splash.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.uiThread
+import java.net.URL
 import kotlin.random.Random
 
 class SplashActivity : AppCompatActivity() {
@@ -25,8 +29,7 @@ class SplashActivity : AppCompatActivity() {
     private val ANIMATION_DURATION: Long = 3 * 1000
     private val SPLASH_IMAGES = listOf(
         R.mipmap.splash0, R.mipmap.splash1, R.mipmap.splash2, R.mipmap.splash3,
-        R.mipmap.splash4, R.mipmap.splash5, R.mipmap.splash6, R.mipmap.splash7,
-        R.mipmap.splash8, R.mipmap.splash9
+        R.mipmap.splash4, R.mipmap.splash5
     )
     private lateinit var random: Random
     private lateinit var animatorX: ObjectAnimator
@@ -37,11 +40,18 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         if (NetworkUtil.isNetworkConnected(context)) {
+            doAsync {
+                val slogan = URL(Constant.SPLASH_SLOGAN).readText()
+                uiThread {
+                    splash_slogan.text = slogan
+                }
+            }
+
             Glide.with(context)
                 .load(Constant.SPLASH_PIC_URL)
                 .apply(
                     RequestOptions().centerCrop()
-                        .placeholder(R.mipmap.splash0)
+                        .placeholder(R.mipmap.splash3)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                 )

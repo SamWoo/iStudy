@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@drawable/side_nav_bar"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -27,7 +26,8 @@
         android:id="@+id/tv_nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginBottom="@dimen/dp_6"
         android:gravity="center"
         android:paddingLeft="@dimen/dp_8"
         android:paddingRight="@dimen/dp_8"
@@ -36,6 +36,7 @@
         android:text="@string/nav_header_title"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold"
+        android:textColor="@color/Black"
         android:background="@drawable/bg_text"/>
 
     <LinearLayout
@@ -57,6 +58,7 @@
             android:drawableLeft="@mipmap/ic_icon"
             android:drawablePadding="@dimen/dp_2"
             android:gravity="center"
+            android:textColor="@color/Black"
             android:text="@string/coin_count" />
 
         <TextView
@@ -67,6 +69,7 @@
             android:drawableLeft="@mipmap/ic_rank"
             android:drawablePadding="@dimen/dp_2"
             android:gravity="center"
+            android:textColor="@color/Black"
             android:text="@string/rank" />
 
         <TextView
@@ -77,6 +80,7 @@
             android:drawableLeft="@mipmap/ic_level"
             android:drawablePadding="@dimen/dp_2"
             android:gravity="center"
+            android:textColor="@color/Black"
             android:text="@string/level" />
 
     </LinearLayout>
