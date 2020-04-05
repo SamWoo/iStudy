@@ -22,6 +22,10 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
+    /**
+     * Crash信息上报类
+     * function：收集APP奔溃信息并保存到本地
+     */
 
     private lateinit var context: Context
     private var mDefaultHandler: Thread.UncaughtExceptionHandler? = null
@@ -95,7 +99,7 @@ class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
      * @param context
      */
     private fun getDeviceInfo(context: Context) {
-//获取APP版本信息
+    //获取APP版本信息
         val pm = context.packageManager
         try {
             val info = pm.getPackageInfo(context.packageName, PackageManager.GET_ACTIVITIES)

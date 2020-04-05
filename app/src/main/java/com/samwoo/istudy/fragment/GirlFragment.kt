@@ -99,7 +99,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         swipeRefreshLayout.isRefreshing = false
         isRefresh = true
-        mPresenter?.getGirlPhoto(1)
+        mPresenter?.getGirlPhoto(2)
     }
 
     //ScrollListener 曾经删除过Item，则滑到顶部的时候刷新布局，避免错乱
@@ -115,7 +115,7 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     private val onRequestLoadMoreListener = BaseQuickAdapter.RequestLoadMoreListener {
         isRefresh = false
         swipeRefreshLayout.isRefreshing = false
-        val page = girlAdapter.data.size / 20 + 1
+        val page = girlAdapter.data.size / 20 + 2
         mPresenter?.getGirlPhoto(page)
     }
 
@@ -164,7 +164,8 @@ class GirlFragment : BaseFragment(), GirlContract.View {
     }
 
     override fun lazyLoad() {
-        mPresenter?.getGirlPhoto(1)
+        //第一页有问题，从第二页开始获取
+        mPresenter?.getGirlPhoto(2)
     }
 
     /**

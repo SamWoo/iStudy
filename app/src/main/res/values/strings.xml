@@ -3,96 +3,96 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Login</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">妹子图</string>
-    <string name="menu_night_mode">夜间模式</string>
-    <string name="menu_day_mode">日间模式</string>
-    <string name="menu_settings">设置</string>
+    <string name="menu_night_mode">Night Mode</string>
+    <string name="menu_day_mode">Day Mode</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="menu_logout">退出</string>
+    <string name="menu_logout">Logout</string>
 
     <!--splash-->
-    <string name="splash_slogan">Go through the every bit of life</string>
-    <string name="splash_version">V1.0.0</string>
-    <string name="splash_copyright">CopyRight &#169;2019 iStudy All Rights Reserved\nPower by SamBrother</string>
+    <string name="splash_slogan" translatable="false">Go through the every bit of life</string>
+    <string name="splash_version" translatable="false">V1.2.0</string>
+    <string name="splash_copyright" translatable="false">CopyRight &#169;2019-2020 iStudy All Rights Reserved\nPower by SamBrother</string>
 
     <!--bottom navigation title-->
-    <string name="home">首页</string>
-    <string name="knowledge_system">知识体系</string>
-    <string name="navigation">导航</string>
-    <string name="project">项目</string>
-    <string name="wx_account">公众号</string>
-    <string name="new_fresh">置顶</string>
+    <string name="home" translatable="false">首页</string>
+    <string name="knowledge_system" translatable="false">知识体系</string>
+    <string name="navigation" translatable="false">导航</string>
+    <string name="project" translatable="false">项目</string>
+    <string name="wx_account" translatable="false">公众号</string>
+    <string name="new_fresh" translatable="false">置顶</string>
 
     <!-- Menu Action -->
-    <string name="action_search">搜索</string>
-    <string name="action_share">分享</string>
-    <string name="action_like">收藏</string>
-    <string name="action_browser">用浏览器打开</string>
-    <string name="share_text">%1$s分享【%2$s】:%3$s</string>
+    <string name="action_search" translatable="false">搜索</string>
+    <string name="action_share" translatable="false">分享</string>
+    <string name="action_like" translatable="false">收藏</string>
+    <string name="action_browser" translatable="false">用浏览器打开</string>
+    <string name="share_text" translatable="false">%1$s分享【%2$s】:%3$s</string>
 
     <!--Hot search-->
-    <string name="hot_key">热门搜索</string>
-    <string name="search_history">搜索历史</string>
-    <string name="clear_all">清空</string>
-    <string name="search_hint">发现更多干货</string>
-    <string name="clear_all_history">确定清空搜索记录？</string>
-    <string name="clear_history">清空搜索记录</string>
-    <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
+    <string name="hot_key" translatable="false">热门搜索</string>
+    <string name="search_history" translatable="false">搜索历史</string>
+    <string name="clear_all" translatable="false">清空</string>
+    <string name="search_hint" translatable="false">发现更多干货</string>
+    <string name="clear_all_history" translatable="false">确定清空搜索记录？</string>
+    <string name="clear_history" translatable="false">清空搜索记录</string>
+    <string name="confirm" translatable="false">确定</string>
+    <string name="cancel" translatable="false">取消</string>
     <!--login-->
-    <string name="hint_username">请输入用户名</string>
-    <string name="hint_password">请输入密码</string>
-    <string name="hint_check_password">再次输入密码</string>
-    <string name="remember_password">记住密码</string>
-    <string name="forget_password">忘记密码?</string>
-    <string name="btn_login">登 录</string>
-    <string name="btn_register">注 册</string>
-    <string name="btn_register_msg">没有账号？去注册</string>
-    <string name="btn_login_msg">已有账号，去登录</string>
-    <string name="username_not_empty">用户名不能为空</string>
-    <string name="password_not_empty">密码不能为空</string>
-    <string name="password_not_equal">两次输入的密码不相同</string>
+    <string name="hint_username" translatable="false">请输入用户名</string>
+    <string name="hint_password" translatable="false">请输入密码</string>
+    <string name="hint_check_password" translatable="false">再次输入密码</string>
+    <string name="remember_password" translatable="false">记住密码</string>
+    <string name="forget_password" translatable="false">忘记密码?</string>
+    <string name="btn_login" translatable="false">登 录</string>
+    <string name="btn_register" translatable="false">注 册</string>
+    <string name="btn_register_msg" translatable="false">没有账号？去注册</string>
+    <string name="btn_login_msg" translatable="false">已有账号，去登录</string>
+    <string name="username_not_empty" translatable="false">用户名不能为空</string>
+    <string name="password_not_empty" translatable="false">密码不能为空</string>
+    <string name="password_not_equal" translatable="false">两次输入的密码不相同</string>
 
-    <string name="fragment_empty">暂无数据!!</string>
-    <string name="loading_data">数据加载中...</string>
+    <string name="fragment_empty" translatable="false">暂无数据!!</string>
+    <string name="loading_data" translatable="false">数据加载中...</string>
 
     <!-- collection -->
-    <string name="my_collected">我的收藏</string>
-    <string name="cancle_collect_msg">是否确定取消该收藏文章？</string>
-    <string name="cancle_collect_title">取消收藏</string>
+    <string name="my_collected" translatable="false">我的收藏</string>
+    <string name="cancle_collect_msg" translatable="false">是否确定取消该收藏文章？</string>
+    <string name="cancle_collect_title" translatable="false">取消收藏</string>
 
     <!-- logout -->
-    <string name="logout_title">退出登录？</string>
-    <string name="logout_msg">是否确定退出当前用户？</string>
-    <string name="coin_count">积分</string>
-    <string name="level">等级</string>
-    <string name="rank">排名</string>
+    <string name="logout_title" translatable="false">退出登录？</string>
+    <string name="logout_msg" translatable="false">是否确定退出当前用户？</string>
+    <string name="coin_count" translatable="false">积分</string>
+    <string name="level" translatable="false">等级</string>
+    <string name="rank" translatable="false">排名</string>
 
     <!-- 设置 -->
-    <string name="settings">设置</string>
-    <string name="base_settings">基本设置</string>
-    <string name="other_settings">其他设置</string>
-    <string name="about_settings">关于</string>
-    <string name="switch_picture_mode">无图模式</string>
-    <string name="switch_no_picture_mode">开启后在非WiFi环境下不加载图片</string>
-    <string name="set_language_style">语言</string>
-    <string name="clear_cache">清除缓存</string>
-    <string name="clear_cache_msg">是否确定要清除缓存文件？</string>
-    <string name="version">版本</string>
-    <string name="source_code">源代码</string>
-    <string name="source_code_url">https://github.com/SamWoo/iStudy</string>
-    <string name="copyright">版权</string>
-    <string name="copyright_summary">@string/splash_copyright</string>
+    <string name="settings" translatable="false">设置</string>
+    <string name="base_settings" translatable="false">基本设置</string>
+    <string name="other_settings" translatable="false">其他设置</string>
+    <string name="about_settings" translatable="false">关于</string>
+    <string name="switch_picture_mode" translatable="false">无图模式</string>
+    <string name="switch_no_picture_mode" translatable="false">开启后在非WiFi环境下不加载图片</string>
+    <string name="set_language_style" translatable="false">语言</string>
+    <string name="clear_cache" translatable="false">清除缓存</string>
+    <string name="clear_cache_msg" translatable="false">是否确定要清除缓存文件？</string>
+    <string name="version" translatable="false">版本</string>
+    <string name="source_code" translatable="false">源代码</string>
+    <string name="source_code_url" translatable="false">https://github.com/SamWoo/iStudy</string>
+    <string name="copyright">CopyRight</string>
+    <string name="copyright_summary" translatable="false">@string/splash_copyright</string>
 
     <!-- download photo -->
-    <string name="tip_msg">温馨提示</string>
-    <string name="download_photo">是否确定要下载该图片？</string>
-    <string name="load_failed">"加载失败...o(╥﹏╥)o"</string>
+    <string name="tip_msg" translatable="false">温馨提示</string>
+    <string name="download_photo" translatable="false">是否确定要下载该图片？</string>
+    <string name="load_failed" translatable="false">"加载失败...o(╥﹏╥)o"</string>
+    <string name="menu_gallery">gallery</string>
 
 </resources>

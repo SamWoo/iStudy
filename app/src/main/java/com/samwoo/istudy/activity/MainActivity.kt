@@ -112,6 +112,8 @@ class MainActivity : BaseActivity(), MainContract.View {
 
         //抽屉item事件监听
         nav_view.run {
+            //NavigationView 设置图标恢复原来的颜色
+            itemIconTintList = null
             nav_nickname = getHeaderView(0).findViewById(R.id.tv_nick)
             nav_rank = getHeaderView(0).findViewById(R.id.tv_rank)
             nav_level = getHeaderView(0).findViewById(R.id.tv_level)
