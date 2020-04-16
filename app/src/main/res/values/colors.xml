@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- add color for app -->
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#0288D1</color>
-    <color name="colorAccent">#00BCD4</color>
+    <color name="colorPrimary">@color/Red</color>
+    <color name="colorPrimaryDark">@color/deep_red</color>
+    <color name="colorAccent">@color/light_red</color>
 
     <color name="textColorPrimary">#616161</color>
     <color name="viewBackground">@color/Grey200</color>

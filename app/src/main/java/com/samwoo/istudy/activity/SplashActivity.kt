@@ -39,6 +39,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        /*
         if (NetworkUtil.isNetworkConnected(context)) {
             doAsync {
                 val slogan = URL(Constant.SPLASH_SLOGAN).readText()
@@ -61,9 +62,10 @@ class SplashActivity : AppCompatActivity() {
             random = Random(SystemClock.elapsedRealtime())
             iv_splash.setImageResource(SPLASH_IMAGES[random.nextInt(SPLASH_IMAGES.size)])
         }
+         */
 
-//        random = Random(SystemClock.elapsedRealtime())
-//        iv_splash.setImageResource(SPLASH_IMAGES[random.nextInt(SPLASH_IMAGES.size)])
+        random = Random(SystemClock.elapsedRealtime())
+        iv_splash.setImageResource(SPLASH_IMAGES[random.nextInt(SPLASH_IMAGES.size)])
         animateImage()
     }
 

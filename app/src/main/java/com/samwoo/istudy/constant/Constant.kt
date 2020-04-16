@@ -3,7 +3,7 @@ package com.samwoo.istudy.constant
 object Constant {
     const val BASE_URL = "https://www.wanandroid.com"
     const val GANK_GIRL_URL = "http://gank.io/api/"
-    const val BING_PIC_URL = "https://api.ooopn.com/image/bing/api.php"
+    const val BING_PIC_URL = "https://open.saintic.com/api/bingPic/"
 //    const val SPLASH_PIC_URL="https://api.ooopn.com/image/beauty/api.php?type=jump"
     const val SPLASH_PIC_URL="https://api.ooopn.com/image/infinity/api.php?type=jump"
     const val SPLASH_SLOGAN="https://api.ooopn.com/yan/api.php?type=text"
